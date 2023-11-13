@@ -1,13 +1,51 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <!-- <link rel="icon" type="image/svg+xml" href="/< TODO >.svg" /> -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NDoolan360 Site</title>
-  </head>
-  <body>
-    <p>Hello World!</p>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <!-- <link rel="icon" type="image/svg+xml" href="/< TODO >.svg" /> -->
+  <link rel="stylesheet" href="styles.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nathan Doolan</title>
+  <script type="module" src="/src/main.ts"></script>
+</head>
+
+<body>
+  <nav>
+    <hgroup>
+      <h1>Nathan Doolan</h1>
+      <p>Software Engineer</p>
+    </hgroup>
+    <ul id="relative-links">
+      <li><a href="#bio">bio</a></li>
+      <!-- Additional sections links from content.json rendered here -->
+      <noscript>Additional sections links couldn't be rendered</noscript>
+    </ul>
+    <ul id="social-links">
+      <!-- Social links from conte nt.json rendered here -->
+      <noscript>Social links couldn't be rendered</noscript>
+    </ul>
+  </nav>
+
+  <main id="main">
+    <section id="bio">
+      <hgroup class="separator">
+        <h2> bio </h2>
+        <hr />
+      </hgroup>
+      <div>
+        <img alt="Profile" src="/images/placeholder.png" />
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias
+          expedita delectus, illo quasi atque, quisquam animi similique
+          provident laboriosam velit labore! Id pariatur cumque consequuntur
+          eos ratione dolor praesentium nulla!
+        </p>
+      </div>
+    </section>
+    <!-- Additional sections from content.json rendered here -->
+    <noscript>Additional sections couldn't be rendered</noscript>
+  </main>
+</body>
+
 </html>
