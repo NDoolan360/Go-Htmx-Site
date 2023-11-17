@@ -14,28 +14,28 @@
   <script type="module" src="/src/copyright.ts"></script>
   <script type="module" src="/src/theme.ts"></script>
   <script type="module" src="/src/projects.ts"></script>
-  <script type="module" src="/src/social-link-web-component.ts"></script>
+  <script type="module" src="/src/logo-link-web-component.ts"></script>
 </head>
 
 <body>
   <nav>
     <h1>/ND</h1>
 
-    <label class="sr-only" for="fragment-links">Fragment Links</label>
-    <ul id="fragment-links">
+    <label class="sr-only" for="internal-links">Internal Links</label>
+    <ul id="internal-links">
       <li><a href="#bio">Bio</a></li>
       <li><a href="#experience">Experience</a></li>
       <li><a href="#education">Education</a></li>
       <li><a href="#projects">Projects</a></li>
     </ul>
 
-    <label class="sr-only" for="social-links">Social Links</label>
-    <ul id="social-links">
-      <li><a is="social-link" href="https://github.com/NDoolan360">Github</a></li>
-      <li><a is="social-link" href="https://www.linkedin.com/in/nathan-doolan-835a13171">LinkedIn</a></li>
-      <li><a is="social-link" href="https://discord.com/users/nothindoin">Discord</a></li>
-      <li><a is="social-link" href="https://cults3d.com/en/users/ND360">Cults 3D</a></li>
-      <li><a is="social-link" href="https://boardgamegeek.com/user/Nothin_Doin">Board Game Geek</a></li>
+    <label class="sr-only" for="external-links">External Links</label>
+    <ul id="external-links">
+      <li><a is="logo-link" href="https://github.com/NDoolan360">Github</a></li>
+      <li><a is="logo-link" href="https://www.linkedin.com/in/nathan-doolan-835a13171">LinkedIn</a></li>
+      <li><a is="logo-link" href="https://discord.com/users/nothindoin">Discord</a></li>
+      <li><a is="logo-link" href="https://cults3d.com/en/users/ND360">Cults 3D</a></li>
+      <li><a is="logo-link" href="https://boardgamegeek.com/user/Nothin_Doin">Board Game Geek</a></li>
     </ul>
 
     <button id="theme-toggle" title="Toggles light & dark theme" aria-label="auto" aria-live="polite">
@@ -71,7 +71,7 @@
           <!-- Gentrack Ltd -->
           <li class="card">
             <div class="card-detail">
-              <a class="card-logo" is="social-link" href="https://gentrack.com" height="30px" width="30px">Gentrack</a>
+              <a class="card-logo" is="logo-link" href="https://gentrack.com" height="30px" width="30px">Gentrack</a>
               <h3>Gentrack</h3>
             </div>
             <div class="card-detail-group">
@@ -93,7 +93,7 @@
           <!-- Proquip Rental & Sales -->
           <li class="card">
             <div class="card-detail">
-              <a class="card-logo" is="social-link" href="https://pqrs.com.au" height="30px" width="30px">Proquip</a>
+              <a class="card-logo" is="logo-link" href="https://pqrs.com.au" height="30px" width="30px">Proquip</a>
               <h3>Proquip Rental & Sales</h3>
             </div>
             <div class="card-detail-group">
@@ -125,7 +125,7 @@
           <!-- Melbourne University -->
           <li class="card">
             <div class="card-detail">
-              <a class="card-logo" is="social-link" href="https://www.unimelb.edu.au" height="35px" width="35px">
+              <a class="card-logo" is="logo-link" href="https://www.unimelb.edu.au" height="35px" width="35px">
                 Melbourne University
               </a>
               <h3>University of Melbourne</h3>
@@ -159,7 +159,7 @@
               <div class="card-detail">
                 <span class="card-language-colour"></span>
                 <p class="card-language"></p>
-                <a class="card-logo" is="social-link" href="" tabindex="-1" height="20px" width="20px"></a>
+                <a class="card-logo" is="logo-link" href="" tabindex="-1" height="20px" width="20px"></a>
               </div>
             </div>
             <hr />

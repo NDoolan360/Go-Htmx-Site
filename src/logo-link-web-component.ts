@@ -1,4 +1,4 @@
-class SocialLink extends HTMLAnchorElement {
+class LogoLink extends HTMLAnchorElement {
     constructor() {
         super();
     }
@@ -22,4 +22,4 @@ class SocialLink extends HTMLAnchorElement {
     }
 }
 
-customElements.define('social-link', SocialLink, { extends: "a" });
+customElements.define('logo-link', LogoLink, { extends: "a" });

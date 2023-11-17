@@ -209,7 +209,7 @@ const scrapeIntoTemplate = (projects: Project[]): DocumentFragment[] => {
         }
 
         // Set logo
-        const logoElement = templateClone.querySelector<SocialLink>('[class*="card-logo"]')!;
+        const logoElement = templateClone.querySelector<LogoLink>('[class*="card-logo"]')!;
         if (project.host && project.url) {
             const host = DOMPurify.sanitize(project.host);
             templateClone.firstElementChild?.classList.add(host)

@@ -281,12 +281,12 @@ nav>ul {
   gap: var(--unit-size-1-2) var(--unit-size);
 }
 
-#fragment-links {
+#internal-links {
   flex-direction: column;
 }
 
 @media (max-width: 960px) {
-  #fragment-links {
+  #internal-links {
     flex-direction: row;
     align-items: start;
   }
