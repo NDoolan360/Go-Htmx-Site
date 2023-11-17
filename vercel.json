@@ -1,0 +1,21 @@
+{
+    "version": 2,
+    "rewrites": [
+        {
+            "source": "/proxy/github",
+            "destination": "https://github.com/NDoolan360"
+        },
+        {
+            "source": "/proxy/cults3d",
+            "destination": "https://cults3d.com/en/users/ND360/3d-models"
+        },
+        {
+            "source": "/proxy/boardgamegeek",
+            "destination": "https://boardgamegeek.com/geeksearch.php?action=search&advsearch=1&objecttype=boardgame&include%5Bdesignerid%5D=133893"
+        },
+        {
+            "source": "/xmlapi/boardgamegeek/:path",
+            "destination": "https://api.geekdo.com/xmlapi/boardgame/:path"
+        }
+    ]
+}
