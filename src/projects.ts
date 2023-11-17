@@ -150,12 +150,12 @@ const scrapeIntoTemplate = (projects: Project[]): DocumentFragment[] => {
         // Set project feature image
         const imgElement = templateClone.querySelector<HTMLImageElement>('[class="card-feature-image"]')!;
         imgElement.alt = DOMPurify.sanitize(project.image?.alt ?? project.title ?? "Feature image");
-        // Chain loading of progressively higher res images (placeholder -> srcBackup -> src)
-        imgElement.src = "/images/placeholder.png";
+        // Chain loading of progressively higher res images (default -> srcBackup -> src)
+        imgElement.src = "/images/default.png";
         if (project.image?.src) {
             const src = DOMPurify.sanitize(project.image!.src!);
             const backup = DOMPurify.sanitize(project.image?.srcBackup ?? src);
-            // After loading the placeholder, load the backup
+            // After loading the default, load the backup
             imgElement.onload = () => {
                 imgElement.src = backup;
                 // After loading the backup load the high-res
