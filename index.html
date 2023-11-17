@@ -1,187 +1,217 @@
 <!doctype html>
 <html lang="en" data-theme="">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/svg+xml" href="/images/icon.png" />
+        <link rel="stylesheet" href="/styles.css" />
+        <link rel="stylesheet" href="/theme-switch.css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="color-scheme" content="dark light" />
+        <title>Nathan Doolan</title>
 
-<head>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/images/icon.png" />
-  <link rel="stylesheet" href="/styles.css">
-  <link rel="stylesheet" href="/theme-switch.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="color-scheme" content="dark light">
-  <title>Nathan Doolan</title>
+        <script type="module" src="/src/analytics.ts"></script>
+        <script type="module" src="/src/copyright.ts"></script>
+        <script type="module" src="/src/theme.ts"></script>
+        <script type="module" src="/src/projects.ts"></script>
+        <script type="module" src="/src/logo-link-web-component.ts"></script>
+    </head>
 
-  <script type="module" src="/src/analytics.ts"></script>
-  <script type="module" src="/src/copyright.ts"></script>
-  <script type="module" src="/src/theme.ts"></script>
-  <script type="module" src="/src/projects.ts"></script>
-  <script type="module" src="/src/logo-link-web-component.ts"></script>
-</head>
+    <body>
+        <nav>
+            <h1>/ND</h1>
 
-<body>
-  <nav>
-    <h1>/ND</h1>
+            <label class="sr-only" for="internal-links">Internal Links</label>
+            <ul id="internal-links">
+                <li><a href="#bio">Bio</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#projects">Projects</a></li>
+            </ul>
 
-    <label class="sr-only" for="internal-links">Internal Links</label>
-    <ul id="internal-links">
-      <li><a href="#bio">Bio</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#education">Education</a></li>
-      <li><a href="#projects">Projects</a></li>
-    </ul>
+            <label class="sr-only" for="external-links">External Links</label>
+            <ul id="external-links">
+                <li><a is="logo-link" href="https://github.com/NDoolan360">Github</a></li>
+                <li><a is="logo-link" href="https://www.linkedin.com/in/nathan-doolan-835a13171">LinkedIn</a></li>
+                <li><a is="logo-link" href="https://discord.com/users/nothindoin">Discord</a></li>
+                <li><a is="logo-link" href="https://cults3d.com/en/users/ND360">Cults 3D</a></li>
+                <li><a is="logo-link" href="https://boardgamegeek.com/user/Nothin_Doin">Board Game Geek</a></li>
+            </ul>
 
-    <label class="sr-only" for="external-links">External Links</label>
-    <ul id="external-links">
-      <li><a is="logo-link" href="https://github.com/NDoolan360">Github</a></li>
-      <li><a is="logo-link" href="https://www.linkedin.com/in/nathan-doolan-835a13171">LinkedIn</a></li>
-      <li><a is="logo-link" href="https://discord.com/users/nothindoin">Discord</a></li>
-      <li><a is="logo-link" href="https://cults3d.com/en/users/ND360">Cults 3D</a></li>
-      <li><a is="logo-link" href="https://boardgamegeek.com/user/Nothin_Doin">Board Game Geek</a></li>
-    </ul>
+            <button id="theme-toggle" title="Toggles light & dark theme" aria-label="auto" aria-live="polite">
+                Toggle Theme
+            </button>
+        </nav>
 
-    <button id="theme-toggle" title="Toggles light & dark theme" aria-label="auto" aria-live="polite">
-      Toggle Theme
-    </button>
-  </nav>
+        <main id="main">
+            <section id="bio">
+                <hgroup>
+                    <h2>Bio</h2>
+                    <hr />
+                </hgroup>
+                <div id="bio-content">
+                    <img
+                        alt="Picture of me at the Strawberry Field in Liverpool"
+                        src="/images/profile.jpg"
+                        height="256px"
+                    />
+                    <p>
+                        Hey there, I'm Nathan Doolan, a full-time software engineer based in Melbourne. I spend my days
+                        coding and my spare time collecting board games, enjoying nature, and experimenting with my 3D
+                        printer. With a background in computer science, I'm always eager to learn new things, tackle new
+                        challenges, and find satisfaction in the simple joy of crafting an elegant solution to a
+                        problem.
+                    </p>
+                </div>
+            </section>
 
-  <main id="main">
-    <section id="bio">
-      <hgroup>
-        <h2>Bio</h2>
-        <hr />
-      </hgroup>
-      <div id="bio-content">
-        <img alt="Picture of me at the Strawberry Field in Liverpool" src="/images/profile.jpg" height="256px" />
-        <p>
-          Hey there, I'm Nathan Doolan, a full-time software engineer based in Melbourne.
-          I spend my days coding and my spare time collecting board games, enjoying nature,
-          and experimenting with my 3D printer.
-          With a background in computer science, I'm always eager to learn new things, tackle new challenges, and
-          find satisfaction in the simple joy of crafting an elegant solution to a problem.
-        </p>
-      </div>
-    </section>
+            <section id="experience">
+                <hgroup>
+                    <h2>Experience</h2>
+                    <hr />
+                </hgroup>
+                <div id="experience-content">
+                    <ol>
+                        <!-- Gentrack Ltd -->
+                        <li class="card">
+                            <div class="card-detail">
+                                <a
+                                    class="card-logo"
+                                    is="logo-link"
+                                    href="https://gentrack.com"
+                                    height="30px"
+                                    width="30px"
+                                    >Gentrack</a
+                                >
+                                <h3>Gentrack</h3>
+                            </div>
+                            <div class="card-detail-group">
+                                <span class="card-detail">
+                                    <pre>Nov 2022 &mdash; Present </pre>
+                                    <pre>Intermediate Software Engineer</pre>
+                                </span>
+                                <span class="card-detail">
+                                    <pre>Jan 2022 &mdash; Nov 2022</pre>
+                                    <pre>Junior Software Engineer</pre>
+                                </span>
+                                <span class="card-detail">
+                                    <pre>Jul 2021 &mdash; Dec 2021</pre>
+                                    <pre>Graduate Software Engineer</pre>
+                                </span>
+                            </div>
+                        </li>
 
-    <section id="experience">
-      <hgroup>
-        <h2>Experience</h2>
-        <hr />
-      </hgroup>
-      <div id="experience-content">
-        <ol>
-          <!-- Gentrack Ltd -->
-          <li class="card">
-            <div class="card-detail">
-              <a class="card-logo" is="logo-link" href="https://gentrack.com" height="30px" width="30px">Gentrack</a>
-              <h3>Gentrack</h3>
-            </div>
-            <div class="card-detail-group">
-              <span class="card-detail">
-                <pre>Nov 2022 &mdash; Present </pre>
-                <pre>Intermediate Software Engineer</pre>
-              </span>
-              <span class="card-detail">
-                <pre>Jan 2022 &mdash; Nov 2022</pre>
-                <pre>Junior Software Engineer</pre>
-              </span>
-              <span class="card-detail">
-                <pre>Jul 2021 &mdash; Dec 2021</pre>
-                <pre>Graduate Software Engineer</pre>
-              </span>
-            </div>
-          </li>
+                        <!-- Proquip Rental & Sales -->
+                        <li class="card">
+                            <div class="card-detail">
+                                <a
+                                    class="card-logo"
+                                    is="logo-link"
+                                    href="https://pqrs.com.au"
+                                    height="30px"
+                                    width="30px"
+                                    >Proquip</a
+                                >
+                                <h3>Proquip Rental & Sales</h3>
+                            </div>
+                            <div class="card-detail-group">
+                                <span class="card-detail">
+                                    <pre>Apr 2021 &mdash; Jul 2021</pre>
+                                    <pre>IT Support Specialist</pre>
+                                </span>
+                                <span class="card-detail">
+                                    <pre>Nov 2018 &mdash; Apr 2021</pre>
+                                    <pre>IT/Marketing Assistant</pre>
+                                </span>
+                                <span class="card-detail">
+                                    <pre>Feb 2018 &mdash; Nov 2018</pre>
+                                    <pre>Administrative Assistant</pre>
+                                </span>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+            </section>
 
-          <!-- Proquip Rental & Sales -->
-          <li class="card">
-            <div class="card-detail">
-              <a class="card-logo" is="logo-link" href="https://pqrs.com.au" height="30px" width="30px">Proquip</a>
-              <h3>Proquip Rental & Sales</h3>
-            </div>
-            <div class="card-detail-group">
-              <span class="card-detail">
-                <pre>Apr 2021 &mdash; Jul 2021</pre>
-                <pre>IT Support Specialist</pre>
-              </span>
-              <span class="card-detail">
-                <pre>Nov 2018 &mdash; Apr 2021</pre>
-                <pre>IT/Marketing Assistant</pre>
-              </span>
-              <span class="card-detail">
-                <pre>Feb 2018 &mdash; Nov 2018</pre>
-                <pre>Administrative Assistant</pre>
-              </span>
-            </div>
-          </li>
-        </ol>
-      </div>
-    </section>
+            <section id="education">
+                <hgroup>
+                    <h2>Education</h2>
+                    <hr />
+                </hgroup>
+                <div id="education-content">
+                    <ol>
+                        <!-- Melbourne University -->
+                        <li class="card">
+                            <div class="card-detail">
+                                <a
+                                    class="card-logo"
+                                    is="logo-link"
+                                    href="https://www.unimelb.edu.au"
+                                    height="35px"
+                                    width="35px"
+                                >
+                                    Melbourne University
+                                </a>
+                                <h3>University of Melbourne</h3>
+                            </div>
+                            <div class="card-detail-group">
+                                <span class="card-detail">
+                                    <pre>Feb 2018 &mdash; Feb 2021</pre>
+                                    <pre>Bachelor of Science: Computing and Software Systems</pre>
+                                </span>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+            </section>
 
-    <section id="education">
-      <hgroup>
-        <h2>Education</h2>
-        <hr />
-      </hgroup>
-      <div id="education-content">
-        <ol>
-          <!-- Melbourne University -->
-          <li class="card">
-            <div class="card-detail">
-              <a class="card-logo" is="logo-link" href="https://www.unimelb.edu.au" height="35px" width="35px">
-                Melbourne University
-              </a>
-              <h3>University of Melbourne</h3>
-            </div>
-            <div class="card-detail-group">
-              <span class="card-detail">
-                <pre>Feb 2018 &mdash; Feb 2021</pre>
-                <pre>Bachelor of Science: Computing and Software Systems</pre>
-              </span>
-            </div>
-          </li>
-        </ol>
-      </div>
-    </section>
+            <section id="projects">
+                <hgroup>
+                    <h2>Projects</h2>
+                    <hr />
+                </hgroup>
+                <div id="project-gallery">
+                    <noscript>This section cannot be loaded without Javascript.</noscript>
+                    <!-- Template used to dynamically render projects -->
+                    <template id="project-template">
+                        <article class="card">
+                            <img class="card-feature-image" />
+                            <h3 class="card-heading"></h3>
+                            <p class="card-description"></p>
+                            <div class="card-detail">
+                                <a class="card-link btn" href="">Link &gt;</a>
+                                <div class="card-detail">
+                                    <span class="card-language-colour"></span>
+                                    <p class="card-language"></p>
+                                    <a
+                                        class="card-logo"
+                                        is="logo-link"
+                                        href=""
+                                        tabindex="-1"
+                                        height="20px"
+                                        width="20px"
+                                    ></a>
+                                </div>
+                            </div>
+                            <hr />
+                        </article>
+                    </template>
+                </div>
+            </section>
 
-    <section id="projects">
-      <hgroup>
-        <h2>Projects</h2>
-        <hr />
-      </hgroup>
-      <div id="project-gallery">
-        <noscript>This section cannot be loaded without Javascript.</noscript>
-        <!-- Template used to dynamically render projects -->
-        <template id="project-template">
-          <article class="card">
-            <img class="card-feature-image" />
-            <h3 class="card-heading"></h3>
-            <p class="card-description"></p>
-            <div class="card-detail">
-              <a class="card-link btn" href="">Link &gt;</a>
-              <div class="card-detail">
-                <span class="card-language-colour"></span>
-                <p class="card-language"></p>
-                <a class="card-logo" is="logo-link" href="" tabindex="-1" height="20px" width="20px"></a>
-              </div>
-            </div>
-            <hr />
-          </article>
-        </template>
-      </div>
-    </section>
-
-
-    <section>
-      <hgroup>
-        <a href="https://github.com/NDoolan360/NDoolan360-Site">
-          <h2>Hand crafted with <b class="html">HTML</b>, <b class="css">CSS</b> and <b class="ts">TS</b></h2>
-        </a>
-      </hgroup>
-      <footer>
-        <h2 id="copyright">&copy; Nathan Doolan {current year}</h2>
-        <hr />
-      </footer>
-    </section>
-  </main>
-</body>
-
+            <section>
+                <hgroup>
+                    <a href="https://github.com/NDoolan360/NDoolan360-Site">
+                        <h2>
+                            Hand crafted with <b class="html">HTML</b>, <b class="css">CSS</b> and <b class="ts">TS</b>
+                        </h2>
+                    </a>
+                </hgroup>
+                <footer>
+                    <h2 id="copyright">&copy; Nathan Doolan {current year}</h2>
+                    <hr />
+                </footer>
+            </section>
+        </main>
+    </body>
 </html>
