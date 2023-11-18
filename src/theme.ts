@@ -1,38 +1,40 @@
+import './theme-switch.css';
+
 // Below script Adapted from:
 // https://web.dev/patterns/theming/theme-switch/#js
-let theme: string;
+let theme = 'light';
 
 if (localStorage.getItem('theme')) {
     theme = localStorage.getItem('theme')!;
     document.firstElementChild?.setAttribute('data-theme', theme);
-} else {
+} else if (window.matchMedia) {
     theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     document.firstElementChild?.setAttribute('data-theme', theme);
 }
 
-const onClick = () => {
+export const onClick = () => {
     // flip current value
     theme = theme === 'light' ? 'dark' : 'light';
 
-    setPreference();
+    setPreference(theme);
 };
 
-const setPreference = () => {
+export const setPreference = (theme: string) => {
     localStorage.setItem('theme', theme);
-    reflectPreference();
+    reflectPreference(theme);
 };
 
-const reflectPreference = () => {
+const reflectPreference = (theme: string) => {
     document.firstElementChild?.setAttribute('data-theme', theme);
     document.querySelector('#theme-toggle')?.setAttribute('aria-label', theme);
 };
 
 // set early so no page flashes / CSS is made aware
-reflectPreference();
+reflectPreference(theme);
 
 window.onload = () => {
     // set on load so screen readers can see latest value on the button
-    reflectPreference();
+    reflectPreference(theme);
 
     // Button element adapted from:
     // https://web.dev/patterns/theming/theme-switch/#html
@@ -42,7 +44,9 @@ window.onload = () => {
 };
 
 // sync with system changes
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', ({ matches: isDark }) => {
-    theme = isDark ? 'dark' : 'light';
-    setPreference();
-});
+if (window.matchMedia) {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', ({ matches: isDark }) => {
+        theme = isDark ? 'dark' : 'light';
+        setPreference(theme);
+    });
+}

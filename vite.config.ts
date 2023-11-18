@@ -1,8 +1,14 @@
 import { defineConfig } from 'vite';
 import eslint from 'vite-plugin-eslint';
+import autoprefixer from 'autoprefixer';
 
 export default defineConfig({
     plugins: [eslint()],
+    css: {
+        postcss: {
+            plugins: [autoprefixer()],
+        },
+    },
     server: {
         proxy: {
             '/proxy/github': {
@@ -26,6 +32,12 @@ export default defineConfig({
                 changeOrigin: true,
                 rewrite: (path) => path.replace(/^\/xmlapi\/boardgamegeek\//, ''),
             },
+        },
+    },
+    test: {
+        environment: 'jsdom',
+        coverage: {
+            exclude: ['**/test.data.ts'],
         },
     },
 });

@@ -1,11 +1,12 @@
 /* =================== Theme Switch ==================== */
+
 /* https://web.dev/patterns/theming/theme-switch/#css    */
 
 #theme-toggle {
-    background-color: transparent;
     width: fit-content;
     border: none;
     border-radius: var(--radius-full);
+    background-color: transparent;
     transition: scale 0.25s ease;
 }
 
@@ -67,19 +68,19 @@
     }
 
     [data-theme='dark'] .sun-and-moon > .sun {
-        transition-timing-function: ease;
-        transition-duration: 0.25s;
         transform: scale(1.75);
+        transition-duration: 0.25s;
+        transition-timing-function: ease;
     }
 
     [data-theme='dark'] .sun-and-moon > .sun-beams {
-        transition-duration: 0.15s;
         transform: rotateZ(-25deg);
+        transition-duration: 0.15s;
     }
 
     [data-theme='dark'] .sun-and-moon > .moon > circle {
-        transition-duration: 0.5s;
         transition-delay: 0.25s;
+        transition-duration: 0.5s;
     }
 }
 

@@ -28,6 +28,7 @@ jobs:
                   restore-keys: npm-${{ runner.os }}-
 
             - run: npm ci
-            - run: npm run lint
+            - run: npm run lint:ts
+            - run: npm run lint:css
             - run: npm run format
             - run: npm run test

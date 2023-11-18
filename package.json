@@ -1,7 +1,7 @@
 {
     "name": "ndoolan360-site",
     "private": true,
-    "version": "1.0.1",
+    "version": "1.0.2",
     "type": "module",
     "engines": {
         "npm": ">=10.0.0 <11.0.0",
@@ -11,24 +11,34 @@
         "dev": "vite",
         "build": "tsc && vite build",
         "preview": "vite preview --port 8080",
-        "lint": "eslint . --ignore-path .gitignore --ext .ts",
-        "format": "prettier . --check --ignore-path .gitignore",
-        "test": "echo No tests created yet"
+        "lint:ts": "eslint --ignore-path .gitignore **/*.ts",
+        "lint:css": "stylelint --ignore-path .gitignore **/*.css",
+        "format": "prettier --check --ignore-path .gitignore .",
+        "test": "vitest"
     },
     "devDependencies": {
         "@types/dompurify": "^3.0.5",
         "@typescript-eslint/eslint-plugin": "^6.11.0",
         "@typescript-eslint/parser": "^6.11.0",
-        "eslint": "^8.53.0",
+        "autoprefixer": "^10.4.16",
+        "eslint": "^8.54.0",
         "eslint-config-prettier": "^9.0.0",
         "eslint-plugin-import": "^2.29.0",
+        "jsdom": "^22.1.0",
         "prettier": "^3.1.0",
+        "stylelint": "^15.11.0",
+        "stylelint-config-idiomatic-order": "github:NDoolan360/stylelint-config-idiomatic-order",
+        "stylelint-config-standard": "^34.0.0",
         "typescript": "^5.2.2",
         "vite": "^5.0.0",
-        "vite-plugin-eslint": "^1.8.1"
+        "vite-plugin-eslint": "^1.8.1",
+        "vitest": "^0.34.6"
     },
     "dependencies": {
         "@vercel/analytics": "^1.1.1",
         "dompurify": "^3.0.6"
-    }
+    },
+    "browserslist": [
+        "defaults"
+    ]
 }
