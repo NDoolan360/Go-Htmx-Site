@@ -2,7 +2,7 @@ import DOMPurify from 'dompurify';
 
 type Site = 'cults3d' | 'github' | 'boardgamegeek';
 type Language = { name: string; style: string };
-type Image = { src: string | null; srcBackup: string | null; alt: string | null };
+type Image = { highResSrc: string | null; lowResSrc: string | null; alt: string | null };
 
 type Project = {
     host?: Site;
@@ -55,7 +55,11 @@ export const scrapeGithub = (doc: Document): Project[] => {
             host: 'github',
             title,
             description,
-            image: { src: '/images/github.png', srcBackup: null, alt: 'Github Logo' },
+            image: {
+                highResSrc: '/images/github.png',
+                lowResSrc: null,
+                alt: 'Github Logo',
+            },
             url,
             programmingLanguage,
         });
@@ -95,8 +99,8 @@ export const scrapeCults3d = (doc: Document): Project[] => {
             }
 
             image = {
-                src: source,
-                srcBackup: sourceBackup,
+                highResSrc: source,
+                lowResSrc: sourceBackup,
                 alt: imageElement.getAttribute('alt'),
             } as Image;
         }
@@ -129,8 +133,8 @@ export const scrapeBgg = (doc: Document): Project[] => {
         }
         if (imageElement?.getAttribute('src')) {
             image = {
-                src: imageElement.getAttribute('src'),
-                srcBackup: null,
+                highResSrc: imageElement.getAttribute('src'),
+                lowResSrc: null,
                 alt: imageElement.getAttribute('alt'),
             } as Image;
         }
@@ -144,8 +148,8 @@ export const scrapeBgg = (doc: Document): Project[] => {
 export const upgradeBggImage = (project: Project, xmlDoc: XMLDocument) => {
     const imageXmlElement = xmlDoc.getElementsByTagName('image').item(0);
     if (imageXmlElement && project.image) {
-        project.image.srcBackup = project.image.src;
-        project.image.src = imageXmlElement.innerHTML;
+        project.image.lowResSrc = project.image.highResSrc;
+        project.image.highResSrc = imageXmlElement.innerHTML;
     }
 };
 
@@ -157,16 +161,18 @@ export const projectIntoTemplate = (project: Project, template: HTMLTemplateElem
     imgElement.alt = DOMPurify.sanitize(project.image?.alt ?? project.title ?? 'Feature image');
     // Chain loading of progressively higher res images (default -> srcBackup -> src)
     imgElement.src = '/images/default.png';
-    if (project.image?.src) {
-        const src = DOMPurify.sanitize(project.image!.src!);
-        const backup = DOMPurify.sanitize(project.image?.srcBackup ?? src);
-        // After loading the default, load the backup
+    if (project.image?.lowResSrc) {
         imgElement.onload = () => {
-            imgElement.src = backup;
-            // After loading the backup load the high-res
-            imgElement.onload = () => {
-                imgElement.src = src;
-            };
+            imgElement.src = DOMPurify.sanitize(project.image!.lowResSrc!);
+            if (project.image!.highResSrc) {
+                imgElement.onload = () => {
+                    imgElement.src = DOMPurify.sanitize(project.image!.highResSrc!);
+                };
+            }
+        };
+    } else if (project.image?.highResSrc) {
+        imgElement.onload = () => {
+            imgElement.src = DOMPurify.sanitize(project.image!.highResSrc!);
         };
     } else {
         // Omit image if not present
