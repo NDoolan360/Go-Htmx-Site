@@ -38,11 +38,11 @@
 
         <main id="main">
             <section id="bio">
-                <span class="heading">
+                <div class="heading">
                     <h2>Bio</h2>
                     <hr />
-                </span>
-                <div id="bio-content">
+                </div>
+                <div class="content">
                     <img
                         alt="Picture of me at the Strawberry Field in Liverpool"
                         src="/images/profile.jpg"
@@ -59,11 +59,11 @@
             </section>
 
             <section id="experience">
-                <span class="heading">
+                <div class="heading">
                     <h2>Experience</h2>
                     <hr />
-                </span>
-                <div id="experience-content">
+                </div>
+                <div class="content">
                     <ol>
                         <!-- Gentrack Ltd -->
                         <li class="card">
@@ -127,11 +127,11 @@
             </section>
 
             <section id="education">
-                <span class="heading">
+                <div class="heading">
                     <h2>Education</h2>
                     <hr />
-                </span>
-                <div id="education-content">
+                </div>
+                <div class="content">
                     <ol>
                         <!-- Melbourne University -->
                         <li class="card">
@@ -153,11 +153,11 @@
             </section>
 
             <section id="projects">
-                <span class="heading">
+                <div class="heading">
                     <h2>Projects</h2>
                     <hr />
-                </span>
-                <div id="project-gallery">
+                </div>
+                <div id="project-gallery" class="content">
                     <noscript>This section cannot be loaded without Javascript.</noscript>
                     <!-- Template used to dynamically render projects -->
                     <template id="project-template">
@@ -168,7 +168,7 @@
                             <div class="card-detail">
                                 <a class="card-link btn" href="">Link &gt;</a>
                                 <div class="card-detail">
-                                    <span class="card-language-colour"></span>
+                                    <div class="card-language-colour"></div>
                                     <p class="card-language"></p>
                                     <a class="card-logo" is="logo-link" href="" tabindex="-1"></a>
                                 </div>
@@ -180,14 +180,14 @@
             </section>
 
             <section>
-                <span class="heading">
+                <div class="heading">
                     <a href="https://github.com/NDoolan360/NDoolan360-Site">
                         <h2>
                             Hand crafted with <b class="html">HTML</b>, <b class="css">CSS</b> and <b class="ts">TS</b>
                         </h2>
                     </a>
-                </span>
-                <footer>
+                </div>
+                <footer class="heading">
                     <h2 id="copyright">&copy; Nathan Doolan {current year}</h2>
                     <hr />
                 </footer>

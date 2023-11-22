@@ -155,8 +155,14 @@ span {
     width: 100%;
 }
 
-.heading,
-footer {
+::selection {
+    background-color: var(--colour-primary);
+    color: var(--colour-on-primary);
+}
+
+/* ====================== Heading ====================== */
+
+.heading {
     position: sticky;
     top: 0;
     display: flex;
@@ -171,8 +177,7 @@ footer {
 }
 
 @media (width <= 960px) {
-    .heading,
-    footer {
+    .heading {
         top: calc(5.5 * var(--unit-size));
         padding-top: var(--unit-size-2);
     }
@@ -184,22 +189,15 @@ footer {
 
 /* Move top of sticky down for overflow of top nav increasing it's height */
 @media (width <= 792px) {
-    .heading,
-    footer {
+    .heading {
         top: calc(9.5 * var(--unit-size) - 1px);
     }
 }
 
 @media (width <= 484px) {
-    .heading,
-    footer {
+    .heading {
         top: calc(11.5 * var(--unit-size) - 1px);
     }
-}
-
-::selection {
-    background-color: var(--colour-primary);
-    color: var(--colour-on-primary);
 }
 
 /* =============== Nav and Main Resizing =============== */
@@ -284,7 +282,7 @@ nav > ul {
 
 /* ================== Section Styling ================== */
 
-section > div {
+section .content {
     display: flex;
     flex-flow: row wrap;
     justify-content: flex-start;
@@ -357,7 +355,7 @@ section > div {
 
 /* ================ Bio Section Styling ================ */
 
-#bio-content {
+#bio .content {
     flex-flow: row nowrap;
     align-items: center;
     font-size: var(--unit-size-2);
@@ -365,7 +363,7 @@ section > div {
     line-height: var(--unit-size-3);
 }
 
-#bio-content img {
+#bio .content img {
     height: 12rem;
     border-radius: var(--radius-full);
     aspect-ratio: 1;
@@ -373,7 +371,7 @@ section > div {
 }
 
 @media (width <= 700px) {
-    #bio-content {
+    #bio .content {
         flex-flow: row wrap;
         justify-content: center;
     }
@@ -381,7 +379,7 @@ section > div {
 
 /* ======= Experience/Education Section Styling ======== */
 
-:is(#experience-content, #education-content) ol {
+:is(#experience, #education) .content ol {
     display: flex;
     width: 100%;
     flex-direction: column;
@@ -389,31 +387,31 @@ section > div {
     list-style: none;
 }
 
-:is(#experience-content, #education-content) li {
+:is(#experience, #education) .content li {
     gap: var(--unit-size);
 }
 
-:is(#experience-content, #education-content) .card-detail {
+:is(#experience, #education) .content .card-detail {
     justify-content: flex-start;
     gap: 0 var(--unit-size-2);
 }
 
-:is(#experience-content, #education-content) li > .card-detail {
+:is(#experience, #education) .content li > .card-detail {
     flex-wrap: nowrap;
 }
 
-:is(#experience-content, #education-content) li > div {
+:is(#experience, #education) .content :is(.card-detail, .card-detail-group) {
     width: fit-content;
 }
 
-:is(#experience-content, #education-content) h3 {
+:is(#experience, #education) .content h3 {
     font-family: var(--font-sans);
     font-size: var(--font-size-large);
     line-height: var(--unit-size-3);
     text-transform: none;
 }
 
-:is(#experience-content, #education-content) pre {
+:is(#experience, #education) .content pre {
     max-width: 100%;
     white-space: pre-wrap;
     word-wrap: break-word;
