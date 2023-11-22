@@ -2,8 +2,7 @@
 <html lang="en" data-theme="">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-        <meta charset="UTF-8" />
-        <link rel="icon" type="image/png" href="/images/icon.png" />
+        <link rel="icon" type="image/png" href="/images/icon-light.png" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="color-scheme" content="dark light" />
         <title>Nathan Doolan</title>
@@ -17,16 +16,14 @@
         <nav>
             <h1>/ND</h1>
 
-            <label class="sr-only" for="internal-links">Internal Links</label>
-            <ul id="internal-links">
+            <ul id="internal-links" aria-label="internal links">
                 <li><a href="#bio">Bio</a></li>
                 <li><a href="#experience">Experience</a></li>
                 <li><a href="#education">Education</a></li>
                 <li><a href="#projects">Projects</a></li>
             </ul>
 
-            <label class="sr-only" for="external-links">External Links</label>
-            <ul id="external-links">
+            <ul id="external-links" aria-label="external links">
                 <li><a is="logo-link" href="https://github.com/NDoolan360">Github</a></li>
                 <li><a is="logo-link" href="https://www.linkedin.com/in/nathan-doolan-835a13171">LinkedIn</a></li>
                 <li><a is="logo-link" href="https://discord.com/users/nothindoin">Discord</a></li>
@@ -41,15 +38,15 @@
 
         <main id="main">
             <section id="bio">
-                <hgroup>
+                <span class="heading">
                     <h2>Bio</h2>
                     <hr />
-                </hgroup>
+                </span>
                 <div id="bio-content">
                     <img
                         alt="Picture of me at the Strawberry Field in Liverpool"
                         src="/images/profile.jpg"
-                        height="256px"
+                        height="256"
                     />
                     <p>
                         Hey there, I'm Nathan Doolan, a full-time software engineer based in Melbourne. I spend my days
@@ -62,10 +59,10 @@
             </section>
 
             <section id="experience">
-                <hgroup>
+                <span class="heading">
                     <h2>Experience</h2>
                     <hr />
-                </hgroup>
+                </span>
                 <div id="experience-content">
                     <ol>
                         <!-- Gentrack Ltd -->
@@ -82,18 +79,18 @@
                                 <h3>Gentrack</h3>
                             </div>
                             <div class="card-detail-group">
-                                <span class="card-detail">
+                                <div class="card-detail">
                                     <pre>Nov 2022 &mdash; Present </pre>
                                     <pre>Intermediate Software Engineer</pre>
-                                </span>
-                                <span class="card-detail">
+                                </div>
+                                <div class="card-detail">
                                     <pre>Jan 2022 &mdash; Nov 2022</pre>
                                     <pre>Junior Software Engineer</pre>
-                                </span>
-                                <span class="card-detail">
+                                </div>
+                                <div class="card-detail">
                                     <pre>Jul 2021 &mdash; Dec 2021</pre>
                                     <pre>Graduate Software Engineer</pre>
-                                </span>
+                                </div>
                             </div>
                         </li>
 
@@ -111,18 +108,18 @@
                                 <h3>Proquip Rental & Sales</h3>
                             </div>
                             <div class="card-detail-group">
-                                <span class="card-detail">
+                                <div class="card-detail">
                                     <pre>Apr 2021 &mdash; Jul 2021</pre>
                                     <pre>IT Support Specialist</pre>
-                                </span>
-                                <span class="card-detail">
+                                </div>
+                                <div class="card-detail">
                                     <pre>Nov 2018 &mdash; Apr 2021</pre>
                                     <pre>IT/Marketing Assistant</pre>
-                                </span>
-                                <span class="card-detail">
+                                </div>
+                                <div class="card-detail">
                                     <pre>Feb 2018 &mdash; Nov 2018</pre>
                                     <pre>Administrative Assistant</pre>
-                                </span>
+                                </div>
                             </div>
                         </li>
                     </ol>
@@ -130,31 +127,25 @@
             </section>
 
             <section id="education">
-                <hgroup>
+                <span class="heading">
                     <h2>Education</h2>
                     <hr />
-                </hgroup>
+                </span>
                 <div id="education-content">
                     <ol>
                         <!-- Melbourne University -->
                         <li class="card">
                             <div class="card-detail">
-                                <a
-                                    class="card-logo"
-                                    is="logo-link"
-                                    href="https://www.unimelb.edu.au"
-                                    height="35px"
-                                    width="35px"
+                                <a class="card-logo" is="logo-link" href="https://www.unimelb.edu.au"
+                                    >Melbourne University</a
                                 >
-                                    Melbourne University
-                                </a>
                                 <h3>University of Melbourne</h3>
                             </div>
                             <div class="card-detail-group">
-                                <span class="card-detail">
+                                <div class="card-detail">
                                     <pre>Feb 2018 &mdash; Feb 2021</pre>
                                     <pre>Bachelor of Science: Computing and Software Systems</pre>
-                                </span>
+                                </div>
                             </div>
                         </li>
                     </ol>
@@ -162,10 +153,10 @@
             </section>
 
             <section id="projects">
-                <hgroup>
+                <span class="heading">
                     <h2>Projects</h2>
                     <hr />
-                </hgroup>
+                </span>
                 <div id="project-gallery">
                     <noscript>This section cannot be loaded without Javascript.</noscript>
                     <!-- Template used to dynamically render projects -->
@@ -179,14 +170,7 @@
                                 <div class="card-detail">
                                     <span class="card-language-colour"></span>
                                     <p class="card-language"></p>
-                                    <a
-                                        class="card-logo"
-                                        is="logo-link"
-                                        href=""
-                                        tabindex="-1"
-                                        height="20px"
-                                        width="20px"
-                                    ></a>
+                                    <a class="card-logo" is="logo-link" href="" tabindex="-1"></a>
                                 </div>
                             </div>
                             <hr />
@@ -196,13 +180,13 @@
             </section>
 
             <section>
-                <hgroup>
+                <span class="heading">
                     <a href="https://github.com/NDoolan360/NDoolan360-Site">
                         <h2>
                             Hand crafted with <b class="html">HTML</b>, <b class="css">CSS</b> and <b class="ts">TS</b>
                         </h2>
                     </a>
-                </hgroup>
+                </span>
                 <footer>
                     <h2 id="copyright">&copy; Nathan Doolan {current year}</h2>
                     <hr />

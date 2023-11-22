@@ -27,6 +27,7 @@ export const setPreference = (theme: string) => {
 const reflectPreference = (theme: string) => {
     document.firstElementChild?.setAttribute('data-theme', theme);
     document.querySelector('#theme-toggle')?.setAttribute('aria-label', theme);
+    document.querySelector('link[rel="icon"]')?.setAttribute('href', `/images/icon-${theme}.png`);
 };
 
 // set early so no page flashes / CSS is made aware

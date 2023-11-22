@@ -6,10 +6,7 @@ describe('Projects', () => {
     test('scrape Github data', () => {
         const parser = new DOMParser();
         const githubMockDoc = parser.parseFromString(githubTestListItems, 'text/html');
-        console.log(githubMockDoc.firstElementChild?.outerHTML);
         const projects = scrapeGithub(githubMockDoc);
-
-        console.log(JSON.stringify(projects));
 
         expect(projects.length).toEqual(1);
 
@@ -27,10 +24,7 @@ describe('Projects', () => {
     test('scrape Cults3D data', () => {
         const parser = new DOMParser();
         const cults3dMockDoc = parser.parseFromString(cults3dTestListItems, 'text/html');
-        console.log(cults3dMockDoc.firstElementChild?.outerHTML);
         const projects = scrapeCults3d(cults3dMockDoc);
-
-        console.log(JSON.stringify(projects));
 
         expect(projects.length).toEqual(2);
 
@@ -64,7 +58,6 @@ describe('Projects', () => {
     test('scrape BGG data', () => {
         const parser = new DOMParser();
         const bggMockDoc = parser.parseFromString(bggTestListItems, 'text/html');
-        console.log(bggMockDoc.firstElementChild?.outerHTML);
         const projects = scrapeBgg(bggMockDoc);
 
         expect(projects.length).toEqual(1);
