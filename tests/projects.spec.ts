@@ -45,7 +45,7 @@ describe("Projects", () => {
                     .querySelector<HTMLSpanElement>('[class*="card-language-colour"]')
                     ?.getAttribute("style"),
             ).toBe("background-color: #3178c6");
-            expect(fragment.querySelector('[class*="card-logo"]')?.ariaLabel).toBe("Github");
+            expect(fragment.querySelector('[class*="card-logo"]')?.ariaLabel).toBe("Github Logo");
             expect(
                 fragment.querySelector<HTMLImageElement>('[class*="card-feature-image"]')?.src,
             ).toBeUndefined();
@@ -86,7 +86,7 @@ describe("Projects", () => {
                     .querySelector<HTMLSpanElement>('[class*="card-language-colour"]')
                     ?.getAttribute("style"),
             ).toBeUndefined();
-            expect(fragment.querySelector('[class*="card-logo"]')?.ariaLabel).toBe("Cults 3D");
+            expect(fragment.querySelector('[class*="card-logo"]')?.ariaLabel).toBe("Cults 3D Logo");
             const featureImage = fragment.querySelector<HTMLImageElement>(
                 '[class*="card-feature-image"]',
             );
@@ -147,7 +147,7 @@ describe("Projects", () => {
                     ?.getAttribute("style"),
             ).toBeUndefined();
             expect(fragment.querySelector('[class*="card-logo"]')?.ariaLabel).toBe(
-                "Board Game Geek",
+                "Board Game Geek Logo",
             );
             const featureImage = fragment.querySelector<HTMLImageElement>(
                 '[class*="card-feature-image"]',

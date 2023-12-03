@@ -249,7 +249,7 @@ export const projectIntoTemplate = (
 
     // Set logo text
     setElementContent<Logo, string>('[class*="card-logo"]', project.host, (element, content) => {
-        element.ariaLabel = domPurify.sanitize(content);
+        element.ariaLabel = `${domPurify.sanitize(content)} Logo`;
     });
     // Set logo link
     setElementContent<Logo, URL>('[class*="card-logo"]', project.url, (element, content) => {
