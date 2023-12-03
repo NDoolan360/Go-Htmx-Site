@@ -1,80 +1,169 @@
-import { describe, expect, test } from 'vitest';
-import { bggTestListItems, bggXmlTestListItems, cults3dTestListItems, githubTestListItems } from './test.data';
-import { scrapeBgg, scrapeCults3d, scrapeGithub, upgradeBggImage } from '../src/projects';
+import { describe, expect, test } from "bun:test";
+import { file } from "bun";
+import {
+    GithubRepo,
+    githubRepoToProject,
+    projectIntoTemplate,
+    scrapeBgg,
+    scrapeCults3d,
+    upgradeBggData,
+} from "projects";
+import { fetchData, fetchJson } from "utils";
 
-describe('Projects', () => {
-    test('scrape Github data', () => {
-        const parser = new DOMParser();
-        const githubMockDoc = parser.parseFromString(githubTestListItems, 'text/html');
-        const projects = scrapeGithub(githubMockDoc);
+describe("Projects", () => {
+    test("Github project into Template", async () => {
+        const indexData = await file("index.html").text();
+        const indexMockDoc = await fetchData(indexData);
+        const githubMockData = await file("tests/data/githubRepos.json").text();
+        const githubMockJson = await fetchJson<GithubRepo[]>(githubMockData);
 
-        expect(projects.length).toEqual(1);
+        const template = indexMockDoc.getElementById("project-template") as HTMLTemplateElement;
+        const githubProjects = githubRepoToProject(githubMockJson);
+        const project = githubProjects.at(0);
 
-        expect(projects[0].host).toEqual('github');
-        expect(projects[0].title).toEqual('NDoolan360-Site');
-        expect(projects[0].description).toEqual('My hand crafted personal website');
-        expect(projects[0].url?.toString()).toEqual('https://github.com/NDoolan360/NDoolan360-Site');
-        expect(projects[0].image?.highResSrc).toEqual('/images/github.png');
-        expect(projects[0].image?.lowResSrc).toEqual(null);
-        expect(projects[0].image?.alt).toEqual('Github Logo');
-        expect(projects[0].programmingLanguage?.name).toEqual('TypeScript');
-        expect(projects[0].programmingLanguage?.style).toEqual('background-color: #3178c6');
+        expect(project).not.toBeUndefined();
+        if (project) {
+            expect(template).not.toBeUndefined();
+            const fragment = projectIntoTemplate(project, template);
+
+            expect(
+                fragment.querySelector<HTMLHeadingElement>('[class*="card-title"]')?.textContent,
+            ).toBe("NDoolan360 Site");
+            expect(
+                fragment.querySelector<HTMLParagraphElement>('[class*="card-description"]')
+                    ?.textContent,
+            ).toBe("My hand crafted personal website 🎨🌝");
+            expect(fragment.querySelector<HTMLAnchorElement>('[class*="card-link"]')?.href).toBe(
+                "https://github.com/NDoolan360/NDoolan360-Site",
+            );
+            expect(
+                fragment.querySelector<HTMLParagraphElement>('[class*="card-language-name"]')
+                    ?.textContent,
+            ).toBe("TypeScript");
+            expect(
+                fragment
+                    .querySelector<HTMLSpanElement>('[class*="card-language-colour"]')
+                    ?.getAttribute("style"),
+            ).toBe("background-color: #3178c6");
+            expect(fragment.querySelector('[class*="card-logo"]')?.ariaLabel).toBe("Github");
+            expect(
+                fragment.querySelector<HTMLImageElement>('[class*="card-feature-image"]')?.src,
+            ).toBeUndefined();
+        }
     });
 
-    test('scrape Cults3D data', () => {
-        const parser = new DOMParser();
-        const cults3dMockDoc = parser.parseFromString(cults3dTestListItems, 'text/html');
-        const projects = scrapeCults3d(cults3dMockDoc);
+    test("Cults3d project into Template", async () => {
+        const indexData = await file("index.html").text();
+        const indexMockDoc = await fetchData(indexData);
+        const cults3dMockData = await file("tests/data/cults3dProjects.html").text();
+        const cults3dMockDoc = await fetchData(cults3dMockData);
 
-        expect(projects.length).toEqual(2);
+        const template = indexMockDoc.getElementById("project-template") as HTMLTemplateElement;
+        const cults3dProjects = scrapeCults3d(cults3dMockDoc);
+        const project = cults3dProjects.at(0);
 
-        expect(projects[0].host).toEqual('cults3d');
-        expect(projects[0].title).toEqual('Reciprocating Rack and Pinion Fidget V2');
-        expect(projects[0].description).toEqual(undefined);
-        expect(projects[0].url?.toString()).toEqual(
-            'https://cults3d.com/en/3d-model/gadget/reciprocating-rack-and-pinion-fidget-v2'
-        );
-        expect(projects[0].image?.highResSrc).toEqual('https://files.cults3d.com/{RRaP High-res Image Link}');
-        expect(projects[0].image?.lowResSrc).toEqual(
-            'https://images.cults3d.com/{RRaP Image Link}/https://files.cults3d.com/{RRaP High-res Image Link}'
-        );
-        expect(projects[0].image?.alt).toEqual('RRaPv2.png Reciprocating Rack and Pinion Fidget V2');
-        expect(projects[0].programmingLanguage).toEqual(undefined);
+        expect(project).not.toBeUndefined();
+        if (project) {
+            expect(template).not.toBeUndefined();
+            const fragment = projectIntoTemplate(project, template);
 
-        expect(projects[1].host).toEqual('cults3d');
-        expect(projects[1].title).toEqual('Thought Processor');
-        expect(projects[1].description).toEqual(undefined);
-        expect(projects[1].url?.toString()).toEqual('https://cults3d.com/en/3d-model/art/thought-processor');
-        expect(projects[1].image?.highResSrc).toEqual(
-            'https://files.cults3d.com/{Thought Processor High-res Image Link}'
-        );
-        expect(projects[1].image?.lowResSrc).toEqual(
-            'https://images.cults3d.com/{Thought Processor Image Link}/https://files.cults3d.com/{Thought Processor High-res Image Link}'
-        );
-        expect(projects[1].image?.alt).toEqual('Thought-Processor.png Thought Processor');
-        expect(projects[1].programmingLanguage).toEqual(undefined);
+            expect(
+                fragment.querySelector<HTMLHeadingElement>('[class*="card-title"]')?.textContent,
+            ).toBe("Reciprocating Rack and Pinion Fidget V2");
+            expect(
+                fragment.querySelector<HTMLParagraphElement>('[class*="card-description"]')
+                    ?.textContent,
+            ).toBeUndefined();
+            expect(fragment.querySelector<HTMLAnchorElement>('[class*="card-link"]')?.href).toBe(
+                "https://cults3d.com/en/3d-model/gadget/reciprocating-rack-and-pinion-fidget-v2",
+            );
+            expect(
+                fragment.querySelector<HTMLParagraphElement>('[class*="card-language-name"]')
+                    ?.textContent,
+            ).toBeUndefined();
+            expect(
+                fragment
+                    .querySelector<HTMLSpanElement>('[class*="card-language-colour"]')
+                    ?.getAttribute("style"),
+            ).toBeUndefined();
+            expect(fragment.querySelector('[class*="card-logo"]')?.ariaLabel).toBe("Cults 3D");
+            const featureImage = fragment.querySelector<HTMLImageElement>(
+                '[class*="card-feature-image"]',
+            );
+            expect(featureImage).not.toBeUndefined();
+            if (featureImage) {
+                expect(featureImage.src).toBe("/images/default.webp");
+                if (featureImage.onload) {
+                    featureImage.onload(new Event("load"));
+                    expect(featureImage.src).toBe(
+                        "https://images.cults3d.com/{RRaP Image Link}/https://files.cults3d.com/{RRaP High-res Image Link}",
+                    );
+
+                    featureImage.onload(new Event("load"));
+                    expect(featureImage.src).toBe(
+                        "https://files.cults3d.com/{RRaP High-res Image Link}",
+                    );
+                }
+            }
+        }
     });
 
-    test('scrape BGG data', () => {
-        const parser = new DOMParser();
-        const bggMockDoc = parser.parseFromString(bggTestListItems, 'text/html');
-        const projects = scrapeBgg(bggMockDoc);
+    test("Bgg project into Template", async () => {
+        const indexData = await file("index.html").text();
+        const indexMockDoc = await fetchData(indexData);
+        const bggMockData = await file("tests/data/bggProjects.html").text();
+        const bggMockDoc = await fetchData(bggMockData);
+        const bggMockXmlData = await file("tests/data/bggImage.xml").text();
+        const bggMockXml = await fetchData(bggMockXmlData, "text/xml");
 
-        expect(projects.length).toEqual(1);
+        const template = indexMockDoc.getElementById("project-template") as HTMLTemplateElement;
+        const bggProjects = scrapeBgg(bggMockDoc);
+        const project = bggProjects.at(0);
 
-        expect(projects[0].host).toEqual('boardgamegeek');
-        expect(projects[0].title).toEqual('Cake Toppers');
-        expect(projects[0].description).toEqual('Bakers assemble the most outrageous cakes to top each other.');
-        expect(projects[0].url?.toString()).toEqual('https://boardgamegeek.com/boardgame/330653/cake-toppers');
-        expect(projects[0].image?.highResSrc).toEqual('{Cake Toppers Image Link}');
-        expect(projects[0].image?.lowResSrc).toEqual(null);
-        expect(projects[0].image?.alt).toEqual('Board Game: Cake Toppers');
-        expect(projects[0].programmingLanguage).toEqual(undefined);
+        expect(project).not.toBeUndefined();
+        if (project) {
+            upgradeBggData(project, bggMockXml);
 
-        const bggMockXmlDoc = parser.parseFromString(bggXmlTestListItems, 'text/xml');
-        upgradeBggImage(projects[0], bggMockXmlDoc);
+            expect(template).not.toBeUndefined();
+            const fragment = projectIntoTemplate(project, template);
 
-        expect(projects[0].image?.highResSrc).toEqual('{Cake Toppers High-res Image Link}');
-        expect(projects[0].image?.lowResSrc).toEqual('{Cake Toppers Image Link}');
+            expect(
+                fragment.querySelector<HTMLHeadingElement>('[class*="card-title"]')?.textContent,
+            ).toBe("Cake Toppers");
+            expect(
+                fragment.querySelector<HTMLParagraphElement>('[class*="card-description"]')
+                    ?.textContent,
+            ).toBe("Bakers assemble the most outrageous cakes to top each other.");
+            expect(fragment.querySelector<HTMLAnchorElement>('[class*="card-link"]')?.href).toBe(
+                "https://boardgamegeek.com/boardgame/330653/cake-toppers",
+            );
+            expect(
+                fragment.querySelector<HTMLParagraphElement>('[class*="card-language-name"]')
+                    ?.textContent,
+            ).toBeUndefined();
+            expect(
+                fragment
+                    .querySelector<HTMLSpanElement>('[class*="card-language-colour"]')
+                    ?.getAttribute("style"),
+            ).toBeUndefined();
+            expect(fragment.querySelector('[class*="card-logo"]')?.ariaLabel).toBe(
+                "Board Game Geek",
+            );
+            const featureImage = fragment.querySelector<HTMLImageElement>(
+                '[class*="card-feature-image"]',
+            );
+            expect(featureImage).not.toBeUndefined();
+            if (featureImage) {
+                expect(featureImage.src).toBe("/images/default.webp");
+            }
+
+            if (featureImage?.onload) {
+                featureImage.onload(new Event("load"));
+                expect(featureImage.src).toBe("{Cake Toppers Image Link}");
+
+                featureImage.onload(new Event("load"));
+                expect(featureImage.src).toBe("{Cake Toppers High-res Image Link}");
+            }
+        }
     });
 });

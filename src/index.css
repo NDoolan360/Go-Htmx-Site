@@ -1,0 +1,223 @@
+/* Tailwindcss */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Fonts */
+@font-face {
+    font-display: swap;
+    font-family: 'Oxygen Mono';
+    font-style: normal;
+    src: url('/fonts/OxygenMono.woff2') format('woff2');
+    unicode-range: U+0000-00FF;
+}
+
+@font-face {
+    font-display: swap;
+    font-family: 'Josefin Sans';
+    font-style: normal;
+    src: url('/fonts/JosefinSans.woff2') format('woff2');
+}
+
+@layer base {
+    :root {
+        --text: #d8f3ed;
+        --background: #192926;
+        --primary: #4dffd2;
+        --secondary: #283c37;
+        --accent: #d8f3ed;
+    }
+
+    [data-theme="light"] {
+        --text: #011309;
+        --background: #d6e6e3;
+        --primary: #0b7956;
+        --secondary: rgb(188, 211, 204);
+        --accent: #0b7956;
+    }
+}
+
+@layer components {
+    html {
+        @apply scroll-smooth
+    }
+
+    body {
+        @apply container transition-all w-screen min-h-screen mx-auto antialiased leading-relaxed bg-background font-body text-text selection:bg-primary selection:text-secondary lg:flex lg:justify-between motion-reduce:transition-none
+    }
+
+    header {
+        @apply flex flex-wrap items-center border-b border-primary gap-x-2 justify-between px-6 max-lg:sticky max-lg:top-0 max-lg:bg-inherit max-lg:z-50 mx-auto md:px-12 lg:py-24 lg:sticky lg:top-0 lg:max-h-screen lg:flex-col lg:items-start lg:pl-24 lg:pr-0 lg:w-1/3 lg:border-none
+    }
+
+    h1 {
+        @apply text-3xl font-heading md:text-4xl font-bold
+    }
+
+    nav {
+        @apply max-lg:hidden
+    }
+
+    #external-links {
+        @apply flex gap-2 flex-row my-3
+    }
+
+    main {
+        @apply flex flex-col flex-grow px-6 mx-auto md:px-12 lg:pl-0 lg:pr-24 lg:pb-24 lg:w-2/3 lg:ml-20
+    }
+
+    section {
+        @apply flex flex-col gap-6 pt-12 md:pt-20 lg:pt-24
+    }
+
+    section .heading {
+        @apply flex items-center gap-6
+    }
+
+    section .heading h2 {
+        @apply text-2xl font-heading
+    }
+
+    section .heading hr {
+        @apply flex-grow border-accent opacity-40
+    }
+
+    #profile {
+        @apply flex flex-col gap-6 flex-nowrap sm:flex-row sm:gap-8 md:gap-12
+    }
+
+    #profile img {
+        @apply m-auto aspect-square h-36 md:h-48
+    }
+
+    #profile div {
+        @apply justify-center flex flex-col gap-3 md:gap-6
+    }
+
+    #experience ol {
+        @apply flex flex-col gap-12
+    }
+
+    .experience-item {
+        @apply relative grid sm:grid-cols-4 sm:gap-8 md:gap-4 w-full
+    }
+
+    .experience-item .date-range {
+        @apply mb-2 mt-1 text-sm font-bold uppercase tracking-wide sm:col-span-1 font-heading
+    }
+
+    .experience-item div {
+        @apply sm:col-span-3
+    }
+
+    .experience-title {
+        @apply flex flex-row flex-nowrap gap-2 items-center text-xl max-w-fit
+    }
+
+    .experience-item:not(.education) h4:not(.current) {
+        @apply opacity-60
+    }
+
+    .experience-item .chip-wrapper {
+        @apply pt-2
+    }
+
+    #project-gallery {
+        @apply flex flex-row flex-wrap gap-6
+    }
+
+    .loader {
+        @apply rounded-full animate-spin w-8 h-8 border-4 border-accent border-t-primary m-auto
+    }
+
+    .card {
+        @apply flex flex-col gap-6 relative bg-secondary rounded-xl p-6 flex-grow max-w-full hover:shadow-[0_0_10px_0px_var(--primary)] hover:scale-105 focus-visible:scale-105 transition-all motion-reduce:hover:scale-100 motion-reduce:focus-visible:scale-100
+    }
+
+    .card-link {
+        @apply absolute inset-0 rounded-xl
+    }
+
+    .card-feature-image {
+        @apply object-cover w-full max-h-48 rounded-lg
+    }
+
+    .card-detail-section,
+    .card-detail {
+        @apply flex flex-row justify-between items-center gap-3 overflow-hidden
+    }
+
+    .card-detail-section {
+        @apply w-full flex-wrap
+    }
+
+    .card-title {
+        @apply truncate w-fit tracking-tight text-lg font-heading
+    }
+
+    .card-detail {
+        @apply w-min justify-start
+    }
+
+    .card-language-colour {
+        @apply h-3 block rounded-full aspect-square
+    }
+
+    .card-description {
+        @apply max-w-full w-fit truncate
+    }
+
+    .btn,
+    .chip {
+        @apply w-fit px-3 py-1 border-none rounded-full font-heading inline-flex flex-row flex-nowrap gap-2 leading-4 align-baseline font-medium
+    }
+
+    .btn {
+        @apply bg-secondary dark:bg-accent dark:text-background transition-colors
+    }
+
+    .chip {
+        @apply bg-primary text-background transition-colors
+    }
+
+    .chip-wrapper {
+        @apply flex flex-wrap flex-row gap-1 text-xs
+    }
+
+    footer {
+        @apply py-12 md:py-20 lg:pt-24 lg:pb-0
+    }
+
+    #tools ul,
+    #tools div:not(:first-of-type) {
+        @apply flex flex-row gap-1
+    }
+
+    #copyright {
+        @apply pt-4
+    }
+
+    #external-links li,
+    #external-links li a,
+    #external-links span[is="custom-logo"] svg,
+    #theme-toggle,
+    #theme-toggle svg {
+        @apply h-6 w-6 md:h-8 md:w-8 block
+    }
+
+    span[is="custom-logo"].card-logo,
+    span[is="custom-logo"].card-logo svg,
+    .experience-item span[is="custom-logo"],
+    .experience-item span[is="custom-logo"] svg {
+        @apply w-6 h-6 block
+    }
+
+    .btn span[is="custom-logo"],
+    .btn span[is="custom-logo"] svg {
+        @apply h-4 w-4 block
+    }
+
+    a:not(.card-link) {
+        @apply hover:scale-110 focus-visible:scale-110 transition-transform motion-reduce:hover:scale-100 motion-reduce:focus-visible:scale-100
+    }
+}

@@ -1,0 +1,122 @@
+{
+    "Python": {
+        "color": "#3572A5"
+    },
+    "TypeScript": {
+        "color": "#3178c6"
+    },
+    "JavaScript": {
+        "color": "#f1e05a"
+    },
+    "C++": {
+        "color": "#f34b7d"
+    },
+    "C": {
+        "color": "#555555"
+    },
+    "Go": {
+        "color": "#00ADD8"
+    },
+    "Rust": {
+        "color": "#dea584"
+    },
+    "C#": {
+        "color": "#178600"
+    },
+    "Shell": {
+        "color": "#89e051"
+    },
+    "Java": {
+        "color": "#b07219"
+    },
+    "HTML": {
+        "color": "#e34c26"
+    },
+    "Lua": {
+        "color": "#000080"
+    },
+    "PHP": {
+        "color": "#4F5D95"
+    },
+    "Jupyter Notebook": {
+        "color": "#DA5B0B"
+    },
+    "Ruby": {
+        "color": "#701516"
+    },
+    "Kotlin": {
+        "color": "#A97BFF"
+    },
+    "Swift": {
+        "color": "#F05138"
+    },
+    "CSS": {
+        "color": "#563d7c"
+    },
+    "Dart": {
+        "color": "#00B4AB"
+    },
+    "PowerShell": {
+        "color": "#012456"
+    },
+    "SCSS": {
+        "color": "#c6538c"
+    },
+    "Vue": {
+        "color": "#41b883"
+    },
+    "Haskell": {
+        "color": "#5e5086"
+    },
+    "Makefile": {
+        "color": "#427819"
+    },
+    "Svelte": {
+        "color": "#ff3e00"
+    },
+    "Perl": {
+        "color": "#0298c3"
+    },
+    "Scala": {
+        "color": "#c22d40"
+    },
+    "Batchfile": {
+        "color": "#C1F12E"
+    },
+    "Nix": {
+        "color": "#7e7eff"
+    },
+    "Dockerfile": {
+        "color": "#384d54"
+    },
+    "R": {
+        "color": "#198CE7"
+    },
+    "Zig": {
+        "color": "#ec915c"
+    },
+    "Markdown": {
+        "color": "#083fa1"
+    },
+    "AutoHotkey": {
+        "color": "#6594b9"
+    },
+    "Tcl": {
+        "color": "#e4cc98"
+    },
+    "CMake": {
+        "color": "#DA3434"
+    },
+    "G-code": {
+        "color": "#D08CF2"
+    },
+    "MATLAB": {
+        "color": "#e16737"
+    },
+    "VBA": {
+        "color": "#867db1"
+    },
+    "WebAssembly": {
+        "color": "#04133b"
+    }
+}

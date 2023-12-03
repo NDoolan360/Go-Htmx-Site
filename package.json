@@ -1,44 +1,30 @@
 {
-    "name": "ndoolan360-site",
-    "private": true,
-    "version": "1.0.3",
-    "type": "module",
-    "engines": {
-        "npm": ">=10.0.0 <11.0.0",
-        "node": ">=18.0.0 <19.0.0"
-    },
-    "scripts": {
-        "dev": "vite",
-        "build": "tsc && vite build",
-        "preview": "vite preview --port 8080",
-        "lint:ts": "eslint --ignore-path .gitignore **/*.ts",
-        "lint:css": "stylelint --ignore-path .gitignore **/*.css",
-        "format": "prettier --check --ignore-path .gitignore .",
-        "test": "vitest"
-    },
-    "devDependencies": {
-        "@types/dompurify": "^3.0.5",
-        "@typescript-eslint/eslint-plugin": "^6.11.0",
-        "@typescript-eslint/parser": "^6.11.0",
-        "autoprefixer": "^10.4.16",
-        "eslint": "^8.54.0",
-        "eslint-config-prettier": "^9.0.0",
-        "eslint-plugin-import": "^2.29.0",
-        "jsdom": "^22.1.0",
-        "prettier": "^3.1.0",
-        "stylelint": "^15.11.0",
-        "stylelint-config-idiomatic-order": "github:NDoolan360/stylelint-config-idiomatic-order",
-        "stylelint-config-standard": "^34.0.0",
-        "typescript": "^5.2.2",
-        "vite": "^5.0.0",
-        "vite-plugin-eslint": "^1.8.1",
-        "vitest": "^0.34.6"
-    },
-    "dependencies": {
-        "@vercel/analytics": "^1.1.1",
-        "dompurify": "^3.0.6"
-    },
-    "browserslist": [
-        "defaults"
-    ]
+  "name": "ndoolan360-site",
+  "private": true,
+  "version": "1.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "bunx --bun vite",
+    "build": "vite build",
+    "check": "bunx --bun @biomejs/biome check .",
+    "ci": "bunx --bun @biomejs/biome ci ."
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.4.1",
+    "@happy-dom/global-registrator": "^12.10.3",
+    "@types/dompurify": "^3.0.5",
+    "@types/web": "^0.0.125",
+    "autoprefixer": "^10.4.16",
+    "bun-types": "^1.0.15",
+    "tailwindcss": "^3.3.5",
+    "typescript": "^5.3.2",
+    "vite": "^5.0.4"
+  },
+  "dependencies": {
+    "@vercel/analytics": "^1.1.1",
+    "dompurify": "^3.0.6"
+  },
+  "browserslist": [
+    "defaults"
+  ]
 }

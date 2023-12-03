@@ -8,27 +8,25 @@ on:
             - master
 
 jobs:
-    node:
+    bun:
         runs-on: ubuntu-latest
 
         steps:
             - name: Checkout code
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
 
-            - name: Setup Node.js
-              uses: actions/setup-node@v2
+            - name: Setup Bun
+              uses: oven-sh/setup-bun@v1
               with:
-                  node-version: 18
+                bun-version: 1.0.15
 
             - name: Cache Node modules
-              uses: actions/cache@v2
+              uses: actions/cache@v3
               with:
                   path: node_modules
-                  key: npm-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
-                  restore-keys: npm-${{ runner.os }}-
+                  key: bun-${{ hashFiles('**/bun.lockb') }}
+                  restore-keys: bun-
 
-            - run: npm ci
-            - run: npm run lint:ts
-            - run: npm run lint:css
-            - run: npm run format
-            - run: npm run test
+            - run: bun install
+            - run: bun check
+            - run: bun test

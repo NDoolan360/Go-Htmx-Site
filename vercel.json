@@ -2,8 +2,8 @@
     "version": 2,
     "rewrites": [
         {
-            "source": "/proxy/github",
-            "destination": "https://github.com/NDoolan360"
+            "source": "/proxy/api/github",
+            "destination": "https://api.github.com/users/NDoolan360/repos"
         },
         {
             "source": "/proxy/cults3d",
@@ -14,7 +14,7 @@
             "destination": "https://boardgamegeek.com/geeksearch.php?action=search&advsearch=1&objecttype=boardgame&include%5Bdesignerid%5D=133893"
         },
         {
-            "source": "/xmlapi/boardgamegeek/:path",
+            "source": "/proxy/xmlapi/boardgamegeek/:path",
             "destination": "https://api.geekdo.com/xmlapi/boardgame/:path"
         }
     ]
