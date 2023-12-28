@@ -30,7 +30,7 @@
 
     [data-theme="light"] {
         --text: #011309;
-        --background: #d6e6e3;
+        --background: #d7f1ec;
         --primary: #0b7956;
         --secondary: rgb(188, 211, 204);
         --accent: #0b7956;
@@ -43,7 +43,7 @@
     }
 
     body {
-        @apply container transition-all w-screen min-h-screen mx-auto antialiased leading-relaxed bg-background font-body text-text selection:bg-primary selection:text-secondary lg:flex lg:justify-between motion-reduce:transition-none
+        @apply container transition-all w-screen min-h-screen overflow-x-hidden mx-auto antialiased leading-relaxed bg-background font-body text-text selection:bg-primary selection:text-secondary lg:flex lg:justify-between motion-reduce:transition-none
     }
 
     header {
@@ -103,7 +103,7 @@
     }
 
     .experience-item .date-range {
-        @apply mb-2 mt-1 text-sm font-bold uppercase tracking-wide sm:col-span-1 font-heading
+        @apply mb-2 mt-1 text-sm uppercase tracking-wide sm:col-span-1 font-heading
     }
 
     .experience-item div {
@@ -190,7 +190,7 @@
 
     #tools ul,
     #tools div:not(:first-of-type) {
-        @apply flex flex-row gap-1
+        @apply flex flex-row flex-wrap gap-1
     }
 
     #copyright {
@@ -199,21 +199,18 @@
 
     #external-links li,
     #external-links li a,
-    #external-links span[is="custom-logo"] svg,
+    #external-links .logo,
     #theme-toggle,
     #theme-toggle svg {
         @apply h-6 w-6 md:h-8 md:w-8 block
     }
 
-    span[is="custom-logo"].card-logo,
-    span[is="custom-logo"].card-logo svg,
-    .experience-item span[is="custom-logo"],
-    .experience-item span[is="custom-logo"] svg {
-        @apply w-6 h-6 block
+    .logo.card-logo,
+    .experience-item .logo {
+        @apply w-6 h-6 block max-w-none
     }
 
-    .btn span[is="custom-logo"],
-    .btn span[is="custom-logo"] svg {
+    .btn .logo {
         @apply h-4 w-4 block
     }
 

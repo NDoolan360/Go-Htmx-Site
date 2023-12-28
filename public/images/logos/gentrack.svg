@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 144 145" xmlns="http://www.w3.org/2000/svg" id="logo">
+    <defs>
+        <linearGradient id="gentrack-linear-gradient" x1="0.5" x2="0.5" y2="1"
+            gradientUnits="objectBoundingBox">
+            <stop offset="0" stop-color="#0d8" />
+            <stop offset="1" stop-color="#409" />
+        </linearGradient>
+    </defs>
+    <path fill="url(#gentrack-linear-gradient)"
+        d="M47 0a42 42 0 0 1 17 4c-16 8-28 24-28 45a50 50 0 0 0 28 46 42 42 0 0 1-17 4C21 99 0 79 0 49S21 0 47 0zm41 0a42 42 0 0 0-17 4c16 8 28 24 28 45a50 50 0 0 1-28 46c5 3 11 4 17 4 25 0 47-20 47-50S113 0 88 0zM41 113H7c5 20 22 32 41 32a38 38 0 0 0 16-3c-11-6-20-16-23-29zm53 0a44 44 0 0 1-23 29 38 38 0 0 0 15 3c19 0 36-12 42-32H94z" />
+</svg>

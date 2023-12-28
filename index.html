@@ -3,27 +3,50 @@
 
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <link id="favicon" rel="icon" type="image/svg" href="/images/icon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="color-scheme" content="dark light">
+    <meta name="theme-color" content="#283c37">
     <title>Nathan Doolan</title>
+    <meta name="description"
+        content="A personal website showcasing Nathan Doolan's journey as a full-time software engineer in Melbourne. Explore his professional experience, projects, and interests in technology, board games, and 3D printing.">
+
+    <link id="favicon" rel="icon" type="image/svg" href="/images/icons/icon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/icons/favicon-16x16.png">
+    <link rel="icon" href="/images/icons/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/icons/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.webmanifest" crossorigin="use-credentials">
+
+    <meta property="og:locale" content="en_AU">
+    <meta property="og:url" content="https://n.doolan.dev">
+    <meta property="og:type" content="profile">
+    <meta property="og:profile:first_name" content="Nathan">
+    <meta property="og:profile:first_name" content="Doolan">
+    <meta property="og:profile:gender" content="male">
+    <meta property="og:title" content="Nathan Doolan">
+    <meta property="og:description"
+        content="A personal website showcasing Nathan Doolan's journey as a full-time software engineer in Melbourne. Explore his professional experience, projects, and interests in technology, board games, and 3D printing.">
+    <meta property="og:image" content="/images/profile.webp">
 
     <link rel="preload" href="/fonts/JosefinSans.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/fonts/OxygenMono.woff2" as="font" type="font/woff2" crossorigin>
 
-    <script type="module" src="/src/index.ts"></script>
-    <script type="module" src="/src/theme.ts"></script>
-    <script type="module" src="/src/logo-web-component.ts"></script>
+    <link rel="stylesheet" href="/src/styles.css">
+
+    <script>
+        var theme = window.localStorage.getItem("theme");
+        theme && document.documentElement.setAttribute("data-theme", theme)
+    </script>
+    <script type="module" src="/src/theme.ts" defer></script>
+    <script type="module" src="/src/projects.ts" defer></script>
+    <script type="module" src="/src/misc.ts" defer></script>
 </head>
 
 <body>
     <header>
         <h1>
-            <a href="/">
-                /ND
-            </a>
+            <a href="/"> /ND </a>
         </h1>
-
         <nav>
             <ul id="internal-links" aria-label="internal links">
                 <li><a href="#about">About</a></li>
@@ -31,38 +54,47 @@
                 <li><a href="#projects">Projects</a></li>
             </ul>
         </nav>
-
         <ul id="external-links" aria-label="external links">
             <li>
                 <a href="https://github.com/NDoolan360" target="_blank" rel="noreferrer">
-                    <span is="custom-logo" aria-label="Github Logo"></span>
+                    <svg class="logo" height="24" width="24" aria-label="Github Logo">
+                        <use href="/images/logos/github.svg#logo"></use>
+                    </svg>
                 </a>
             </li>
             <li>
                 <a href="https://www.linkedin.com/in/nathan-doolan-835a13171" target="_blank" rel="noreferrer">
-                    <span is="custom-logo" aria-label="LinkedIn Logo"></span>
+                    <svg class="logo" height="24" width="24" aria-label="LinkedIn Logo">
+                        <use href="/images/logos/linkedin.svg#logo"></use>
+                    </svg>
                 </a>
             </li>
             <li>
                 <a href="https://discord.com/users/nothindoin" target="_blank" rel="noreferrer">
-                    <span is="custom-logo" aria-label="Discord Logo"></span>
+                    <svg class="logo" height="24" width="24" aria-label="Discord Logo">
+                        <use href="/images/logos/discord.svg#logo"></use>
+                    </svg>
                 </a>
             </li>
             <li>
                 <a href="https://cults3d.com/en/users/ND360" target="_blank" rel="noreferrer">
-                    <span is="custom-logo" aria-label="Cults3D Logo"></span>
+                    <svg class="logo" height="24" width="24" aria-label="Cults3D Logo">
+                        <use href="/images/logos/cults3d.svg#logo"></use>
+                    </svg>
                 </a>
             </li>
             <li>
                 <a href="https://boardgamegeek.com/user/Nothin_Doin" target="_blank" rel="noreferrer">
-                    <span is="custom-logo" aria-label="Board Game Geek Logo"></span>
+                    <svg class="logo" height="24" width="24" aria-label="Board Game Geek Logo">
+                        <use href="/images/logos/boardgamegeek.svg#logo"></use>
+                    </svg>
                 </a>
             </li>
             <li>
                 <!-- Theme button toggle adapted from: https://web.dev/patterns/theming/theme-switch/#html -->
                 <template id="theme-toggle-template">
                     <button id="theme-toggle" title="Toggles light & dark theme" aria-label="auto" aria-live="polite">
-                        <svg class="sun-and-moon" aria-hidden="true" viewBox="0 0 24 24">
+                        <svg class="sun-and-moon" aria-hidden="true" viewBox="0 0 24 24" height="24" width="24">
                             <mask class="moon" id="moon-mask">
                                 <rect x="0" y="0" width="100%" height="100%" fill="white" />
                                 <circle cx="24" cy="10" r="6" fill="black" />
@@ -92,8 +124,9 @@
                 <hr>
             </div>
             <div id="profile">
-                <img alt="Profile Image" title="Picture of me at the Strawberry Field in Liverpool" loading="eager"
-                    src="/images/profile.webp">
+                <img alt="Profile Image" title="Picture of me at the Strawberry Field in Liverpool"
+                    srcset="/images/profile-192.webp, /images/profile-512.webp 2.66x, /images/profile-792.webp 4.125x"
+                    src="/images/profile-192.webp" height="192">
                 <div>
                     <p>
                         Hey there, I'm Nathan Doolan, a full-time software engineer based in Melbourne, Australia.
@@ -116,13 +149,31 @@
             </div>
             <ol>
                 <li class="experience-item">
-                    <span class="date-range"> Jul 2021 - Present </span>
+                    <span class="date-range">Jan 2024 - Present</span>
+                    <div>
+                        <a class="experience-title" href="https://kaluza.com/" target="_blank" rel="noreferrer">
+                            <svg class="logo" height="24" width="24" aria-label="Kaluza Logo">
+                                <use href="/images/logos/kaluza.svg#logo"></use>
+                            </svg>
+                            <h3>Kaluza</h3>
+                        </a>
+                        <h4 class="current">Software Engineer</h4>
+                        <div class="chip-wrapper">
+                            <span class="chip">Typescript</span>
+                            <span class="chip">Git</span>
+                            <span class="chip">Github Actions</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="experience-item">
+                    <span class="date-range">Jul 2021 - Dec 2023</span>
                     <div>
                         <a class="experience-title" href="https://gentrack.com" target="_blank" rel="noreferrer">
-                            <span is="custom-logo" aria-label="Gentrack Logo"></span>
-                            <h3> Gentrack </h3>
+                            <img alt="Gentrack Logo" src="/images/logos/gentrack.svg" class="logo" height="24"
+                                width="24" />
+                            <h3>Gentrack</h3>
                         </a>
-                        <h4 class="current">Intermediate Software Engineer</h4>
+                        <h4>Intermediate Software Engineer</h4>
                         <h4>Junior Software Engineer</h4>
                         <h4>Graduate Software Engineer</h4>
                         <div class="chip-wrapper">
@@ -136,28 +187,37 @@
                     </div>
                 </li>
                 <li class="experience-item">
-                    <span class="date-range">Feb 2018 - Jul 2021 </span>
+                    <span class="date-range">Feb 2018 - Jul 2021</span>
                     <div>
                         <a class="experience-title" href="https://pqrs.com.au" target="_blank" rel="noreferrer">
-                            <span is="custom-logo" aria-label="Proquip Logo"></span>
+                            <svg class="logo" height="24" width="24" aria-label="Proquip Logo">
+                                <use href="/images/logos/proquip.svg#logo"></use>
+                            </svg>
                             <h3>Proquip Rental & Sales</h3>
                         </a>
                         <h4>IT Support Specialist</h4>
                         <h4>IT/Marketing Assistant</h4>
                         <h4>Administrative Assistant</h4>
+                        <div class="chip-wrapper">
+                            <span class="chip">Adobe Suite</span>
+                            <span class="chip">Social Media Marketing</span>
+                            <span class="chip">Wordpress</span>
+                        </div>
                     </div>
                 </li>
                 <li class="experience-item education">
-                    <span class="date-range">Feb 2018 - Feb 2021 </span>
+                    <span class="date-range">Feb 2018 - Feb 2021</span>
                     <div>
                         <a class="experience-title" href="https://www.unimelb.edu.au" target="_blank" rel="noreferrer">
-                            <span is="custom-logo" aria-label="Melbourne University Logo"></span>
-                            <h3> University of Melbourne </h3>
+                            <svg class="logo" height="24" width="24" aria-label="Melbourne University Logo">
+                                <use href="/images/logos/melbourneuniversity.svg#logo"></use>
+                            </svg>
+                            <h3>University of Melbourne</h3>
                         </a>
                         <a class="experience-subtitle"
                             href="https://study.unimelb.edu.au/find/courses/major/computing-and-software-systems/"
                             target="_blank" rel="noreferrer">
-                            <h4> Bachelor of Science: Computing and Software Systems </h4>
+                            <h4>Bachelor of Science: Computing and Software Systems</h4>
                         </a>
                     </div>
                 </li>
@@ -178,13 +238,15 @@
                 <template id="project-template">
                     <li class="card">
                         <a class="card-link" href="" target="_blank" rel="noreferrer"></a>
-                        <img class="card-feature-image">
+                        <img class="card-feature-image" height="192">
                         <div class="card-detail-section">
                             <h3 class="card-title"></h3>
                             <div class="card-detail">
                                 <span class="card-language-colour"></span>
                                 <p class="card-language-name"></p>
-                                <span class="card-logo" is="custom-logo" aria-label="Logo"></span>
+                                <svg class="card-logo logo" height="24" width="24" aria-label="Logo">
+                                    <use href="/images/logos/logo.svg#logo"></use>
+                                </svg>
                             </div>
                         </div>
                         <p class="card-description"></p>
@@ -196,39 +258,46 @@
 
         <footer>
             <div id="tools">
-                <h4> Built with: </h4>
+                <h3>Built with:</h3>
                 <ul>
                     <li>
                         <a class="btn" href="https://bun.sh" target="_blank" rel="noreferrer">
-                            <span is="custom-logo" aria-label="Bun Logo"></span>
+                            <svg class="logo" height="24" width="24" aria-label="Bun Logo">
+                                <use href="/images/logos/bun.svg#logo"></use>
+                            </svg>
                             <p>Bun</p>
                         </a>
                     </li>
                     <li>
                         <a class="btn" href="https://vitejs.dev" target="_blank" rel="noreferrer">
-                            <span is="custom-logo" aria-label="Vite Logo"></span>
+                            <img alt="Vite Logo" src="/images/logos/vite.svg" class="logo" height="24" width="24" />
                             <p>Vite</p>
                         </a>
                     </li>
                     <li>
                         <a class="btn" href="https://tailwindcss.com" target="_blank" rel="noreferrer">
-                            <span is="custom-logo" aria-label="Tailwind CSS Logo"></span>
+                            <svg class="logo" height="24" width="24" aria-label="Tailwind CSS Logo">
+                                <use href="/images/logos/tailwind.svg#logo"></use>
+                            </svg>
                             <p>Tailwind CSS</p>
                         </a>
                     </li>
                     <li>
-
                         <a class="btn" href="https://biomejs.dev" target="_blank" rel="noreferrer">
-                            <span is="custom-logo" aria-label="Biome Logo"></span>
+                            <svg class="logo" height="24" width="24" aria-label="Biome Logo">
+                                <use href="/images/logos/biome.svg#logo"></use>
+                            </svg>
                             <p>Biome</p>
                         </a>
                     </li>
                 </ul>
             </div>
             <div>
-                <h4> Deployed with: </h4>
+                <h3>Deployed with:</h3>
                 <a class="btn" href="https://vercel.com" target="_blank" rel="noreferrer">
-                    <span is="custom-logo" aria-label="Vercel Logo"></span>
+                    <svg class="logo" height="24" width="24" aria-label="Vercel Logo">
+                        <use href="/images/logos/vercel.svg#logo"></use>
+                    </svg>
                     <p>Vercel</p>
                 </a>
             </div>

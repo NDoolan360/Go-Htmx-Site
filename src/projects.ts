@@ -1,6 +1,6 @@
 import domPurify from "dompurify";
 import * as githubColorsJson from "./github-colors.json";
-import { Logo } from "./logo-web-component";
+import { fetchData, fetchJson } from "./utils";
 
 type Site = "Cults 3D" | "Github" | "Board Game Geek";
 type Language = { name: string; color: string };
@@ -31,6 +31,9 @@ export type GithubRepo = {
 };
 
 export const githubRepoToProject = (data: GithubRepo[]): Project[] => {
+    if (!Array.isArray(data)) {
+        return [];
+    }
     const githubColors: { [k: string]: { color: string } | undefined } = githubColorsJson;
     return data
         .filter((r) => !r.fork && r.topics.length > 0)
@@ -38,7 +41,7 @@ export const githubRepoToProject = (data: GithubRepo[]): Project[] => {
             return {
                 host: "Github",
                 description: r.description,
-                title: r.name.replace(/[\_\-\.]/, " "),
+                title: r.name.replace(/[\_\-\.]/g, " "),
                 programmingLanguage: {
                     name: r.language,
                     color: githubColors[r.language]?.color ?? "",
@@ -198,14 +201,14 @@ export const projectIntoTemplate = (
             element.href = domPurify.sanitize(content.href);
         },
     );
-    // Set project Call to Action button
-    setElementContent<HTMLLinkElement, string>(
+
+    // Set project link aria-label
+    setElementContent<HTMLLinkElement, (string | undefined)[]>(
         '[class*="card-link"]',
-        project.host,
-        (element, content) => {
-            const cta = element.getElementsByTagName("p")?.item(0);
-            if (cta) {
-                cta.innerText = cta.innerText.replace("{Platform}", domPurify.sanitize(content));
+        [project.host, project.title],
+        (element, [host, title]) => {
+            if (host && title) {
+                element.ariaLabel = `${domPurify.sanitize(title)} on ${domPurify.sanitize(host)}`;
             }
         },
     );
@@ -247,14 +250,22 @@ export const projectIntoTemplate = (
         },
     );
 
-    // Set logo text
-    setElementContent<Logo, string>('[class*="card-logo"]', project.host, (element, content) => {
-        element.ariaLabel = `${domPurify.sanitize(content)} Logo`;
-    });
-    // Set logo link
-    setElementContent<Logo, URL>('[class*="card-logo"]', project.url, (element, content) => {
-        element.setAttribute("href", domPurify.sanitize(content.href));
-    });
+    // Set logo image and aria-label
+    setElementContent<SVGElement, string>(
+        '[class*="card-logo"]',
+        project.host,
+        (element, content) => {
+            element.ariaLabel = `${domPurify.sanitize(content)} Logo`;
+            const use = element.children.item(0) as SVGUseElement;
+            use.setAttribute(
+                "href",
+                `/images/logos/${domPurify
+                    .sanitize(content)
+                    .toLowerCase()
+                    .replace(/\s/g, "")}.svg#logo`,
+            );
+        },
+    );
 
     // Set project feature image
     setElementContent<HTMLImageElement, Image>(
@@ -271,8 +282,12 @@ export const projectIntoTemplate = (
                 element.onload = () => {
                     element.src = domPurify.sanitize(lowRes);
                     if (highRes) {
+                        element.loading = "lazy";
                         element.onload = () => {
                             element.src = domPurify.sanitize(highRes);
+                            element.onload = () => {
+                                // Prevents infinite loading
+                            };
                         };
                     }
                 };
@@ -280,6 +295,9 @@ export const projectIntoTemplate = (
                 element.loading = "lazy";
                 element.onload = () => {
                     element.src = domPurify.sanitize(highRes);
+                    element.onload = () => {
+                        // Prevents infinite loading
+                    };
                 };
             }
         },
@@ -287,3 +305,49 @@ export const projectIntoTemplate = (
 
     return templateClone;
 };
+const loadProjects = async () => {
+    // Create project-gallery loader
+    const loader = document.createElement("span");
+    loader.classList.add("loader");
+    document.getElementById("projects")?.append(loader);
+
+    // Load items into gallery
+    const gallery = document.getElementById("project-gallery");
+    const template = document.getElementById("project-template") as HTMLTemplateElement | undefined;
+
+    if (gallery && template) {
+        const githubPage = await fetchJson<GithubRepo[]>("/proxy/api/github");
+        const githubProjects = githubRepoToProject(githubPage).map((p) =>
+            projectIntoTemplate(p, template),
+        );
+        gallery.append(...githubProjects);
+
+        const bggPage = await fetchData("/proxy/boardgamegeek");
+        const bggRawProjects = scrapeBgg(bggPage);
+
+        // Get higher resolution image from bgg xmlapi
+        for (const project of bggRawProjects) {
+            const id = project.url
+                ?.toString()
+                ?.split("/")
+                .find((v) => v.match(/\d+/g));
+            const gameXml = await fetchData(`/proxy/xmlapi/boardgamegeek/${id}`, "text/xml");
+            upgradeBggData(project, gameXml);
+        }
+
+        const bggProjects = bggRawProjects.map((p) => projectIntoTemplate(p, template));
+
+        gallery.append(...bggProjects);
+
+        const cults3dPage = await fetchData("/proxy/cults3d");
+        const cults3dProjects = scrapeCults3d(cults3dPage).map((p) =>
+            projectIntoTemplate(p, template),
+        );
+        gallery.append(...cults3dProjects);
+    }
+
+    // remove project-gallery loader
+    loader.remove();
+};
+
+loadProjects();

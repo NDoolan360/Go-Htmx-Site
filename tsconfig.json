@@ -5,7 +5,7 @@
     "module": "ESNext",
     "lib": ["ES2022", "dom", "dom.iterable"],
     "skipLibCheck": true,
-    "types": ["web", "bun-types", "vite/client"],
+    "types": ["web", "vite/client"],
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
