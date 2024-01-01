@@ -33,13 +33,13 @@
 
     <link rel="stylesheet" href="/src/styles.css">
 
+    <script type="module" src="/src/index.ts" defer></script>
+
     <script>
         var theme = window.localStorage.getItem("theme");
         theme && document.documentElement.setAttribute("data-theme", theme)
     </script>
     <script type="module" src="/src/theme.ts" defer></script>
-    <script type="module" src="/src/projects.ts" defer></script>
-    <script type="module" src="/src/misc.ts" defer></script>
 </head>
 
 <body>
