@@ -28,5 +28,4 @@ jobs:
                   restore-keys: bun-
 
             - run: bun install
-            - run: bun check
-            - run: bun test
+            - run: bun ci
