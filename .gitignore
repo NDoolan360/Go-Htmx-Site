@@ -15,8 +15,9 @@ dist-ssr
 *.timestamp-*
 
 # Editor directories and files
-.vscode/*
+.vscode
 !.vscode/extensions.json
+.vercel
 .idea
 .DS_Store
 *.suo

@@ -1,14 +1,5 @@
-import { inject } from "@vercel/analytics";
-import { loadProjects } from "./projects";
-import { replaceWithCurrentYear } from "./utils";
-
-// Insert Analytics
+import { inject } from '@vercel/analytics';
+import './css/theme-switch.css';
+import './css/styles.css';
+ 
 inject();
-
-// Update copyright year
-const copyright = document.getElementById("copyright");
-if (copyright) {
-    copyright.innerHTML = replaceWithCurrentYear(copyright.innerHTML, "2023");
-}
-
-loadProjects();
