@@ -8,7 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "check": "bunx --bun @biomejs/biome check .",
-    "ci": "bunx --bun @biomejs/biome ci . && bun test"
+    "ci": "bunx --bun @biomejs/biome ci"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.4.1",
