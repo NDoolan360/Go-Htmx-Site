@@ -1,14 +1,8 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="color-scheme" content="dark light">
-    <meta name="theme-color" content="#283c37">
     <title>Nathan Doolan</title>
-    <meta name="description"
-        content="A personal website showcasing Nathan Doolan's journey as a full-time software engineer in Melbourne. Explore his professional experience, projects, and interests in technology, board games, and 3D printing.">
 
     <link id="favicon" rel="icon" type="image/svg" href="/images/icons/icon.svg">
     <link rel="icon" type="image/png" sizes="32x32" href="/images/icons/favicon-32x32.png">
@@ -17,6 +11,12 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/images/icons/apple-touch-icon.png">
     <link rel="manifest" href="/manifest.webmanifest" crossorigin="use-credentials">
 
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="A personal website showcasing Nathan Doolan's journey as a full-time software engineer in Melbourne. Explore his professional experience, projects, and interests in technology, board games, and 3D printing.">
+    <meta name="color-scheme" content="dark light">
+    <meta name="theme-color" content="#283c37">
     <meta property="og:locale" content="en_AU">
     <meta property="og:url" content="https://n.doolan.dev">
     <meta property="og:type" content="profile">
@@ -31,18 +31,16 @@
     <link rel="preload" href="/fonts/JosefinSans.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/fonts/OxygenMono.woff2" as="font" type="font/woff2" crossorigin>
 
-    <link rel="stylesheet" href="/src/styles.css">
+    <script type="module" src="/node_modules/htmx.org/dist/htmx.min.js"></script>
+    <script type="module" src="/node_modules/hyperscript.org/dist/_hyperscript.min.js"></script>
 
-    <script type="module" src="/src/index.ts" defer></script>
+    <script type="module" src="/src/theme-switch.css"></script>
+    <script type="module" src="/src/styles.css"></script>
 
-    <script>
-        var theme = window.localStorage.getItem("theme");
-        theme && document.documentElement.setAttribute("data-theme", theme)
-    </script>
-    <script type="module" src="/src/theme.ts" defer></script>
+    <script type="module" src="/src/analytics.ts"></script>
 </head>
 
-<body>
+<body class="dark">
     <header>
         <h1>
             <a href="/"> /ND </a>
@@ -91,28 +89,26 @@
                 </a>
             </li>
             <li>
-                <!-- Theme button toggle adapted from: https://web.dev/patterns/theming/theme-switch/#html -->
-                <template id="theme-toggle-template">
-                    <button id="theme-toggle" title="Toggles light & dark theme" aria-label="auto" aria-live="polite">
-                        <svg class="sun-and-moon" aria-hidden="true" viewBox="0 0 24 24" height="24" width="24">
-                            <mask class="moon" id="moon-mask">
-                                <rect x="0" y="0" width="100%" height="100%" fill="white" />
-                                <circle cx="24" cy="10" r="6" fill="black" />
-                            </mask>
-                            <circle class="sun" cx="12" cy="12" r="6" mask="url(#moon-mask)" fill="currentColor" />
-                            <g class="sun-beams" stroke="currentColor">
-                                <line x1="1" y1="12" x2="3" y2="12" />
-                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                                <line x1="12" y1="1" x2="12" y2="3" />
-                                <line x1="12" y1="21" x2="12" y2="23" />
-                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                                <line x1="21" y1="12" x2="23" y2="12" />
-                            </g>
-                        </svg>
-                    </button>
-                </template>
+                <button id="theme-toggle" title="Toggles light & dark theme" aria-label="auto" aria-live="polite"
+                    _="on click toggle .dark on body">
+                    <svg class="sun-and-moon" aria-hidden="true" viewBox="0 0 24 24" height="24" width="24">
+                        <mask class="moon" id="moon-mask">
+                            <rect x="0" y="0" width="100%" height="100%" fill="white" />
+                            <circle cx="24" cy="10" r="6" fill="black" />
+                        </mask>
+                        <circle class="sun" cx="12" cy="12" r="6" mask="url(#moon-mask)" fill="currentColor" />
+                        <g class="sun-beams" stroke="currentColor">
+                            <line x1="1" y1="12" x2="3" y2="12" />
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                            <line x1="12" y1="1" x2="12" y2="3" />
+                            <line x1="12" y1="21" x2="12" y2="23" />
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                            <line x1="21" y1="12" x2="23" y2="12" />
+                        </g>
+                    </svg>
+                </button>
             </li>
         </ul>
     </header>
@@ -301,7 +297,7 @@
                     <p>Vercel</p>
                 </a>
             </div>
-            <p id="copyright">&copy; Nathan Doolan 2023</p>
+            <p hx-get="/api/copyright?name=Nathan%20Doolan" hx-trigger="load"> &copy; Nathan Doolan </p>
         </footer>
     </main>
 </body>
