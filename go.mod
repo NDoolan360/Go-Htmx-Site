@@ -1,4 +1,4 @@
-module ndsite
+module github.com/ndoolan360/ndsite
 
 go 1.20
 

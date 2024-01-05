@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"ndsite/api"
+	"github.com/ndoolan360/ndsite/api"
 )
 
 func TestGetCopyright(t *testing.T) {
