@@ -4,10 +4,9 @@
 <head>
     <title>Nathan Doolan</title>
 
-    <link id="favicon" rel="icon" type="image/svg" href="/images/icons/icon.svg">
+    <link rel="icon" href="/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="/images/icons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/images/icons/favicon-16x16.png">
-    <link rel="icon" href="/images/icons/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/images/icons/apple-touch-icon.png">
     <link rel="manifest" href="/manifest.webmanifest" crossorigin="use-credentials">
 
@@ -55,35 +54,35 @@
         <ul id="external-links" aria-label="external links">
             <li>
                 <a href="https://github.com/NDoolan360" target="_blank" rel="noreferrer">
-                    <svg class="logo" height="24" width="24" aria-label="Github Logo">
+                    <svg class="logo">
                         <use href="/images/logos/github.svg#logo"></use>
                     </svg>
                 </a>
             </li>
             <li>
                 <a href="https://www.linkedin.com/in/nathan-doolan-835a13171" target="_blank" rel="noreferrer">
-                    <svg class="logo" height="24" width="24" aria-label="LinkedIn Logo">
+                    <svg class="logo">
                         <use href="/images/logos/linkedin.svg#logo"></use>
                     </svg>
                 </a>
             </li>
             <li>
                 <a href="https://discord.com/users/nothindoin" target="_blank" rel="noreferrer">
-                    <svg class="logo" height="24" width="24" aria-label="Discord Logo">
+                    <svg class="logo">
                         <use href="/images/logos/discord.svg#logo"></use>
                     </svg>
                 </a>
             </li>
             <li>
                 <a href="https://cults3d.com/en/users/ND360" target="_blank" rel="noreferrer">
-                    <svg class="logo" height="24" width="24" aria-label="Cults3D Logo">
+                    <svg class="logo">
                         <use href="/images/logos/cults3d.svg#logo"></use>
                     </svg>
                 </a>
             </li>
             <li>
                 <a href="https://boardgamegeek.com/user/Nothin_Doin" target="_blank" rel="noreferrer">
-                    <svg class="logo" height="24" width="24" aria-label="Board Game Geek Logo">
+                    <svg class="logo">
                         <use href="/images/logos/boardgamegeek.svg#logo"></use>
                     </svg>
                 </a>
@@ -91,7 +90,7 @@
             <li>
                 <button id="theme-toggle" title="Toggles light & dark theme" aria-label="auto" aria-live="polite"
                     _="on click toggle .dark on body">
-                    <svg class="sun-and-moon" aria-hidden="true" viewBox="0 0 24 24" height="24" width="24">
+                    <svg class="sun-and-moon logo" aria-hidden="true" viewBox="0 0 24 24" height="24" width="24">
                         <mask class="moon" id="moon-mask">
                             <rect x="0" y="0" width="100%" height="100%" fill="white" />
                             <circle cx="24" cy="10" r="6" fill="black" />
@@ -147,10 +146,8 @@
                 <li class="experience-item">
                     <span class="date-range">Jan 2024 - Present</span>
                     <div>
-                        <a class="experience-title" href="https://kaluza.com/" target="_blank" rel="noreferrer">
-                            <svg class="logo" height="24" width="24" aria-label="Kaluza Logo">
-                                <use href="/images/logos/kaluza.svg#logo"></use>
-                            </svg>
+                        <a class="experience-title" href="https://kaluza.com/" target="_blank" rel="noreferrer"
+                            hx-get="/images/logos/kaluza.svg" hx-trigger="load" hx-swap="afterbegin">
                             <h3>Kaluza</h3>
                         </a>
                         <h4 class="current">Software Engineer</h4>
@@ -164,9 +161,8 @@
                 <li class="experience-item">
                     <span class="date-range">Jul 2021 - Dec 2023</span>
                     <div>
-                        <a class="experience-title" href="https://gentrack.com" target="_blank" rel="noreferrer">
-                            <img alt="Gentrack Logo" src="/images/logos/gentrack.svg" class="logo" height="24"
-                                width="24" />
+                        <a class="experience-title" href="https://gentrack.com" target="_blank" rel="noreferrer"
+                            hx-get="/images/logos/gentrack.svg" hx-trigger="load" hx-swap="afterbegin">
                             <h3>Gentrack</h3>
                         </a>
                         <h4>Intermediate Software Engineer</h4>
@@ -185,10 +181,8 @@
                 <li class="experience-item">
                     <span class="date-range">Feb 2018 - Jul 2021</span>
                     <div>
-                        <a class="experience-title" href="https://pqrs.com.au" target="_blank" rel="noreferrer">
-                            <svg class="logo" height="24" width="24" aria-label="Proquip Logo">
-                                <use href="/images/logos/proquip.svg#logo"></use>
-                            </svg>
+                        <a class="experience-title" href="https://pqrs.com.au" target="_blank" rel="noreferrer"
+                            hx-get="/images/logos/proquip.svg" hx-trigger="load" hx-swap="afterbegin">
                             <h3>Proquip Rental & Sales</h3>
                         </a>
                         <h4>IT Support Specialist</h4>
@@ -204,10 +198,8 @@
                 <li class="experience-item education">
                     <span class="date-range">Feb 2018 - Feb 2021</span>
                     <div>
-                        <a class="experience-title" href="https://www.unimelb.edu.au" target="_blank" rel="noreferrer">
-                            <svg class="logo" height="24" width="24" aria-label="Melbourne University Logo">
-                                <use href="/images/logos/melbourneuniversity.svg#logo"></use>
-                            </svg>
+                        <a class="experience-title" href="https://www.unimelb.edu.au" target="_blank" rel="noreferrer"
+                            hx-get="/images/logos/melbourneuniversity.svg" hx-trigger="load" hx-swap="afterbegin">
                             <h3>University of Melbourne</h3>
                         </a>
                         <a class="experience-subtitle"
@@ -228,26 +220,9 @@
                 <h2>Projects</h2>
                 <hr>
             </div>
-            <noscript>This section cannot be loaded without Javascript.</noscript>
             <ul id="project-gallery">
                 <!-- Template used to dynamically render projects -->
                 <template id="project-template">
-                    <li class="card">
-                        <a class="card-link" href="" target="_blank" rel="noreferrer"></a>
-                        <img class="card-feature-image" height="192">
-                        <div class="card-detail-section">
-                            <h3 class="card-title"></h3>
-                            <div class="card-detail">
-                                <span class="card-language-colour"></span>
-                                <p class="card-language-name"></p>
-                                <svg class="card-logo logo" height="24" width="24" aria-label="Logo">
-                                    <use href="/images/logos/logo.svg#logo"></use>
-                                </svg>
-                            </div>
-                        </div>
-                        <p class="card-description"></p>
-                        <div class="card-chips chip-wrapper"></div>
-                    </li>
                 </template>
             </ul>
         </section>
@@ -257,32 +232,26 @@
                 <h3>Built with:</h3>
                 <ul>
                     <li>
-                        <a class="btn" href="https://bun.sh" target="_blank" rel="noreferrer">
-                            <svg class="logo" height="24" width="24" aria-label="Bun Logo">
-                                <use href="/images/logos/bun.svg#logo"></use>
-                            </svg>
+                        <a class="btn" href="https://bun.sh" target="_blank" rel="noreferrer"
+                            hx-get="/images/logos/bun.svg" hx-trigger="load" hx-swap="afterbegin">
                             <p>Bun</p>
                         </a>
                     </li>
                     <li>
-                        <a class="btn" href="https://vitejs.dev" target="_blank" rel="noreferrer">
-                            <img alt="Vite Logo" src="/images/logos/vite.svg" class="logo" height="24" width="24" />
+                        <a class="btn" href="https://vitejs.dev" target="_blank" rel="noreferrer"
+                            hx-get="/images/logos/vite.svg" hx-trigger="load" hx-swap="afterbegin">
                             <p>Vite</p>
                         </a>
                     </li>
                     <li>
-                        <a class="btn" href="https://tailwindcss.com" target="_blank" rel="noreferrer">
-                            <svg class="logo" height="24" width="24" aria-label="Tailwind CSS Logo">
-                                <use href="/images/logos/tailwind.svg#logo"></use>
-                            </svg>
+                        <a class="btn" href="https://tailwindcss.com" target="_blank" rel="noreferrer"
+                            hx-get="/images/logos/tailwind.svg" hx-trigger="load" hx-swap="afterbegin">
                             <p>Tailwind CSS</p>
                         </a>
                     </li>
                     <li>
-                        <a class="btn" href="https://biomejs.dev" target="_blank" rel="noreferrer">
-                            <svg class="logo" height="24" width="24" aria-label="Biome Logo">
-                                <use href="/images/logos/biome.svg#logo"></use>
-                            </svg>
+                        <a class="btn" href="https://biomejs.dev" target="_blank" rel="noreferrer"
+                            hx-get="/images/logos/biome.svg" hx-trigger="load" hx-swap="afterbegin">
                             <p>Biome</p>
                         </a>
                     </li>
@@ -290,10 +259,8 @@
             </div>
             <div>
                 <h3>Deployed with:</h3>
-                <a class="btn" href="https://vercel.com" target="_blank" rel="noreferrer">
-                    <svg class="logo" height="24" width="24" aria-label="Vercel Logo">
-                        <use href="/images/logos/vercel.svg#logo"></use>
-                    </svg>
+                <a class="btn" href="https://vercel.com" target="_blank" rel="noreferrer"
+                    hx-get="/images/logos/vercel.svg" hx-trigger="load" hx-swap="afterbegin">
                     <p>Vercel</p>
                 </a>
             </div>

@@ -14,7 +14,7 @@ export default defineConfig({
 		sitemap(),
 		VitePWA({
 			registerType: "prompt",
-			includeAssets: ["images/icons/favicon.ico", "images/icons/apple-touch-icon.png"],
+			includeAssets: ["/favicon.ico", "images/icons/apple-touch-icon.png"],
 			manifest: {
 				name: "Nathan Doolan",
 				description:

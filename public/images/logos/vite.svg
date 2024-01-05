@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<svg viewBox="0 0 410 404" xmlns="http://www.w3.org/2000/svg" id="logo">
+<svg viewBox="0 0 410 404" xmlns="http://www.w3.org/2000/svg" id="logo" class="logo"
+    aria-label="Vite Logo">
     <defs>
         <linearGradient id="vite-gradient-1" x1="6.00017" y1="32.9999" x2="235" y2="344"
             gradientUnits="userSpaceOnUse">
