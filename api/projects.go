@@ -15,8 +15,8 @@ type Project struct {
 	Host  string
 	Logo  string
 	Image struct {
-		Href string
-		Alt  string
+		Src string
+		Alt string
 	}
 	Title          string   `json:"name"`
 	Description    string   `json:"description"`
@@ -128,7 +128,7 @@ func BGGNode(node *html.Node) (*Project, bool) {
 			if link := thumbnail.FirstChild; link != nil {
 				project.HtmlUrl = "https://boardgamegeek.com" + utils.GetAttribute(link, "href")
 				if img := link.FirstChild; img != nil {
-					project.Image.Href = utils.GetAttribute(img, "src")
+					project.Image.Src = utils.GetAttribute(img, "src")
 					project.Image.Alt = utils.GetAttribute(img, "alt")
 				}
 			}
@@ -149,14 +149,14 @@ func Cults3DNode(node *html.Node) (*Project, bool) {
 			project.HtmlUrl = "https://cults3d.com" + utils.GetAttribute(a, "href")
 		}
 		if img := utils.FirstInChildren(node, utils.WithTag("img")); img != nil {
-			project.Image.Href = utils.GetAttribute(img, "data-src")
+			project.Image.Src = utils.GetAttribute(img, "data-src")
 
 			// extract full size file rather than thumbnail image if possible
 			regex := regexp.MustCompile(`https://files\.cults3d\.com[^'"]+`)
-			match := regex.FindString(project.Image.Href)
+			match := regex.FindString(project.Image.Src)
 
 			if match != "" {
-				project.Image.Href = match
+				project.Image.Src = match
 			}
 
 			project.Image.Alt = utils.GetAttribute(img, "alt")
