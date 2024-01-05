@@ -5,6 +5,9 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
+
+	"golang.org/x/net/html"
 )
 
 type Project struct {
@@ -90,6 +93,12 @@ func Parse(content string, host string) ([]*Project, error) {
 	switch host {
 	case "github":
 		err = json.Unmarshal([]byte(content), &projects)
+	case "bgg":
+		doc, parseErr := html.Parse(strings.NewReader(content))
+		if parseErr != nil {
+			err = fmt.Errorf("error parsing HTML: %s", parseErr)
+		}
+		projects = ParseBGGNode(doc)
 	default:
 		err = fmt.Errorf("unsupported host")
 	}
@@ -98,4 +107,43 @@ func Parse(content string, host string) ([]*Project, error) {
 		return nil, err
 	}
 	return projects, nil
+}
+
+func ParseBGGNode(node *html.Node) (projects []*Project) {
+	if node.Type == html.ElementNode && node.Data == "tr" && GetAttribute(node, "id") == "row_" {
+		project := Project{}
+		for child := node.FirstChild; child != nil; child = child.NextSibling {
+			if child.Type == html.ElementNode && child.Data == "td" {
+				switch class := GetAttribute(child, "class"); class {
+				case "collection_thumbnail":
+					if a := FindFirstChild(child, "a"); a != nil {
+						project.HtmlUrl = GetAttribute(a, "href")
+						if img := FindFirstChild(a, "img"); img != nil {
+							project.Image.Alt = GetAttribute(img, "alt")
+						}
+					}
+				case "collection_objectname":
+					if div := FindFirstChild(child, "div"); div != nil {
+						if a := FindFirstChild(div, "a"); a != nil {
+							project.Title = a.FirstChild.Data
+						}
+						if span := FindFirstChild(div, "span"); span != nil {
+							project.Description = span.FirstChild.Data
+						}
+					}
+					if p := FindFirstChild(child, "p"); p != nil {
+						project.Description += " " + p.FirstChild.Data
+					}
+				}
+			}
+		}
+
+		return append(projects, &project)
+	}
+
+	for next := node.FirstChild; next != nil; next = next.NextSibling {
+		projects = append(projects, ParseBGGNode(next)...)
+	}
+
+	return projects
 }
