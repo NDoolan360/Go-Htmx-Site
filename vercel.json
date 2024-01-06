@@ -1,0 +1,10 @@
+{
+    "version": 2,
+    "cleanUrls": true,
+    "trailingSlash": false,
+    "functions": {
+        "api/**/*.go": {
+            "runtime": "@vercel/go@3.0.5"
+        }
+    }
+}
