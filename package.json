@@ -1,11 +1,11 @@
 {
-  "name": "ndoolan360-site",
+  "name": "go-htmx-site",
   "private": true,
   "version": "1.1.0",
   "type": "module",
   "scripts": {
     "start": "bunx vercel dev",
-    "build": "tailwindcss build -i tailwind.css -o public/css/tailwind.css --minify"
+    "build": "tailwindcss build -i src/tailwind.css -o public/css/styles.css --minify"
   },
   "devDependencies": {
     "tailwindcss": "^3.4.1"
