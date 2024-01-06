@@ -1,8 +1,7 @@
-import type { Config } from "tailwindcss";
-
+/** @type {import('tailwindcss').Config} */
 export default ({
-	content: ["./index.html", "./src/**/*.ts"],
-	darkMode: ["class", '[data-theme="dark"]'],
+	content: ["./public/index.html", "./template/*.gohtml"],
+	darkMode: "class",
 	theme: {
 		extend: {
 			colors: {
@@ -32,4 +31,4 @@ export default ({
 		},
 	},
 	plugins: [],
-} as Config);
+});

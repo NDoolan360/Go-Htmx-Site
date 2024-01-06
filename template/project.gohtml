@@ -1,0 +1,23 @@
+{{range .Projects}}
+<li class="card">
+    <a class="card-link" href="{{.HtmlUrl}}" aria-label="{{.Title}} on {{.Host}}" target="_blank" rel="noreferrer"></a>
+    {{if and .Image.Src .Image.Alt}}
+    <img class="card-feature-image" src="{{.Image.Src}}" alt="{{.Image.Alt}}" height="192">
+    {{end}}
+    <div class="card-detail-section">
+        <h3 class="card-title">{{.Title}}</h3>
+        <div class="card-detail" hx-get="{{.Logo}}" hx-trigger="load" hx-swap="beforeend">
+            {{if and .Language .LanguageColour}}
+            <span class="card-language-colour" style="background-color: {{.LanguageColour}};"></span>
+            <p class="card-language-name">{{.Language}}</p>
+            {{end}}
+        </div>
+    </div>
+    <p class="card-description">{{.Description}}</p>
+    <div class="card-chips chip-wrapper">
+        {{range .Topics}}
+        <span class="chip">{{.}}</span>
+        {{end}}
+    </div>
+</li>
+{{end}}

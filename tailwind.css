@@ -20,7 +20,7 @@
 }
 
 @layer base {
-    :root {
+    body.dark {
         --text: #d8f3ed;
         --background: #192926;
         --primary: #4dffd2;
@@ -28,7 +28,7 @@
         --accent: #d8f3ed;
     }
 
-    [data-theme="light"] {
+    body:not(.dark) {
         --text: #011309;
         --background: #d7f1ec;
         --primary: #0b7956;

@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" id="logo">
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" id="logo" class="logo"
+    aria-label="Kaluza Logo">
     <path d="m12 7.4 4.3 2.4v5L12 17.2l-4.3-2.4v-5zm0-1.2-5.3 3v6.2l5.3 3 5.3-3V9.2Z"
         fill="#58d5f8" />
     <path

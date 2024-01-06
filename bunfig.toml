@@ -1,4 +1,0 @@
-telemetry = false
-
-[test]
-preload = "./tests/dom.ts"
