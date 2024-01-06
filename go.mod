@@ -1,4 +1,4 @@
-module github.com/ndoolan360/ndsite
+module github.com/ndoolan360/go-htmx-site
 
 go 1.20
 

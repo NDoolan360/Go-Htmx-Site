@@ -3,11 +3,11 @@ package api
 import (
 	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 	"regexp"
 	"strings"
 
+	utils "github.com/ndoolan360/go-htmx-site/src"
 	"golang.org/x/net/html"
 )
 
@@ -71,7 +71,7 @@ func FetchAllProjects(hosts []string) (projects []*Project, err []error) {
 	for _, host := range hosts {
 		if site, ok := HostMap[host]; !ok {
 			err = append(err, fmt.Errorf("URL not found for host: %s", host))
-		} else if content, fetchErr := Fetch(site.Path); err != nil {
+		} else if content, fetchErr := utils.Fetch(site.Path); err != nil {
 			err = append(err, fmt.Errorf("error fetching content from host %s: %s", host, fetchErr.Error()))
 		} else if hostProjects, ParseErr := Parse(content, host, site.Type); err != nil {
 			err = append(err, fmt.Errorf("error parsing content from host %s: %s", host, ParseErr.Error()))
@@ -95,22 +95,6 @@ func FetchAllProjects(hosts []string) (projects []*Project, err []error) {
 	return projects, err
 }
 
-func Fetch(path string) (string, error) {
-	if resp, err := http.Get(path); err != nil {
-		return "", err
-	} else {
-		defer resp.Body.Close()
-
-		if resp.StatusCode != http.StatusOK {
-			return "", fmt.Errorf("HTTP request failed with status code: %d", resp.StatusCode)
-		} else if body, err := io.ReadAll(resp.Body); err != nil {
-			return "", err
-		} else {
-			return string(body), nil
-		}
-	}
-}
-
 func Parse(content string, host string, contentType string) ([]*Project, error) {
 	var projects []*Project
 	var err error
@@ -125,9 +109,9 @@ func Parse(content string, host string, contentType string) ([]*Project, error) 
 		}
 		switch host {
 		case "bgg":
-			projects = ParseHTMLDoc[Project](doc, BGGNode)
+			projects = utils.ParseHTMLDoc[Project](doc, BGGNode)
 		case "cults3d":
-			projects = ParseHTMLDoc[Project](doc, Cults3DNode)
+			projects = utils.ParseHTMLDoc[Project](doc, Cults3DNode)
 		default:
 			err = fmt.Errorf("unsupported host")
 		}
@@ -141,35 +125,21 @@ func Parse(content string, host string, contentType string) ([]*Project, error) 
 	return projects, nil
 }
 
-type NodePredicate[T any] func(*html.Node) (*T, bool)
-
-func ParseHTMLDoc[T any](node *html.Node, check NodePredicate[T]) (collection []*T) {
-	if object, ok := check(node); ok {
-		collection = append(collection, object)
-	}
-
-	for next := node.FirstChild; next != nil; next = next.NextSibling {
-		collection = append(collection, ParseHTMLDoc(next, check)...)
-	}
-
-	return collection
-}
-
 func BGGNode(node *html.Node) (*Project, bool) {
-	if node.Data == "tr" && strings.Contains(GetAttribute(node, "id"), "row_") {
+	if node.Data == "tr" && strings.Contains(utils.GetAttribute(node, "id"), "row_") {
 		project := Project{}
-		if title := FirstInChildren(node, WithClass("primary")); title != nil {
-			project.Title = GetTextContent(title)
+		if title := utils.FirstInChildren(node, utils.WithClass("primary")); title != nil {
+			project.Title = utils.GetTextContent(title)
 		}
-		if description := FirstInChildren(node, WithClass("smallefont")); description != nil {
-			project.Description = GetTextContent(description)
+		if description := utils.FirstInChildren(node, utils.WithClass("smallefont")); description != nil {
+			project.Description = utils.GetTextContent(description)
 		}
-		if thumbnail := FirstInChildren(node, WithClass("collection_thumbnail")); thumbnail != nil {
+		if thumbnail := utils.FirstInChildren(node, utils.WithClass("collection_thumbnail")); thumbnail != nil {
 			if link := thumbnail.FirstChild; link != nil {
-				project.HtmlUrl = "https://boardgamegeek.com" + GetAttribute(link, "href")
+				project.HtmlUrl = "https://boardgamegeek.com" + utils.GetAttribute(link, "href")
 				if img := link.FirstChild; img != nil {
-					project.Image.Src = GetAttribute(img, "src")
-					project.Image.Alt = GetAttribute(img, "alt")
+					project.Image.Src = utils.GetAttribute(img, "src")
+					project.Image.Alt = utils.GetAttribute(img, "alt")
 				}
 			}
 		}
@@ -180,16 +150,16 @@ func BGGNode(node *html.Node) (*Project, bool) {
 }
 
 func Cults3DNode(node *html.Node) (*Project, bool) {
-	if node.Data == "article" && strings.Contains(GetAttribute(node, "class"), "crea") {
+	if node.Data == "article" && strings.Contains(utils.GetAttribute(node, "class"), "crea") {
 		project := Project{}
-		if h3 := FirstInChildren(node, WithTag("h3")); h3 != nil {
-			project.Title = GetTextContent(h3)
+		if h3 := utils.FirstInChildren(node, utils.WithTag("h3")); h3 != nil {
+			project.Title = utils.GetTextContent(h3)
 		}
-		if a := FirstInChildren(node, WithTag("a")); a != nil {
-			project.HtmlUrl = "https://cults3d.com" + GetAttribute(a, "href")
+		if a := utils.FirstInChildren(node, utils.WithTag("a")); a != nil {
+			project.HtmlUrl = "https://cults3d.com" + utils.GetAttribute(a, "href")
 		}
-		if img := FirstInChildren(node, WithTag("img")); img != nil {
-			project.Image.Src = GetAttribute(img, "data-src")
+		if img := utils.FirstInChildren(node, utils.WithTag("img")); img != nil {
+			project.Image.Src = utils.GetAttribute(img, "data-src")
 
 			// extract full size file rather than thumbnail image if possible
 			regex := regexp.MustCompile(`https://files\.cults3d\.com[^'"]+`)
@@ -199,54 +169,10 @@ func Cults3DNode(node *html.Node) (*Project, bool) {
 				project.Image.Src = match
 			}
 
-			project.Image.Alt = GetAttribute(img, "alt")
+			project.Image.Alt = utils.GetAttribute(img, "alt")
 		}
 		return &project, true
 	}
 
 	return nil, false
-}
-
-func GetAttribute(n *html.Node, attrName string) string {
-	for _, attr := range n.Attr {
-		if attr.Key == attrName {
-			return attr.Val
-		}
-	}
-	return ""
-}
-
-func GetTextContent(n *html.Node) string {
-	return strings.TrimSpace(n.FirstChild.Data)
-}
-
-type MatchPredicate func(*html.Node) bool
-
-func FirstInChildren(node *html.Node, match MatchPredicate) *html.Node {
-	if node == nil {
-		return nil
-	}
-	if match(node) {
-		return node
-	}
-
-	for c := node.FirstChild; c != nil; c = c.NextSibling {
-		if found := FirstInChildren(c, match); found != nil {
-			return found
-		}
-	}
-
-	return nil
-}
-
-func WithTag(tag string) MatchPredicate {
-	return func(node *html.Node) bool {
-		return node.Data == tag
-	}
-}
-
-func WithClass(class string) MatchPredicate {
-	return func(node *html.Node) bool {
-		return strings.Contains(GetAttribute(node, "class"), class)
-	}
 }
