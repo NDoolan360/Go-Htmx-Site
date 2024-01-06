@@ -8,7 +8,7 @@ on:
             - master
 
 jobs:
-    bun:
+    go:
         runs-on: ubuntu-latest
 
         steps:
