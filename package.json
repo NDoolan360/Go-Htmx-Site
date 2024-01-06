@@ -4,28 +4,10 @@
   "version": "1.1.0",
   "type": "module",
   "scripts": {
-    "dev": "bun vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "start": "bun vercel dev",
-    "check": "bun biome check .",
-    "ci": "bun biome ci ."
+    "start": "bunx vercel dev",
+    "build": "tailwindcss build -i tailwind.css -o public/css/tailwind.css --minify"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.4.1",
-    "@types/bun": "^1.0.0",
-    "typescript": "^5.3.2",
-    "vercel": "^33.0.2"
-  },
-  "dependencies": {
-    "@vercel/analytics": "^1.1.1",
-    "autoprefixer": "^10.4.16",
-    "htmx.org": "^1.9.10",
-    "hyperscript.org": "^0.9.12",
-    "tailwindcss": "^3.4.0",
-    "vite": "^5.0.10",
-    "vite-plugin-pwa": "^0.17.4",
-    "vite-plugin-sitemap": "^0.5.3"
-  },
-  "browserslist": ["defaults"]
+    "tailwindcss": "^3.4.1"
+  }
 }

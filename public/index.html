@@ -8,7 +8,6 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/images/icons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/images/icons/favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/images/icons/apple-touch-icon.png">
-    <link rel="manifest" href="/manifest.webmanifest" crossorigin="use-credentials">
 
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,6 +15,7 @@
         content="A personal website showcasing Nathan Doolan's journey as a full-time software engineer in Melbourne. Explore his professional experience, projects, and interests in technology, board games, and 3D printing.">
     <meta name="color-scheme" content="dark light">
     <meta name="theme-color" content="#283c37">
+
     <meta property="og:locale" content="en_AU">
     <meta property="og:url" content="https://n.doolan.dev">
     <meta property="og:type" content="profile">
@@ -29,14 +29,11 @@
 
     <link rel="preload" href="/fonts/JosefinSans.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/fonts/OxygenMono.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/css/theme-switch.css">
+    <link rel="stylesheet" href="/css/tailwind.css">
 
-    <script type="module" src="/node_modules/htmx.org/dist/htmx.min.js"></script>
-    <script type="module" src="/node_modules/hyperscript.org/dist/_hyperscript.min.js"></script>
-
-    <script type="module" src="/src/theme-switch.css"></script>
-    <script type="module" src="/src/styles.css"></script>
-
-    <script type="module" src="/src/analytics.ts"></script>
+    <script type="module" src="/scripts/htmx.min.js"></script>
+    <script type="module" src="/scripts/hyperscript.min.js"></script>
 </head>
 
 <body class="dark">
@@ -220,10 +217,8 @@
                 <h2>Projects</h2>
                 <hr>
             </div>
-            <ul id="project-gallery">
-                <!-- Template used to dynamically render projects -->
-                <template id="project-template">
-                </template>
+            <ul id="project-gallery" hx-get="/api/projects?host=github&host=bgg&host=cults3d" hx-trigger="load">
+                <span class="loader"></span>
             </ul>
         </section>
 
@@ -238,21 +233,27 @@
                         </a>
                     </li>
                     <li>
-                        <a class="btn" href="https://vitejs.dev" target="_blank" rel="noreferrer"
-                            hx-get="/images/logos/vite.svg" hx-trigger="load" hx-swap="afterbegin">
-                            <p>Vite</p>
-                        </a>
-                    </li>
-                    <li>
                         <a class="btn" href="https://tailwindcss.com" target="_blank" rel="noreferrer"
                             hx-get="/images/logos/tailwind.svg" hx-trigger="load" hx-swap="afterbegin">
                             <p>Tailwind CSS</p>
                         </a>
                     </li>
                     <li>
-                        <a class="btn" href="https://biomejs.dev" target="_blank" rel="noreferrer"
-                            hx-get="/images/logos/biome.svg" hx-trigger="load" hx-swap="afterbegin">
-                            <p>Biome</p>
+                        <a class="btn" href="https://go.dev" target="_blank" rel="noreferrer"
+                            hx-get="/images/logos/go.svg" hx-trigger="load" hx-swap="afterbegin">
+                            <p>Go</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="btn" href="https://htmx.org" target="_blank" rel="noreferrer"
+                            hx-get="/images/logos/htmx.svg" hx-trigger="load" hx-swap="afterbegin">
+                            <p>htmx</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="btn" href="https://hyperscript.org" target="_blank" rel="noreferrer"
+                            hx-get="/images/logos/hyperscript.svg" hx-trigger="load" hx-swap="afterbegin">
+                            <p>hyperscript</p>
                         </a>
                     </li>
                 </ul>
