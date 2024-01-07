@@ -3,6 +3,7 @@ package api
 import (
 	"encoding/json"
 	"fmt"
+	"html/template"
 	"net/http"
 	"regexp"
 	"strings"
@@ -60,8 +61,11 @@ func GetProjects(w http.ResponseWriter, r *http.Request) {
 		}
 		http.Error(w, errorMessages, http.StatusInternalServerError)
 	} else if projects != nil {
-		projectJSON, _ := json.MarshalIndent(projects, "", "  ")
-		fmt.Fprintf(w, "%s\n\n", string(projectJSON))
+		if tmpl, err := template.New("project").ParseFiles("../template/project.gohtml"); err == nil {
+			for _, project := range projects {
+				tmpl.Execute(w, project)
+			}
+		}
 	} else {
 		fmt.Fprint(w, "No projects found.")
 	}
@@ -82,7 +86,7 @@ func FetchAllProjects(hosts []string) (projects []*Project, err []error) {
 				project.Logo = fmt.Sprintf("/images/logos/%s.svg", host)
 				if project.Language != "" {
 					// TODO Map the Language name to a LanguageColour
-					project.LanguageColour = "Colour"
+					project.LanguageColour = "red"
 				}
 				// Skip unimportant Github Repos
 				if host == "github" && (project.Fork || len(project.Topics) == 0) {
