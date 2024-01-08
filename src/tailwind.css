@@ -118,7 +118,7 @@
         @apply opacity-60
     }
 
-    .experience-item .chip-wrapper {
+    .experience-item .topic-wrapper {
         @apply pt-2
     }
 
@@ -168,7 +168,7 @@
     }
 
     .btn,
-    .chip {
+    .topic {
         @apply w-fit px-3 py-1 border-none rounded-full font-heading inline-flex flex-row flex-nowrap gap-2 leading-4 align-baseline font-medium
     }
 
@@ -176,11 +176,11 @@
         @apply bg-secondary dark:bg-accent dark:text-background transition-colors
     }
 
-    .chip {
+    .topic {
         @apply bg-primary text-background transition-colors
     }
 
-    .chip-wrapper {
+    .topic-wrapper {
         @apply flex flex-wrap flex-row gap-1 text-xs
     }
 
