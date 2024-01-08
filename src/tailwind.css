@@ -205,7 +205,7 @@
         @apply h-6 w-6 md:h-8 md:w-8 block
     }
 
-    .logo.card-logo,
+    .card-detail .logo,
     .experience-item .logo {
         @apply w-6 h-6 block max-w-none
     }

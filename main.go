@@ -7,18 +7,26 @@ import (
 	"github.com/NDoolan360/go-htmx-site/api"
 )
 
-var apiHandlers = map[string]func(http.ResponseWriter, *http.Request){
-	"/api/copyright": api.GetCopyright,
-	"/api/projects":  api.GetProjects,
+var apiHandlers = map[string]http.HandlerFunc{
+	"/api/projects":   http.HandlerFunc(api.GetProjects),
+	"/api/experience": http.HandlerFunc(api.GetExperience),
+}
+
+func HandleIndex(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path == "/" {
+		api.GetIndex(w, r)
+	} else {
+		http.StripPrefix("/", http.FileServer(http.Dir("./public"))).ServeHTTP(w, r)
+	}
 }
 
 func main() {
 	for endpoint, handler := range apiHandlers {
 		http.HandleFunc(endpoint, handler)
 	}
-	http.Handle("/", http.StripPrefix("/", http.FileServer(http.Dir("./public"))))
+	http.HandleFunc("/", HandleIndex)
 
 	port := ":3000"
 	fmt.Printf("Server listening on port %s\n", port)
-	http.ListenAndServe(port, nil)
+	panic(http.ListenAndServe(port, nil))
 }

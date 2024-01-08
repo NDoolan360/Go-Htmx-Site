@@ -1,0 +1,19 @@
+<li class="experience-item{{if .Education}} education{{end}}">
+    <span class="date-range">{{.Date.Start}} - {{.Date.End}}</span>
+    <div>
+        <a class="experience-title" href="{{.Workplace.Link}}" target="_blank" rel="noreferrer">
+            {{ .Workplace.LogoSVG }}
+            <h3>{{.Workplace.Name}}</h3>
+        </a>
+        {{- range .Positions}}
+        <h4 {{if .Current}}class="current"{{end}}>{{.Title}}</h4>
+        {{- end}}
+        {{- if .Topics}}
+        <div class="topic-wrapper">
+            {{- range .Topics}}
+            <span class="topic">{{.}}</span>
+            {{- end}}
+        </div>
+        {{- end}}
+    </div>
+</li>

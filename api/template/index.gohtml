@@ -1,0 +1,88 @@
+{{define "content"}}
+<section id="about">
+    <div class="heading">
+        <h2>About</h2>
+        <hr>
+    </div>
+    <div id="profile">
+        <img alt="Profile Image" title="Picture of me at the Strawberry Field in Liverpool"
+            srcset="/images/profile-192.webp, /images/profile-512.webp 2.66x, /images/profile-792.webp 4.125x"
+            src="/images/profile-192.webp" height="192">
+        <div>
+            <p>
+                Hey there, I'm Nathan Doolan, a full-time software engineer based in Melbourne, Australia.
+                I spend my days coding and my spare time collecting board games, enjoying nature, and
+                experimenting with my 3D printer.
+            </p>
+            <p>
+                With a background in computer science, I'm always eager to learn new things, tackle new
+                challenges, and find satisfaction in the simple joy of crafting an elegant solution to a
+                problem.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section id="experience">
+    <div class="heading">
+        <h2>Experience</h2>
+        <hr>
+    </div>
+    <ol hx-get="/api/experience" hx-trigger="load">
+        <span class="loader"></span>
+    </ol>
+    <a class="btn" href="/documents/Nathan-Doolan-Resume.pdf" download>
+        Full Resume &RightArrow;
+    </a>
+</section>
+
+<section id="projects">
+    <div class="heading">
+        <h2>Projects</h2>
+        <hr>
+    </div>
+    <ul id="project-gallery" hx-get="/api/projects?host=github&host=bgg&host=cults3d" hx-trigger="load">
+        <span class="loader"></span>
+    </ul>
+</section>
+
+<footer>
+    <div id="tools">
+        <h3>Built with:</h3>
+        <ul>
+            <li>
+                <a class="btn" href="https://go.dev" target="_blank" rel="noreferrer"
+                    hx-get="/images/logos/go.svg" hx-trigger="load" hx-swap="afterbegin">
+                    <p>Go</p>
+                </a>
+            </li>
+            <li>
+                <a class="btn" href="https://htmx.org" target="_blank" rel="noreferrer"
+                    hx-get="/images/logos/htmx.svg" hx-trigger="load" hx-swap="afterbegin">
+                    <p>htmx</p>
+                </a>
+            </li>
+            <li>
+                <a class="btn" href="https://hyperscript.org" target="_blank" rel="noreferrer"
+                    hx-get="/images/logos/hyperscript.svg" hx-trigger="load" hx-swap="afterbegin">
+                    <p>hyperscript</p>
+                </a>
+            </li>
+            <li>
+                <a class="btn" href="https://tailwindcss.com" target="_blank" rel="noreferrer"
+                    hx-get="/images/logos/tailwind.svg" hx-trigger="load" hx-swap="afterbegin">
+                    <p>Tailwind CSS</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div>
+        <h3>Deployed with:</h3>
+        <a class="btn" href="https://vercel.com" target="_blank" rel="noreferrer"
+            hx-get="/images/logos/vercel.svg" hx-trigger="load" hx-swap="afterbegin">
+            <p>Vercel</p>
+        </a>
+    </div>
+    <p> &copy; Nathan Doolan {{.CopyrightYear}} </p>
+</footer>
+{{end}}

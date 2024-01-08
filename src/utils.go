@@ -2,9 +2,11 @@ package src
 
 import (
 	"fmt"
+	"html/template"
 	"io"
 	"net/http"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"golang.org/x/net/html"
@@ -89,4 +91,19 @@ func GetTemplate(file string) string {
 		return "template/" + file
 	}
 	return "api/template/" + file
+}
+
+func GetSVGLogo(filename string) (template.HTML, error) {
+	fileContents, err := os.ReadFile(filepath.Join("public", "images", "logos", filename))
+	if err != nil {
+		return "", err
+	}
+	return template.HTML(fileContents), nil
+}
+
+func BaseTemplate() *template.Template {
+	return template.Must(template.ParseFiles(
+		GetTemplate("base.gohtml"),
+		GetTemplate("header.gohtml"),
+	))
 }

@@ -14,9 +14,9 @@ import (
 )
 
 type Project struct {
-	Host  string
-	Logo  string
-	Image struct {
+	Host    string
+	LogoSVG template.HTML
+	Image   struct {
 		Src string
 		Alt string
 	}
@@ -53,21 +53,21 @@ var HostMap = map[string]struct {
 
 func GetProjects(w http.ResponseWriter, r *http.Request) {
 	hosts := r.URL.Query()["host"]
-	if len(hosts) == 0 {
-		fmt.Fprint(w, "No hosts specified in query params.")
-	} else if projects, errs := FetchAllProjects(hosts); projects == nil && errs != nil {
+	if projects, errs := FetchAllProjects(hosts); errs == nil {
+		if projects == nil {
+			fmt.Fprint(w, "No projects found.")
+		} else {
+			tmpl := template.Must(template.ParseFiles(utils.GetTemplate("project.gohtml")))
+			for _, project := range projects {
+				tmpl.Execute(w, project)
+			}
+		}
+	} else {
 		var errorMessages string
 		for _, err := range errs {
 			errorMessages += err.Error() + "\n"
 		}
 		http.Error(w, errorMessages, http.StatusInternalServerError)
-	} else if projects != nil {
-		tmpl := template.Must(template.ParseFiles(utils.GetTemplate("project.gohtml")))
-		for _, project := range projects {
-			tmpl.Execute(w, project)
-		}
-	} else {
-		fmt.Fprint(w, "No projects found.")
 	}
 }
 
@@ -82,7 +82,9 @@ func FetchAllProjects(hosts []string) (projects []*Project, err []error) {
 		} else {
 			for _, project := range hostProjects {
 				project.Host = site.Name
-				project.Logo = fmt.Sprintf("/images/logos/%s.svg", host)
+				if svg, err := utils.GetSVGLogo(fmt.Sprintf("%s.svg", host)); err == nil {
+					project.LogoSVG = svg
+				}
 				if project.Language != "" {
 					if lang, err := githublangsgo.GetLanguage(project.Language); err == nil {
 						project.LanguageColour = lang.Color
