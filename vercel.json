@@ -4,7 +4,7 @@
     "trailingSlash": false,
     "functions": {
         "api/*.go": {
-            "includeFiles": "./template/*.gohtml"
+            "includeFiles": "template/*.gohtml"
         }
     }
 }

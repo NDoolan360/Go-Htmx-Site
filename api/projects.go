@@ -62,10 +62,9 @@ func GetProjects(w http.ResponseWriter, r *http.Request) {
 		}
 		http.Error(w, errorMessages, http.StatusInternalServerError)
 	} else if projects != nil {
-		if tmpl, parseErr := template.ParseFiles("template/project.gohtml"); parseErr == nil {
-			for _, project := range projects {
-				tmpl.Execute(w, project)
-			}
+		tmpl := template.Must(template.ParseFiles(utils.GetTemplate("project.gohtml")))
+		for _, project := range projects {
+			tmpl.Execute(w, project)
 		}
 	} else {
 		fmt.Fprint(w, "No projects found.")

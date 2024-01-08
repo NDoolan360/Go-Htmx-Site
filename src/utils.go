@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os"
 	"strings"
 
 	"golang.org/x/net/html"
@@ -81,4 +82,11 @@ func WithClass(class string) MatchPredicate {
 	return func(node *html.Node) bool {
 		return strings.Contains(GetAttribute(node, "class"), class)
 	}
+}
+
+func GetTemplate(file string) string {
+	if _, inVercel := os.LookupEnv("VERCEL"); inVercel {
+		return "template/" + file
+	}
+	return "api/template/" + file
 }
