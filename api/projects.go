@@ -8,7 +8,8 @@ import (
 	"regexp"
 	"strings"
 
-	utils "github.com/ndoolan360/go-htmx-site/src"
+	githublangsgo "github.com/NDoolan360/github-langs-go"
+	utils "github.com/NDoolan360/go-htmx-site/src"
 	"golang.org/x/net/html"
 )
 
@@ -81,12 +82,12 @@ func FetchAllProjects(hosts []string) (projects []*Project, err []error) {
 			err = append(err, fmt.Errorf("error parsing content from host %s: %s", host, ParseErr.Error()))
 		} else {
 			for _, project := range hostProjects {
-				// TODO use template to return html
 				project.Host = site.Name
 				project.Logo = fmt.Sprintf("/images/logos/%s.svg", host)
 				if project.Language != "" {
-					// TODO Map the Language name to a LanguageColour
-					project.LanguageColour = "red"
+					if lang, err := githublangsgo.GetLanguage(project.Language); err == nil {
+						project.LanguageColour = lang.Color
+					}
 				}
 				// Skip unimportant Github Repos
 				if host == "github" && (project.Fork || len(project.Topics) == 0) {
