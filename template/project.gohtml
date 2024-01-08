@@ -1,4 +1,3 @@
-{{range .Projects}}
 <li class="card">
     <a class="card-link" href="{{.HtmlUrl}}" aria-label="{{.Title}} on {{.Host}}" target="_blank" rel="noreferrer"></a>
     {{if and .Image.Src .Image.Alt}}
@@ -20,4 +19,3 @@
         {{end}}
     </div>
 </li>
-{{end}}
