@@ -12,10 +12,14 @@
             {{end}}
         </div>
     </div>
+    {{if .Description}}
     <p class="card-description">{{.Description}}</p>
+    {{end}}
+    {{if .Topics}}
     <div class="card-chips chip-wrapper">
         {{range .Topics}}
         <span class="chip">{{.}}</span>
         {{end}}
     </div>
+    {{end}}
 </li>
