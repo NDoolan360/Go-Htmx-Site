@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ndoolan360/go-htmx-site/api"
+	"github.com/NDoolan360/go-htmx-site/api"
 )
 
 func TestGetCopyright(t *testing.T) {

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/ndoolan360/go-htmx-site/api"
+	"github.com/NDoolan360/go-htmx-site/api"
 )
 
 var apiHandlers = map[string]func(http.ResponseWriter, *http.Request){

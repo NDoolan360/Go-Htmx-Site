@@ -1,4 +1,4 @@
-module github.com/ndoolan360/go-htmx-site
+module github.com/NDoolan360/go-htmx-site
 
 go 1.21
 
