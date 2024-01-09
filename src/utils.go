@@ -6,7 +6,6 @@ import (
 	"io"
 	"net/http"
 	"os"
-	"path/filepath"
 	"strings"
 
 	"golang.org/x/net/html"
@@ -93,17 +92,17 @@ func GetTemplate(file string) string {
 	return "api/template/" + file
 }
 
+func GetLogoPath(file string) string {
+	if _, inVercel := os.LookupEnv("VERCEL"); inVercel {
+		return "logos/" + file
+	}
+	return "api/logos/" + file
+}
+
 func GetSVGLogo(filename string) (template.HTML, error) {
-	fileContents, err := os.ReadFile(filepath.Join("public", "images", "logos", filename))
+	fileContents, err := os.ReadFile(GetLogoPath(filename))
 	if err != nil {
 		return "", err
 	}
 	return template.HTML(fileContents), nil
-}
-
-func BaseTemplate() *template.Template {
-	return template.Must(template.ParseFiles(
-		GetTemplate("base.gohtml"),
-		GetTemplate("header.gohtml"),
-	))
 }
