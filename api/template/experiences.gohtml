@@ -3,7 +3,7 @@
     <span class="date-range">{{.Date.Start}} - {{.Date.End}}</span>
     <div>
         <a class="experience-title" href="{{.Workplace.Link}}" target="_blank" rel="noreferrer">
-            {{ .Workplace.LogoSVG }}    
+            {{ .Workplace.Logo }}
             <h3>{{.Workplace.Name}}</h3>
         </a>
         {{range .Positions -}}
@@ -12,7 +12,9 @@
         {{if .Topics -}}
         <div class="topic-wrapper">
             {{range .Topics -}}
-            <span class="topic">{{.}}</span>
+            <span class="topic">
+                {{.}}
+            </span>
             {{- end}}
         </div>
         {{- end}}

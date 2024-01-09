@@ -25,10 +25,9 @@ type Date struct {
 }
 
 type Workplace struct {
-	Name    string
-	Logo    string
-	LogoSVG template.HTML
-	Link    string
+	Name string
+	Logo template.HTML
+	Link string
 }
 
 type Position struct {
@@ -37,12 +36,6 @@ type Position struct {
 }
 
 func GetExperiences(w http.ResponseWriter, r *http.Request) {
-	for _, experience := range experiences {
-		if svg, err := utils.GetSVGLogo(experience.Workplace.Logo); err == nil {
-			experience.Workplace.LogoSVG = svg
-		}
-	}
-
 	template.Must(template.ParseFiles(
 		utils.GetTemplatePath("experiences.gohtml"),
 	)).Execute(w, Experiences{experiences})
@@ -53,7 +46,7 @@ var experiences = []Experience{
 		Date{"Jan 2024", "Present"},
 		Workplace{
 			Name: "Kaluza",
-			Logo: "kaluza.svg",
+			Logo: utils.IgnoreErr(utils.GetSVGLogo("kaluza.svg")),
 			Link: "https://kaluza.com/",
 		},
 		[]Position{{"Software Engineer", true}},
@@ -64,7 +57,7 @@ var experiences = []Experience{
 		Date{"Jul 2021", "Dec 2023"},
 		Workplace{
 			Name: "Gentrack",
-			Logo: "gentrack.svg",
+			Logo: utils.IgnoreErr(utils.GetSVGLogo("gentrack.svg")),
 			Link: "https://gentrack.com/",
 		},
 		[]Position{
@@ -79,7 +72,7 @@ var experiences = []Experience{
 		Date{"Feb 2018", "Jul 2021"},
 		Workplace{
 			Name: "Proquip Rental & Sales",
-			Logo: "proquip.svg",
+			Logo: utils.IgnoreErr(utils.GetSVGLogo("proquip.svg")),
 			Link: "https://pqrs.com.au/",
 		},
 		[]Position{
@@ -94,7 +87,7 @@ var experiences = []Experience{
 		Date{"Feb 2018", "Feb 2021"},
 		Workplace{
 			Name: "University of Melbourne",
-			Logo: "melbourneuniversity.svg",
+			Logo: utils.IgnoreErr(utils.GetSVGLogo("melbourneuniversity.svg")),
 			Link: "https://www.unimelb.edu.au/",
 		},
 		[]Position{{"Bachelor of Science: Computing and Software Systems", false}},

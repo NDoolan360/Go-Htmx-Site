@@ -11,6 +11,13 @@ import (
 	"golang.org/x/net/html"
 )
 
+func IgnoreErr[T interface{}](val T, err error) T {
+	if err != nil {
+		panic(err)
+	}
+	return val
+}
+
 func Fetch(path string) (string, error) {
 	if resp, err := http.Get(path); err != nil {
 		return "", err
