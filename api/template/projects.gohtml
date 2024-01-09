@@ -1,30 +1,32 @@
+{{range .Projects -}}
 <li class="card">
     <a class="card-link" href="{{.HtmlUrl}}" aria-label="{{.Title}} on {{.Host}}" target="_blank" rel="noreferrer"></a>
-    {{- if and .Image.Src .Image.Alt}}
-    <img class="card-feature-image" src="{{.Image.Src}}" alt="{{.Image.Alt}}" height="192">
+    {{if and .Image.Src .Image.AltText -}}
+    <img class="card-feature-image" {{.Image.Src}} alt="{{.Image.AltText}}" height="192">
     {{- end}}
     <div class="card-detail-section">
         <h3 class="card-title">{{.Title}}</h3>
-        {{- if or .Language .LogoSVG}}
+        {{if or .Language .LogoSVG -}}
         <div class="card-detail">
-            {{- if and .Language .LanguageColour}}
+            {{if and .Language .LanguageColour -}}
             <span class="card-language-colour" style="background-color: {{.LanguageColour}};"></span>
             <p class="card-language-name">{{.Language}}</p>
             {{- end}}
-            {{- if .LogoSVG}}
+            {{if .LogoSVG -}}
             {{ .LogoSVG }}
             {{- end}}
         </div>
         {{- end}}
     </div>
-    {{- if .Description}}
+    {{if .Description -}}
     <p class="card-description">{{.Description}}</p>
     {{- end}}
-    {{- if .Topics}}
+    {{if .Topics -}}
     <div class="card-topics topic-wrapper">
-        {{- range .Topics}}
+        {{range .Topics -}}
         <span class="topic">{{.}}</span>
         {{- end}}
     </div>
     {{- end}}
 </li>
+{{- end}}

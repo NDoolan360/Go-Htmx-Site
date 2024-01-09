@@ -13,12 +13,16 @@ import (
 	"golang.org/x/net/html"
 )
 
+type Projects struct {
+	Projects []Project
+}
+
 type Project struct {
 	Host    string
 	LogoSVG template.HTML
 	Image   struct {
-		Src string
-		Alt string
+		Src     template.HTMLAttr
+		AltText string
 	}
 	Title          string   `json:"name"`
 	Description    string   `json:"description"`
@@ -26,7 +30,7 @@ type Project struct {
 	Topics         []string `json:"topics"`
 	Fork           bool
 	Language       string `json:"language"`
-	LanguageColour string
+	LanguageColour template.CSS
 }
 
 var HostMap = map[string]struct {
@@ -57,10 +61,9 @@ func GetProjects(w http.ResponseWriter, r *http.Request) {
 		if projects == nil {
 			fmt.Fprint(w, "No projects found.")
 		} else {
-			tmpl := template.Must(template.ParseFiles(utils.GetTemplate("project.gohtml")))
-			for _, project := range projects {
-				tmpl.Execute(w, project)
-			}
+			template.Must(template.ParseFiles(
+				utils.GetTemplatePath("projects.gohtml"),
+			)).Execute(w, Projects{projects})
 		}
 	} else {
 		var errorMessages string
@@ -71,7 +74,7 @@ func GetProjects(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func FetchAllProjects(hosts []string) (projects []*Project, err []error) {
+func FetchAllProjects(hosts []string) (projects []Project, err []error) {
 	for _, host := range hosts {
 		if site, ok := HostMap[host]; !ok {
 			err = append(err, fmt.Errorf("URL not found for host: %s", host))
@@ -82,19 +85,19 @@ func FetchAllProjects(hosts []string) (projects []*Project, err []error) {
 		} else {
 			for _, project := range hostProjects {
 				project.Host = site.Name
-				if svg, err := utils.GetSVGLogo(fmt.Sprintf("%s.svg", host)); err == nil {
+				if svg, err := utils.GetSVGLogo(host + ".svg"); err == nil {
 					project.LogoSVG = svg
 				}
 				if project.Language != "" {
 					if lang, err := githublangsgo.GetLanguage(project.Language); err == nil {
-						project.LanguageColour = lang.Color
+						project.LanguageColour = template.CSS(lang.Color)
 					}
 				}
 				// Skip unimportant Github Repos
 				if host == "github" && (project.Fork || len(project.Topics) == 0) {
 					continue
 				}
-				projects = append(projects, project)
+				projects = append(projects, *project)
 			}
 		}
 	}
@@ -132,20 +135,20 @@ func Parse(content string, host string, contentType string) ([]*Project, error) 
 }
 
 func BGGNode(node *html.Node) (*Project, bool) {
-	if node.Data == "tr" && strings.Contains(utils.GetAttribute(node, "id"), "row_") {
+	if node.Data == "tr" && utils.WithTagEqual("id", "row_")(node) {
 		project := Project{}
-		if title := utils.FirstInChildren(node, utils.WithClass("primary")); title != nil {
+		if title := utils.FirstInChildren(node, utils.WithTagEqual("class", "primary")); title != nil {
 			project.Title = utils.GetTextContent(title)
 		}
-		if description := utils.FirstInChildren(node, utils.WithClass("smallefont")); description != nil {
+		if description := utils.FirstInChildren(node, utils.WithTagEqual("class", "smallefont")); description != nil {
 			project.Description = utils.GetTextContent(description)
 		}
-		if thumbnail := utils.FirstInChildren(node, utils.WithClass("collection_thumbnail")); thumbnail != nil {
-			if link := thumbnail.FirstChild; link != nil {
-				project.HtmlUrl = "https://boardgamegeek.com" + utils.GetAttribute(link, "href")
-				if img := link.FirstChild; img != nil {
-					project.Image.Src = utils.GetAttribute(img, "src")
-					project.Image.Alt = utils.GetAttribute(img, "alt")
+		if thumbnail := utils.FirstInChildren(node, utils.WithTagEqual("class", "collection_thumbnail")); thumbnail != nil {
+			if a := utils.FirstInChildren(thumbnail, utils.WithTag("a")); a != nil {
+				project.HtmlUrl = fmt.Sprintf("https://boardgamegeek.com%s", utils.GetAttribute(a, "href"))
+				if img := utils.FirstInChildren(a, utils.WithTag("img")); img != nil {
+					project.Image.Src = template.HTMLAttr(fmt.Sprintf("src=\"%s\"", utils.GetAttribute(img, "src")))
+					project.Image.AltText = utils.GetAttribute(img, "alt")
 				}
 			}
 		}
@@ -156,26 +159,28 @@ func BGGNode(node *html.Node) (*Project, bool) {
 }
 
 func Cults3DNode(node *html.Node) (*Project, bool) {
-	if node.Data == "article" && strings.Contains(utils.GetAttribute(node, "class"), "crea") {
+	if node.Data == "article" && utils.WithTagEqual("class", "crea")(node) {
 		project := Project{}
 		if h3 := utils.FirstInChildren(node, utils.WithTag("h3")); h3 != nil {
 			project.Title = utils.GetTextContent(h3)
 		}
 		if a := utils.FirstInChildren(node, utils.WithTag("a")); a != nil {
-			project.HtmlUrl = "https://cults3d.com" + utils.GetAttribute(a, "href")
+			project.HtmlUrl = fmt.Sprintf("https://cults3d.com%s", utils.GetAttribute(a, "href"))
 		}
 		if img := utils.FirstInChildren(node, utils.WithTag("img")); img != nil {
-			project.Image.Src = utils.GetAttribute(img, "data-src")
+			dataSrc := utils.GetAttribute(img, "data-src")
 
 			// extract full size file rather than thumbnail image if possible
 			regex := regexp.MustCompile(`https://files\.cults3d\.com[^'"]+`)
-			match := regex.FindString(project.Image.Src)
+			match := regex.FindString(dataSrc)
 
 			if match != "" {
-				project.Image.Src = match
+				project.Image.Src = template.HTMLAttr(fmt.Sprintf("src=\"%s\"", match))
+			} else {
+				project.Image.Src = template.HTMLAttr(fmt.Sprintf("src=\"%s\"", dataSrc))
 			}
 
-			project.Image.Alt = utils.GetAttribute(img, "alt")
+			project.Image.AltText = utils.GetAttribute(img, "alt")
 		}
 		return &project, true
 	}

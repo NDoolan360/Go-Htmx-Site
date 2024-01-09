@@ -7,6 +7,10 @@ import (
 	utils "github.com/NDoolan360/go-htmx-site/src"
 )
 
+type Experiences struct {
+	Experiences []Experience
+}
+
 type Experience struct {
 	Date
 	Workplace
@@ -30,6 +34,18 @@ type Workplace struct {
 type Position struct {
 	Title   string
 	Current bool
+}
+
+func GetExperiences(w http.ResponseWriter, r *http.Request) {
+	for _, experience := range experiences {
+		if svg, err := utils.GetSVGLogo(experience.Workplace.Logo); err == nil {
+			experience.Workplace.LogoSVG = svg
+		}
+	}
+
+	template.Must(template.ParseFiles(
+		utils.GetTemplatePath("experiences.gohtml"),
+	)).Execute(w, Experiences{experiences})
 }
 
 var experiences = []Experience{
@@ -85,16 +101,4 @@ var experiences = []Experience{
 		[]string{},
 		true,
 	},
-}
-
-func GetExperience(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles(utils.GetTemplate("experience.gohtml")))
-	for _, experience := range experiences {
-		if svg, err := utils.GetSVGLogo(experience.Workplace.Logo); err == nil {
-			experience.Workplace.LogoSVG = svg
-		} else {
-			experience.Workplace.Logo = ""
-		}
-		tmpl.Execute(w, experience)
-	}
 }

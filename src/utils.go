@@ -79,13 +79,13 @@ func WithTag(tag string) MatchPredicate {
 	}
 }
 
-func WithClass(class string) MatchPredicate {
+func WithTagEqual(tag string, value string) MatchPredicate {
 	return func(node *html.Node) bool {
-		return strings.Contains(GetAttribute(node, "class"), class)
+		return strings.Contains(GetAttribute(node, tag), value)
 	}
 }
 
-func GetTemplate(file string) string {
+func GetTemplatePath(file string) string {
 	if _, inVercel := os.LookupEnv("VERCEL"); inVercel {
 		return "template/" + file
 	}
