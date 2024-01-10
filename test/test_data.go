@@ -3,7 +3,7 @@ package test
 import (
 	"html/template"
 
-	"github.com/NDoolan360/go-htmx-site/api"
+	"github.com/NDoolan360/go-htmx-site/utils"
 )
 
 var githubMock = `
@@ -38,10 +38,10 @@ var githubMock = `
     }
 ]`
 
-var githubExpected = []api.Project{
+var githubExpected = []utils.Project{
 	{
 		Host:           "Github",
-		LogoSVG:        api.IgnoreErr(api.GetSVGLogo("github")),
+		LogoSVG:        utils.GetSVGLogo("github"),
 		Title:          "Test",
 		Description:    "My hand crafted Test",
 		HtmlUrl:        "https://github.com/NDoolan360/Test",
@@ -78,16 +78,13 @@ var bggMock = `
     </tbody>
 </table>`
 
-var bggExpected = []api.Project{
+var bggExpected = []utils.Project{
 	{
 		Host:    "Board Game Geek",
-		LogoSVG: api.IgnoreErr(api.GetSVGLogo("bgg")),
-		Image: struct {
-			Src     template.HTMLAttr
-			AltText string
-		}{
-			Src:     template.HTMLAttr(`src="https://cf.geekdo-images.com/wFwQ-MEGf6BLIyV77hQvHQ__micro/img/qOEv3ACF09F-_zGh0cSMIOXQrVs=/fit-in/64x64/filters:strip_icc()/pic5982841.png"`),
-			AltText: "Board Game: Cake Toppers",
+		LogoSVG: utils.GetSVGLogo("bgg"),
+		ImageAttr: []template.HTMLAttr{
+			template.HTMLAttr(`src="https://cf.geekdo-images.com/wFwQ-MEGf6BLIyV77hQvHQ__micro/img/qOEv3ACF09F-_zGh0cSMIOXQrVs=/fit-in/64x64/filters:strip_icc()/pic5982841.png"`),
+			template.HTMLAttr(`alt="Board Game: Cake Toppers"`),
 		},
 		Title:       "Cake Toppers",
 		Description: "Bakers assemble the most outrageous cakes to top each other.",
@@ -127,29 +124,23 @@ var cults3DMock = `
   </div>
 </article>`
 
-var cults3DExpected = []api.Project{
+var cults3DExpected = []utils.Project{
 	{
 		Host:    "Cults3D",
-		LogoSVG: api.IgnoreErr(api.GetSVGLogo("cults3d")),
-		Image: struct {
-			Src     template.HTMLAttr
-			AltText string
-		}{
-			Src:     template.HTMLAttr(`src="https://files.cults3d.com/uploaders/20027643/illustration-file/5371a13c-5cfa-4ce7-aebb-aedfa3865bd1/RRaPv2.png"`),
-			AltText: "RRaPv2.png Reciprocating Rack and Pinion Fidget V2",
+		LogoSVG: utils.GetSVGLogo("cults3d"),
+		ImageAttr: []template.HTMLAttr{
+			template.HTMLAttr(`src="https://files.cults3d.com/uploaders/20027643/illustration-file/5371a13c-5cfa-4ce7-aebb-aedfa3865bd1/RRaPv2.png"`),
+			template.HTMLAttr(`alt="RRaPv2.png Reciprocating Rack and Pinion Fidget V2"`),
 		},
 		Title:   "Reciprocating Rack and Pinion Fidget V2",
 		HtmlUrl: "https://cults3d.com/en/3d-model/gadget/reciprocating-rack-and-pinion-fidget-v2",
 	},
 	{
 		Host:    "Cults3D",
-		LogoSVG: api.IgnoreErr(api.GetSVGLogo("cults3d")),
-		Image: struct {
-			Src     template.HTMLAttr
-			AltText string
-		}{
-			Src:     template.HTMLAttr(`src="https://files.cults3d.com/uploaders/20027643/illustration-file/9a4f2164-33a2-49ca-8b3b-2975c9bdf03b/RRaP2-Copy.png"`),
-			AltText: "RRaP2-Copy.png Thought Processor",
+		LogoSVG: utils.GetSVGLogo("cults3d"),
+		ImageAttr: []template.HTMLAttr{
+			template.HTMLAttr(`src="https://files.cults3d.com/uploaders/20027643/illustration-file/9a4f2164-33a2-49ca-8b3b-2975c9bdf03b/RRaP2-Copy.png"`),
+			template.HTMLAttr(`alt="RRaP2-Copy.png Thought Processor"`),
 		},
 		Title:   "Thought Processor",
 		HtmlUrl: "https://cults3d.com/en/3d-model/art/thought-processor",

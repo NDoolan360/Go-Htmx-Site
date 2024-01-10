@@ -1,8 +1,8 @@
 {{range .Projects -}}
 <li class="card">
     <a class="card-link" href="{{.HtmlUrl}}" aria-label="{{.Title}} on {{.Host}}" target="_blank" rel="noreferrer"></a>
-    {{if and .Image.Src .Image.AltText -}}
-    <img class="card-feature-image" {{.Image.Src}} alt="{{.Image.AltText}}" height="192">
+    {{if .ImageAttr -}}
+    <img class="card-feature-image" {{range .ImageAttr}}{{.}}{{end}} height="192">
     {{- end}}
     <div class="card-detail-section">
         <h3 class="card-title">{{.Title}}</h3>

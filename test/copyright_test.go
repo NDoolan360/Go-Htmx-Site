@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/NDoolan360/go-htmx-site/api"
+	"github.com/NDoolan360/go-htmx-site/utils"
 )
 
 func TestCopyright(t *testing.T) {
@@ -30,8 +30,8 @@ func TestCopyright(t *testing.T) {
 		},
 	}
 	for _, tc := range tests {
-		api.Now = func() time.Time { return tc.now }
-		out := api.Copyright(tc.name)
+		utils.Now = func() time.Time { return tc.now }
+		out := utils.Copyright(tc.name)
 		if out != tc.want {
 			t.Fatalf("Got %v;\nwant %v", out, tc.want)
 		}
