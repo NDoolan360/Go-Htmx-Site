@@ -8,8 +8,8 @@ import (
 )
 
 var apiHandlers = map[string]http.HandlerFunc{
-	"/api/index":       http.HandlerFunc(api.GetIndex),
-	"/api/projects":    http.HandlerFunc(api.GetProjects),
+	"/api/index":    http.HandlerFunc(api.GetIndex),
+	"/api/projects": http.HandlerFunc(api.GetProjects),
 }
 
 func HandleIndex(w http.ResponseWriter, r *http.Request) {

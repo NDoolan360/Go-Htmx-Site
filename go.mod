@@ -1,6 +1,6 @@
 module github.com/NDoolan360/go-htmx-site
 
-go 1.21.5
+go 1.21.6
 
 require (
 	github.com/NDoolan360/github-langs-go v1.0.0
