@@ -9,7 +9,6 @@ import (
 	"strings"
 
 	githublangsgo "github.com/NDoolan360/github-langs-go"
-	utils "github.com/NDoolan360/go-htmx-site/src"
 	"golang.org/x/net/html"
 )
 
@@ -28,8 +27,8 @@ type Project struct {
 	Description    string   `json:"description"`
 	HtmlUrl        string   `json:"html_url"`
 	Topics         []string `json:"topics"`
-	Fork           bool
-	Language       string `json:"language"`
+	Fork           bool     `json:"fork"`
+	Language       string   `json:"language"`
 	LanguageColour template.CSS
 }
 
@@ -44,7 +43,7 @@ func GetProjects(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, errorMessages, http.StatusInternalServerError)
 	} else {
 		tmp := template.Must(template.ParseFiles(
-			utils.GetTemplatePath("projects.gohtml"),
+			FromPWD("api/template/projects.gohtml"),
 		))
 		err := tmp.Execute(w, Projects{projects})
 		if err != nil {
@@ -64,14 +63,14 @@ func FetchAllProjects(hosts []string) (projects []Project, err []error) {
 			Path: "https://api.github.com/users/NDoolan360/repos?sort=stars",
 			Type: "json",
 		},
-		"cults3d": {
-			Name: "Cults3d",
-			Path: "https://cults3d.com/en/users/ND360/3d-models",
-			Type: "html",
-		},
 		"bgg": {
 			Name: "Board Game Geek",
 			Path: "https://boardgamegeek.com/geeksearch.php?action=search&advsearch=1&objecttype=boardgame&include%5Bdesignerid%5D=133893",
+			Type: "html",
+		},
+		"cults3d": {
+			Name: "Cults3D",
+			Path: "https://cults3d.com/en/users/ND360/3d-models",
 			Type: "html",
 		},
 	}
@@ -79,24 +78,24 @@ func FetchAllProjects(hosts []string) (projects []Project, err []error) {
 	for _, host := range hosts {
 		if site, ok := hostMap[host]; !ok {
 			err = append(err, fmt.Errorf("URL not found for host: %s", host))
-		} else if content, fetchErr := utils.Fetch(site.Path); err != nil {
+		} else if content, fetchErr := Fetch(site.Path); err != nil {
 			err = append(err, fmt.Errorf("error fetching content from host %s: %s", host, fetchErr.Error()))
 		} else if hostProjects, ParseErr := Parse(content, host, site.Type); err != nil {
 			err = append(err, fmt.Errorf("error parsing content from host %s: %s", host, ParseErr.Error()))
 		} else {
 			for _, project := range hostProjects {
+				// Skip unimportant Github Repos
+				if host == "github" && (project.Fork || len(project.Topics) == 0) {
+					continue
+				}
 				project.Host = site.Name
-				if svg, err := utils.GetSVGLogo(host); err == nil {
+				if svg, err := GetSVGLogo(host); err == nil {
 					project.LogoSVG = svg
 				}
 				if project.Language != "" {
 					if lang, err := githublangsgo.GetLanguage(project.Language); err == nil {
 						project.LanguageColour = template.CSS(lang.Color)
 					}
-				}
-				// Skip unimportant Github Repos
-				if host == "github" && (project.Fork || len(project.Topics) == 0) {
-					continue
 				}
 				projects = append(projects, *project)
 			}
@@ -108,7 +107,6 @@ func FetchAllProjects(hosts []string) (projects []Project, err []error) {
 func Parse(content string, host string, contentType string) ([]*Project, error) {
 	var projects []*Project
 	var err error
-
 	switch contentType {
 	case "json":
 		err = json.Unmarshal([]byte(content), &projects)
@@ -119,9 +117,9 @@ func Parse(content string, host string, contentType string) ([]*Project, error) 
 		}
 		switch host {
 		case "bgg":
-			projects = utils.ParseHTMLDoc[Project](doc, BGGNode)
+			projects = ParseHTMLDoc[Project](doc, BGGNode)
 		case "cults3d":
-			projects = utils.ParseHTMLDoc[Project](doc, Cults3DNode)
+			projects = ParseHTMLDoc[Project](doc, Cults3DNode)
 		default:
 			err = fmt.Errorf("unsupported host")
 		}
@@ -136,20 +134,20 @@ func Parse(content string, host string, contentType string) ([]*Project, error) 
 }
 
 func BGGNode(node *html.Node) (*Project, bool) {
-	if node.Data == "tr" && utils.WithTagEqual("id", "row_")(node) {
+	if node.Data == "tr" && WithTagEqual("id", "row_")(node) {
 		project := Project{}
-		if title := utils.FirstInChildren(node, utils.WithTagEqual("class", "primary")); title != nil {
-			project.Title = utils.GetTextContent(title)
+		if title := FirstInChildren(node, WithTagEqual("class", "primary")); title != nil {
+			project.Title = GetTextContent(title)
 		}
-		if description := utils.FirstInChildren(node, utils.WithTagEqual("class", "smallefont")); description != nil {
-			project.Description = utils.GetTextContent(description)
+		if description := FirstInChildren(node, WithTagEqual("class", "smallefont")); description != nil {
+			project.Description = GetTextContent(description)
 		}
-		if thumbnail := utils.FirstInChildren(node, utils.WithTagEqual("class", "collection_thumbnail")); thumbnail != nil {
-			if a := utils.FirstInChildren(thumbnail, utils.WithTag("a")); a != nil {
-				project.HtmlUrl = fmt.Sprintf("https://boardgamegeek.com%s", utils.GetAttribute(a, "href"))
-				if img := utils.FirstInChildren(a, utils.WithTag("img")); img != nil {
-					project.Image.Src = template.HTMLAttr(fmt.Sprintf("src=\"%s\"", utils.GetAttribute(img, "src")))
-					project.Image.AltText = utils.GetAttribute(img, "alt")
+		if thumbnail := FirstInChildren(node, WithTagEqual("class", "collection_thumbnail")); thumbnail != nil {
+			if a := FirstInChildren(thumbnail, WithTag("a")); a != nil {
+				project.HtmlUrl = fmt.Sprintf("https://boardgamegeek.com%s", GetAttribute(a, "href"))
+				if img := FirstInChildren(a, WithTag("img")); img != nil {
+					project.Image.Src = template.HTMLAttr(fmt.Sprintf("src=\"%s\"", GetAttribute(img, "src")))
+					project.Image.AltText = GetAttribute(img, "alt")
 				}
 			}
 		}
@@ -160,16 +158,16 @@ func BGGNode(node *html.Node) (*Project, bool) {
 }
 
 func Cults3DNode(node *html.Node) (*Project, bool) {
-	if node.Data == "article" && utils.WithTagEqual("class", "crea")(node) {
+	if node.Data == "article" && WithTagEqual("class", "crea")(node) {
 		project := Project{}
-		if h3 := utils.FirstInChildren(node, utils.WithTag("h3")); h3 != nil {
-			project.Title = utils.GetTextContent(h3)
+		if h3 := FirstInChildren(node, WithTag("h3")); h3 != nil {
+			project.Title = GetTextContent(h3)
 		}
-		if a := utils.FirstInChildren(node, utils.WithTag("a")); a != nil {
-			project.HtmlUrl = fmt.Sprintf("https://cults3d.com%s", utils.GetAttribute(a, "href"))
+		if a := FirstInChildren(node, WithTag("a")); a != nil {
+			project.HtmlUrl = fmt.Sprintf("https://cults3d.com%s", GetAttribute(a, "href"))
 		}
-		if img := utils.FirstInChildren(node, utils.WithTag("img")); img != nil {
-			dataSrc := utils.GetAttribute(img, "data-src")
+		if img := FirstInChildren(node, WithTag("img")); img != nil {
+			dataSrc := GetAttribute(img, "data-src")
 
 			// extract full size file rather than thumbnail image if possible
 			regex := regexp.MustCompile(`https://files\.cults3d\.com[^'"]+`)
@@ -181,7 +179,7 @@ func Cults3DNode(node *html.Node) (*Project, bool) {
 				project.Image.Src = template.HTMLAttr(fmt.Sprintf("src=\"%s\"", dataSrc))
 			}
 
-			project.Image.AltText = utils.GetAttribute(img, "alt")
+			project.Image.AltText = GetAttribute(img, "alt")
 		}
 		return &project, true
 	}

@@ -1,4 +1,4 @@
-package src
+package api
 
 import (
 	"fmt"
@@ -6,6 +6,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"golang.org/x/net/html"
@@ -18,8 +19,12 @@ func IgnoreErr[T interface{}](val T, err error) T {
 	return val
 }
 
-func Fetch(path string) (string, error) {
-	if resp, err := http.Get(path); err != nil {
+var Fetch = func(path string) (string, error) {
+	return FetchURL(path)
+}
+
+func FetchURL(url string) (string, error) {
+	if resp, err := http.Get(url); err != nil {
 		return "", err
 	} else {
 		defer resp.Body.Close()
@@ -92,24 +97,20 @@ func WithTagEqual(tag string, value string) MatchPredicate {
 	}
 }
 
-func GetTemplatePath(file string) string {
-	if _, inVercel := os.LookupEnv("VERCEL"); inVercel {
-		return "template/" + file
+func FromPWD(path string) string {
+	pwd, _ := os.Getwd()
+	currentDirBase := filepath.Base(pwd)
+	switch currentDirBase {
+	case "test", "api":
+		return "../" + path
 	}
-	return "api/template/" + file
-}
-
-func GetLogoPath(file string) string {
-	if _, inVercel := os.LookupEnv("VERCEL"); inVercel {
-		return "logos/" + file
-	}
-	return "api/logos/" + file
+	return path
 }
 
 func GetSVGLogo(logo string) (template.HTML, error) {
-	fileContents, err := os.ReadFile(GetLogoPath(logo + ".svg"))
+	svg, err := os.ReadFile(FromPWD("api/logos/" + logo + ".svg"))
 	if err != nil {
 		return "", err
 	}
-	return template.HTML(fileContents), nil
+	return template.HTML(svg), nil
 }

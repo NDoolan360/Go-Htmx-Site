@@ -5,13 +5,7 @@ import (
 	"html/template"
 	"net/http"
 	"time"
-
-	utils "github.com/NDoolan360/go-htmx-site/src"
 )
-
-var Now = func() time.Time {
-	return time.Now()
-}
 
 type Index struct {
 	Title          string
@@ -61,8 +55,8 @@ type ToolSection struct {
 
 func GetIndex(w http.ResponseWriter, r *http.Request) {
 	tmp := template.Must(template.ParseFiles(
-		utils.GetTemplatePath("index.gohtml"),
-		utils.GetTemplatePath("head.gohtml"),
+		FromPWD("api/template/index.gohtml"),
+		FromPWD("api/template/head.gohtml"),
 	))
 
 	err := tmp.Execute(w, Index{
@@ -82,32 +76,32 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 				URL:   "#projects",
 			},
 		},
-		ThemeSwitchSVG: utils.IgnoreErr(utils.GetSVGLogo("theme_switch")),
+		ThemeSwitchSVG: IgnoreErr(GetSVGLogo("theme_switch")),
 		ExternalLinks: []Link{
 			{
 				"Github",
 				"https://github.com/NDoolan360",
-				utils.IgnoreErr(utils.GetSVGLogo("github")),
+				IgnoreErr(GetSVGLogo("github")),
 			},
 			{
 				"LinkedIn",
 				"https://www.linkedin.com/in/nathan-doolan-835a13171",
-				utils.IgnoreErr(utils.GetSVGLogo("linkedin")),
+				IgnoreErr(GetSVGLogo("linkedin")),
 			},
 			{
 				"Discord",
 				"https://discord.com/users/nothindoin",
-				utils.IgnoreErr(utils.GetSVGLogo("discord")),
+				IgnoreErr(GetSVGLogo("discord")),
 			},
 			{
 				"Cults3D",
 				"https://cults3d.com/en/users/ND360",
-				utils.IgnoreErr(utils.GetSVGLogo("cults3d")),
+				IgnoreErr(GetSVGLogo("cults3d")),
 			},
 			{
 				"Boardgame Geek",
 				"https://boardgamegeek.com/user/Nothin_Doin",
-				utils.IgnoreErr(utils.GetSVGLogo("bgg")),
+				IgnoreErr(GetSVGLogo("bgg")),
 			},
 		},
 		Profile: Profile{
@@ -126,7 +120,7 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 				Workplace: Link{
 					"Kaluza",
 					"https://kaluza.com/",
-					utils.IgnoreErr(utils.GetSVGLogo("kaluza")),
+					IgnoreErr(GetSVGLogo("kaluza")),
 				},
 				Positions: []Position{{"Software Engineer", true}},
 				Topics:    []string{"Typescript", "Git", "Github Actions"},
@@ -136,7 +130,7 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 				Workplace: Link{
 					"Gentrack",
 					"https://gentrack.com/",
-					utils.IgnoreErr(utils.GetSVGLogo("gentrack")),
+					IgnoreErr(GetSVGLogo("gentrack")),
 				},
 				Positions: []Position{
 					{"Intermediate Software Engineer", false},
@@ -150,7 +144,7 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 				Workplace: Link{
 					"Proquip Rental & Sales",
 					"https://pqrs.com.au/",
-					utils.IgnoreErr(utils.GetSVGLogo("proquip")),
+					IgnoreErr(GetSVGLogo("proquip")),
 				},
 				Positions: []Position{
 					{"IT Support Specialist", false},
@@ -164,7 +158,7 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 				Workplace: Link{
 					"University of Melbourne",
 					"https://www.unimelb.edu.au/",
-					utils.IgnoreErr(utils.GetSVGLogo("melbourneuniversity")),
+					IgnoreErr(GetSVGLogo("melbourneuniversity")),
 				},
 				Positions: []Position{{"Bachelor of Science: Computing and Software Systems", false}},
 				Education: true,
@@ -177,17 +171,17 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 					{
 						"htmx",
 						"https://htmx.org",
-						utils.IgnoreErr(utils.GetSVGLogo("htmx")),
+						IgnoreErr(GetSVGLogo("htmx")),
 					},
 					{
 						"hyperscript",
 						"https://hyperscript.org",
-						utils.IgnoreErr(utils.GetSVGLogo("hyperscript")),
+						IgnoreErr(GetSVGLogo("hyperscript")),
 					},
 					{
 						"Tailwind CSS",
 						"https://tailwindcss.com",
-						utils.IgnoreErr(utils.GetSVGLogo("tailwind")),
+						IgnoreErr(GetSVGLogo("tailwind")),
 					},
 				},
 			},
@@ -197,7 +191,7 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 					{
 						"Vercel",
 						"https://vercel.com",
-						utils.IgnoreErr(utils.GetSVGLogo("vercel")),
+						IgnoreErr(GetSVGLogo("vercel")),
 					},
 				},
 			},
@@ -207,6 +201,10 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
+}
+
+var Now = func() time.Time {
+	return time.Now()
 }
 
 func Copyright(name string) string {
