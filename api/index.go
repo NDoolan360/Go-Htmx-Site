@@ -20,9 +20,9 @@ type Index struct {
 	ExternalLinks  []Link
 	ThemeSwitchSVG template.HTML
 	Profile
-	Experiences   []Experience
-	ToolSections  []ToolSection
-	CopyrightYear string
+	Experiences  []Experience
+	ToolSections []ToolSection
+	Copyright    string
 }
 
 type Link struct {
@@ -200,6 +200,11 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 				},
 			},
 		},
-		CopyrightYear: fmt.Sprint(Now().Year()),
+		Copyright: Copyright("Nathan Doolan"),
 	})
+}
+
+func Copyright(name string) string {
+	year := Now().Year()
+	return fmt.Sprintf("© %s %d", name, year)
 }

@@ -1,44 +1,39 @@
 package test
 
-// import (
-// 	"net/http"
-// 	"net/http/httptest"
-// 	"net/url"
-// 	"testing"
-// 	"time"
+import (
+	"testing"
+	"time"
 
-// 	"github.com/NDoolan360/go-htmx-site/api"
-// )
+	"github.com/NDoolan360/go-htmx-site/api"
+)
 
-// func TestGetCopyright(t *testing.T) {
-// 	tests := []struct {
-// 		request http.Request
-// 		now     time.Time
-// 		want    string
-// 	}{
-// 		{
-// 			http.Request{URL: &url.URL{RawQuery: "name=Nathan%20Doolan"}},
-// 			time.Date(1999, 1, 1, 1, 0, 0, 0, time.UTC),
-// 			"© Nathan Doolan 1999",
-// 		},
-// 		{
-// 			http.Request{URL: &url.URL{RawQuery: "name=Nathan Doolan"}},
-// 			time.Date(1999, 1, 1, 1, 0, 0, 0, time.UTC),
-// 			"© Nathan Doolan 1999",
-// 		},
-// 		{
-// 			http.Request{URL: &url.URL{RawQuery: "name=Future%20Nathan"}},
-// 			time.Date(2099, 1, 1, 1, 0, 0, 0, time.UTC),
-// 			"© Future Nathan 2099",
-// 		},
-// 	}
-// 	for _, tc := range tests {
-// 		writer := httptest.NewRecorder()
-// 		api.Now = func() time.Time { return tc.now }
-// 		api.GetCopyright(writer, &tc.request)
-// 		out := writer.Body.String()
-// 		if out != tc.want {
-// 			t.Fatalf("Got %v;\nwant %v", out, tc.want)
-// 		}
-// 	}
-// }
+func TestCopyright(t *testing.T) {
+	tests := []struct {
+		name string
+		now  time.Time
+		want string
+	}{
+		{
+			"Nathan Doolan",
+			time.Date(1999, 1, 1, 1, 0, 0, 0, time.UTC),
+			"© Nathan Doolan 1999",
+		},
+		{
+			"Nathan Doolan",
+			time.Date(1999, 1, 1, 1, 0, 0, 0, time.UTC),
+			"© Nathan Doolan 1999",
+		},
+		{
+			"Future Nathan",
+			time.Date(2099, 1, 1, 1, 0, 0, 0, time.UTC),
+			"© Future Nathan 2099",
+		},
+	}
+	for _, tc := range tests {
+		api.Now = func() time.Time { return tc.now }
+		out := api.Copyright(tc.name)
+		if out != tc.want {
+			t.Fatalf("Got %v;\nwant %v", out, tc.want)
+		}
+	}
+}
