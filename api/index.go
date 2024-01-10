@@ -60,10 +60,12 @@ type ToolSection struct {
 }
 
 func GetIndex(w http.ResponseWriter, r *http.Request) {
-	template.Must(template.ParseFiles(
+	tmp := template.Must(template.ParseFiles(
 		utils.GetTemplatePath("index.gohtml"),
 		utils.GetTemplatePath("head.gohtml"),
-	)).Execute(w, Index{
+	))
+
+	err := tmp.Execute(w, Index{
 		Title:       "Nathan Doolan",
 		Description: "A personal website showcasing Nathan Doolan's journey as a full-time software engineer in Melbourne. Explore his professional experience, projects, and interests in technology, board games, and 3D printing.",
 		InternalLinks: []Link{
@@ -202,6 +204,9 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 		},
 		Copyright: Copyright("Nathan Doolan"),
 	})
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 }
 
 func Copyright(name string) string {

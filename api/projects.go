@@ -43,9 +43,13 @@ func GetProjects(w http.ResponseWriter, r *http.Request) {
 		}
 		http.Error(w, errorMessages, http.StatusInternalServerError)
 	} else {
-		template.Must(template.ParseFiles(
+		tmp := template.Must(template.ParseFiles(
 			utils.GetTemplatePath("projects.gohtml"),
-		)).Execute(w, Projects{projects})
+		))
+		err := tmp.Execute(w, Projects{projects})
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
 	}
 }
 
