@@ -33,50 +33,47 @@ type Project struct {
 	LanguageColour template.CSS
 }
 
-var HostMap = map[string]struct {
-	Name string
-	Path string
-	Type string
-}{
-	"github": {
-		Name: "Github",
-		Path: "https://api.github.com/users/NDoolan360/repos?sort=stars",
-		Type: "json",
-	},
-	"cults3d": {
-		Name: "Cults3d",
-		Path: "https://cults3d.com/en/users/ND360/3d-models",
-		Type: "html",
-	},
-	"bgg": {
-		Name: "Board Game Geek",
-		Path: "https://boardgamegeek.com/geeksearch.php?action=search&advsearch=1&objecttype=boardgame&include%5Bdesignerid%5D=133893",
-		Type: "html",
-	},
-}
-
 func GetProjects(w http.ResponseWriter, r *http.Request) {
 	hosts := r.URL.Query()["host"]
-	if projects, errs := FetchAllProjects(hosts); errs == nil {
-		if projects == nil {
-			fmt.Fprint(w, "No projects found.")
-		} else {
-			template.Must(template.ParseFiles(
-				utils.GetTemplatePath("projects.gohtml"),
-			)).Execute(w, Projects{projects})
-		}
-	} else {
+	projects, errs := FetchAllProjects(hosts)
+	if errs != nil {
 		var errorMessages string
 		for _, err := range errs {
 			errorMessages += err.Error() + "\n"
 		}
 		http.Error(w, errorMessages, http.StatusInternalServerError)
+	} else {
+		template.Must(template.ParseFiles(
+			utils.GetTemplatePath("projects.gohtml"),
+		)).Execute(w, Projects{projects})
 	}
 }
 
 func FetchAllProjects(hosts []string) (projects []Project, err []error) {
+	hostMap := map[string]struct {
+		Name string
+		Path string
+		Type string
+	}{
+		"github": {
+			Name: "Github",
+			Path: "https://api.github.com/users/NDoolan360/repos?sort=stars",
+			Type: "json",
+		},
+		"cults3d": {
+			Name: "Cults3d",
+			Path: "https://cults3d.com/en/users/ND360/3d-models",
+			Type: "html",
+		},
+		"bgg": {
+			Name: "Board Game Geek",
+			Path: "https://boardgamegeek.com/geeksearch.php?action=search&advsearch=1&objecttype=boardgame&include%5Bdesignerid%5D=133893",
+			Type: "html",
+		},
+	}
+
 	for _, host := range hosts {
-		if site, ok := HostMap[host]; !ok {
+		if site, ok := hostMap[host]; !ok {
 			err = append(err, fmt.Errorf("URL not found for host: %s", host))
 		} else if content, fetchErr := utils.Fetch(site.Path); err != nil {
 			err = append(err, fmt.Errorf("error fetching content from host %s: %s", host, fetchErr.Error()))
@@ -85,7 +82,7 @@ func FetchAllProjects(hosts []string) (projects []Project, err []error) {
 		} else {
 			for _, project := range hostProjects {
 				project.Host = site.Name
-				if svg, err := utils.GetSVGLogo(host + ".svg"); err == nil {
+				if svg, err := utils.GetSVGLogo(host); err == nil {
 					project.LogoSVG = svg
 				}
 				if project.Language != "" {

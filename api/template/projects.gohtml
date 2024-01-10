@@ -13,7 +13,7 @@
             <p class="card-language-name">{{.Language}}</p>
             {{- end}}
             {{if .LogoSVG -}}
-            {{ .LogoSVG }}
+            {{.LogoSVG}}
             {{- end}}
         </div>
         {{- end}}
@@ -29,4 +29,6 @@
     </div>
     {{- end}}
 </li>
+{{- else -}}
+<p>No projects found.</p>
 {{- end}}

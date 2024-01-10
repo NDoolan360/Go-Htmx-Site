@@ -106,8 +106,8 @@ func GetLogoPath(file string) string {
 	return "api/logos/" + file
 }
 
-func GetSVGLogo(filename string) (template.HTML, error) {
-	fileContents, err := os.ReadFile(GetLogoPath(filename))
+func GetSVGLogo(logo string) (template.HTML, error) {
+	fileContents, err := os.ReadFile(GetLogoPath(logo + ".svg"))
 	if err != nil {
 		return "", err
 	}
