@@ -4,9 +4,14 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"time"
 
 	utils "github.com/NDoolan360/go-htmx-site/src"
 )
+
+var Now = func() time.Time {
+	return time.Now()
+}
 
 type Index struct {
 	Title          string
@@ -15,6 +20,7 @@ type Index struct {
 	ExternalLinks  []Link
 	ThemeSwitchSVG template.HTML
 	Profile
+	Experiences   []Experience
 	ToolSections  []ToolSection
 	CopyrightYear string
 }
@@ -28,6 +34,24 @@ type Link struct {
 type Profile struct {
 	ImageAttr  []template.HTMLAttr
 	Paragraphs []string
+}
+
+type Experience struct {
+	Date
+	Workplace Link
+	Positions []Position
+	Topics    []string
+	Education bool
+}
+
+type Date struct {
+	Start string
+	End   string
+}
+
+type Position struct {
+	Title   string
+	Current bool
 }
 
 type ToolSection struct {
@@ -45,43 +69,43 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 		InternalLinks: []Link{
 			{
 				Label: "About",
-				URL:   template.URL("#about"),
+				URL:   "#about",
 			},
 			{
 				Label: "Experience",
-				URL:   template.URL("#experience"),
+				URL:   "#experience",
 			},
 			{
 				Label: "Projects",
-				URL:   template.URL("#projects"),
+				URL:   "#projects",
 			},
 		},
 		ThemeSwitchSVG: utils.IgnoreErr(utils.GetSVGLogo("theme_switch")),
 		ExternalLinks: []Link{
 			{
-				Label: "Github",
-				URL:   template.URL("https://github.com/NDoolan360"),
-				Logo:  utils.IgnoreErr(utils.GetSVGLogo("github")),
+				"Github",
+				"https://github.com/NDoolan360",
+				utils.IgnoreErr(utils.GetSVGLogo("github")),
 			},
 			{
-				Label: "LinkedIn",
-				URL:   template.URL("https://www.linkedin.com/in/nathan-doolan-835a13171"),
-				Logo:  utils.IgnoreErr(utils.GetSVGLogo("linkedin")),
+				"LinkedIn",
+				"https://www.linkedin.com/in/nathan-doolan-835a13171",
+				utils.IgnoreErr(utils.GetSVGLogo("linkedin")),
 			},
 			{
-				Label: "Discord",
-				URL:   template.URL("https://discord.com/users/nothindoin"),
-				Logo:  utils.IgnoreErr(utils.GetSVGLogo("discord")),
+				"Discord",
+				"https://discord.com/users/nothindoin",
+				utils.IgnoreErr(utils.GetSVGLogo("discord")),
 			},
 			{
-				Label: "Cults3D",
-				URL:   template.URL("https://cults3d.com/en/users/ND360"),
-				Logo:  utils.IgnoreErr(utils.GetSVGLogo("cults3d")),
+				"Cults3D",
+				"https://cults3d.com/en/users/ND360",
+				utils.IgnoreErr(utils.GetSVGLogo("cults3d")),
 			},
 			{
-				Label: "Boardgame Geek",
-				URL:   template.URL("https://boardgamegeek.com/user/Nothin_Doin"),
-				Logo:  utils.IgnoreErr(utils.GetSVGLogo("bgg")),
+				"Boardgame Geek",
+				"https://boardgamegeek.com/user/Nothin_Doin",
+				utils.IgnoreErr(utils.GetSVGLogo("bgg")),
 			},
 		},
 		Profile: Profile{
@@ -94,34 +118,84 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 				"With a background in computer science, I'm always eager to learn new things, tackle new challenges, and find satisfaction in the simple joy of crafting an elegant solution to a problem.",
 			},
 		},
+		Experiences: []Experience{
+			{
+				Date: Date{"Jan 2024", "Present"},
+				Workplace: Link{
+					"Kaluza",
+					"https://kaluza.com/",
+					utils.IgnoreErr(utils.GetSVGLogo("kaluza")),
+				},
+				Positions: []Position{{"Software Engineer", true}},
+				Topics:    []string{"Typescript", "Git", "Github Actions"},
+			},
+			{
+				Date: Date{"Jul 2021", "Dec 2023"},
+				Workplace: Link{
+					"Gentrack",
+					"https://gentrack.com/",
+					utils.IgnoreErr(utils.GetSVGLogo("gentrack")),
+				},
+				Positions: []Position{
+					{"Intermediate Software Engineer", false},
+					{"Junior Software Engineer", false},
+					{"Graduate Software Engineer", false},
+				},
+				Topics: []string{"Git", "SQL", "Github Actions", "Docker", "Jenkins", "API Design", "Unit Testing"},
+			},
+			{
+				Date: Date{"Feb 2018", "Jul 2021"},
+				Workplace: Link{
+					"Proquip Rental & Sales",
+					"https://pqrs.com.au/",
+					utils.IgnoreErr(utils.GetSVGLogo("proquip")),
+				},
+				Positions: []Position{
+					{"IT Support Specialist", false},
+					{"IT/Marketing Assistant", false},
+					{"Administrative Assistant", false},
+				},
+				Topics: []string{"IT Support", "Adobe Suite", "Social Media Marketing", "Wordpress", "Google Analytics"},
+			},
+			{
+				Date: Date{"Feb 2018", "Feb 2021"},
+				Workplace: Link{
+					"University of Melbourne",
+					"https://www.unimelb.edu.au/",
+					utils.IgnoreErr(utils.GetSVGLogo("melbourneuniversity")),
+				},
+				Positions: []Position{{"Bachelor of Science: Computing and Software Systems", false}},
+				Education: true,
+			},
+		},
 		ToolSections: []ToolSection{
 			{
-				Title: "Built with:",
-				Links: []Link{
+				"Built with:",
+				[]Link{
 					{
-						Label: "htmx",
-						URL:   template.URL("https://htmx.org"),
-						Logo:  utils.IgnoreErr(utils.GetSVGLogo("htmx")),
+						"htmx",
+						"https://htmx.org",
+						utils.IgnoreErr(utils.GetSVGLogo("htmx")),
 					},
 					{
-						Label: "hyperscript",
-						URL:   template.URL("https://hyperscript.org"),
-						Logo:  utils.IgnoreErr(utils.GetSVGLogo("hyperscript")),
+						"hyperscript",
+						"https://hyperscript.org",
+						utils.IgnoreErr(utils.GetSVGLogo("hyperscript")),
 					},
 					{
-						Label: "Tailwind CSS",
-						URL:   template.URL("https://tailwindcss.com"),
-						Logo:  utils.IgnoreErr(utils.GetSVGLogo("tailwind")),
+						"Tailwind CSS",
+						"https://tailwindcss.com",
+						utils.IgnoreErr(utils.GetSVGLogo("tailwind")),
 					},
 				},
 			},
 			{
-				Title: "Deployed with:",
-				Links: []Link{
+				"Deployed with:",
+				[]Link{
 					{
-						Label: "Vercel",
-						URL:   template.URL("https://vercel.com"),
-						Logo:  utils.IgnoreErr(utils.GetSVGLogo("vercel")),
+						"Vercel",
+						"https://vercel.com",
+						utils.IgnoreErr(utils.GetSVGLogo("vercel")),
 					},
 				},
 			},

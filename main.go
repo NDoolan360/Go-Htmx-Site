@@ -10,7 +10,6 @@ import (
 var apiHandlers = map[string]http.HandlerFunc{
 	"/api/index":       http.HandlerFunc(api.GetIndex),
 	"/api/projects":    http.HandlerFunc(api.GetProjects),
-	"/api/experiences": http.HandlerFunc(api.GetExperiences),
 }
 
 func HandleIndex(w http.ResponseWriter, r *http.Request) {
