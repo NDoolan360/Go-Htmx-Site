@@ -4,7 +4,7 @@ import "html/template"
 
 // Index.gohtml
 
-type Index struct {
+type IndexTemplate struct {
 	Title          string
 	Description    string
 	InternalLinks  []Link
@@ -17,6 +17,10 @@ type Index struct {
 }
 
 // Projects.gohtml
+
+type ProjectsTemplate struct {
+	Projects []Project
+}
 
 type Project struct {
 	Host           string

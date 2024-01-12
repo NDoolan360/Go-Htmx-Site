@@ -12,6 +12,8 @@ import (
 	"golang.org/x/net/html"
 )
 
+// Project host to URL map for ftching project content
+
 var HostMap = map[string]struct {
 	Name string
 	Path string

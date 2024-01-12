@@ -19,9 +19,9 @@ func GetProjects(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, errorMessages, http.StatusInternalServerError)
 	} else {
 		tmpl := template.Must(template.ParseFiles(
-			utils.FromPWD("api/template/projects.gohtml"),
+			utils.GetApiResource("template/projects.gohtml"),
 		))
-		err := tmpl.Execute(w, struct{ Projects []utils.Project }{projects})
+		err := tmpl.Execute(w, utils.ProjectsTemplate{Projects: projects})
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}

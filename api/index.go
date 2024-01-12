@@ -9,11 +9,11 @@ import (
 
 func GetIndex(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles(
-		utils.FromPWD("api/template/index.gohtml"),
-		utils.FromPWD("api/template/head.gohtml"),
+		utils.GetApiResource("template/index.gohtml"),
+		utils.GetApiResource("template/head.gohtml"),
 	))
 
-	err := tmpl.Execute(w, utils.Index{
+	err := tmpl.Execute(w, utils.IndexTemplate{
 		Title:       "Nathan Doolan",
 		Description: "A personal website showcasing Nathan Doolan's journey as a full-time software engineer in Melbourne. Explore his professional experience, projects, and interests in technology, board games, and 3D printing.",
 		InternalLinks: []utils.Link{
