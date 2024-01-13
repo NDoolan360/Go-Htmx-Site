@@ -26,4 +26,4 @@ jobs:
                 version: v1.55.2
 
             - name: Run Go Tests
-              run: go test ./test
+              run: go test ./api -v
