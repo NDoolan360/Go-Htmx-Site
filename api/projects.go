@@ -55,7 +55,7 @@ func GetProjects(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, errorMessages, http.StatusInternalServerError)
 	} else {
 		tmpl := template.Must(template.ParseFiles(
-			GetApiResource("template/projects.gohtml"),
+			GetApiAsset("template/projects.gohtml"),
 		))
 		err := tmpl.Execute(w, ProjectsTemplate{Projects: projects})
 		if err != nil {

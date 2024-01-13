@@ -64,8 +64,8 @@ type ToolSection struct {
 // GetIndex handles the request for rendering the index page.
 func GetIndex(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles(
-		GetApiResource("template/index.gohtml"),
-		GetApiResource("template/head.gohtml"),
+		GetApiAsset("template/index.gohtml"),
+		GetApiAsset("template/head.gohtml"),
 	))
 
 	err := tmpl.Execute(w, IndexTemplate{
@@ -222,25 +222,25 @@ func Copyright(name string) string {
 	return fmt.Sprintf("© %s %d", name, year)
 }
 
-// GetApiResource returns the correct resource path for resources in the api dirextory,
+// GetApiAsset returns the correct resource path for resources in the api dirextory,
 // based on the current environment.
-func GetApiResource(path string) string {
+func GetApiAsset(path string) string {
 	if _, inVercel := os.LookupEnv("VERCEL"); inVercel {
 		// When running as serverless in Vercel environment, /api is the root.
 		// Note: The root directory is not explicitly named "api".
-		return path
+		return "assets/" + path
 	} else if testing.Testing() {
 		// During testing, api resources are expected to be in the ../api/ directory.
-		return "../api/" + path
+		return "../api/assets/" + path
 	} else {
 		// Assume it is being run from the root, and api resources are in the api/ directory.
-		return "api/" + path
+		return "api/assets/" + path
 	}
 }
 
 // GetSVGLogo reads an SVG logo file and returns it as an HTML template.
 func GetSVGLogo(logo string) template.HTML {
-	svg, err := os.ReadFile(GetApiResource("logos/" + logo + ".svg"))
+	svg, err := os.ReadFile(GetApiAsset("logos/" + logo + ".svg"))
 	if err != nil {
 		panic(err)
 	}
