@@ -1,12 +1,11 @@
-package test
+package api
 
 import (
 	"testing"
 	"time"
-
-	"github.com/NDoolan360/go-htmx-site/utils"
 )
 
+// TestCopyright tests the Copyright function to ensure it generates the correct copyright string.
 func TestCopyright(t *testing.T) {
 	tests := []struct {
 		name string
@@ -30,8 +29,8 @@ func TestCopyright(t *testing.T) {
 		},
 	}
 	for _, tc := range tests {
-		utils.Now = func() time.Time { return tc.now }
-		out := utils.Copyright(tc.name)
+		Now = func() time.Time { return tc.now }
+		out := Copyright(tc.name)
 		if out != tc.want {
 			t.Fatalf("Got %v;\nwant %v", out, tc.want)
 		}
