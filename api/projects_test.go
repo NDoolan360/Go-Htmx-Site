@@ -10,23 +10,40 @@ import (
 // TestFetchProjects tests the FetchProjects function to ensure it fetches and parses projects correctly.
 func TestFetchProjects(t *testing.T) {
 	tests := []struct {
+		name  string
 		hosts []string
 		want  []Project
 	}{
-		{[]string{"github"}, GithubExpected},
-		{[]string{"bgg"}, BggExpected},
-		{[]string{"cults3d"}, Cults3DExpected},
-		{[]string{"github", "bgg", "cults3d"}, append(append(GithubExpected, BggExpected...), Cults3DExpected...)},
+		{"Github Projects Test", []string{"github"}, GithubExpected},
+		{"BGG Projects Test", []string{"bgg"}, BggExpected},
+		{"Cults3D Projects Test", []string{"cults3d"}, Cults3DExpected},
+		{"All Projects Test", []string{"github", "bgg", "cults3d"}, append(append(GithubExpected, BggExpected...), Cults3DExpected...)},
 	}
 	Fetch = mockFetch
 	for _, tc := range tests {
-		projects, errs := FetchProjects(tc.hosts)
-		if len(errs) > 0 {
-			t.Fatalf("Got error: %v", errs)
-		} else if !reflect.DeepEqual(projects, tc.want) {
-			t.Fatalf("Got %v;\nwant %v", projects, tc.want)
-		}
+		t.Run(tc.name, func(t *testing.T) {
+			projects, errs := FetchProjects(tc.hosts)
+			if len(errs) > 0 {
+				t.Fatalf("Got error: %v", errs)
+			} else if !reflect.DeepEqual(projects, tc.want) {
+				t.Fatalf("Got %v;\nwant %v", projects, tc.want)
+			}
+		})
 	}
+}
+
+var mockFetch = func(url string) (string, error) {
+	switch url {
+	case "https://api.github.com/users/NDoolan360/repos?sort=stars":
+		return githubMock, nil
+	case "https://boardgamegeek.com/geeksearch.php?action=search&advsearch=1&objecttype=boardgame&include%5Bdesignerid%5D=133893":
+		return bggMock, nil
+	case "https://api.geekdo.com/xmlapi/boardgame/330653":
+		return bggXMLMock, nil
+	case "https://cults3d.com/en/users/ND360/3d-models":
+		return cults3DMock, nil
+	}
+	return "", errors.New("mock url not defined")
 }
 
 var GithubExpected = []Project{
@@ -45,51 +62,34 @@ var GithubExpected = []Project{
 
 var BggExpected = []Project{
 	{
-		Host:    "Board Game Geek",
-		LogoSVG: GetSVGLogo("bgg"),
-		ImageAttr: []template.HTMLAttr{
-			template.HTMLAttr(`src="https://cf.geekdo-images.com/wFwQ-MEGf6BLIyV77hQvHQ__micro/img/qOEv3ACF09F-_zGh0cSMIOXQrVs=/fit-in/64x64/filters:strip_icc()/pic5982841.png"`),
-			template.HTMLAttr(`alt="Board Game: Cake Toppers"`),
-		},
+		Host:        "Board Game Geek",
+		LogoSVG:     GetSVGLogo("bgg"),
+		ImageSrc:    template.HTMLAttr(`src="https://cf.geekdo-images.com/wFwQ-MEGf6BLIyV77hQvHQ__original/img/jGDJHygR3da__4gT0pMzKAD1SQU=/0x0/filters:format(png)/pic5982841.png"`),
+		ImageAlt:    template.HTMLAttr(`alt="Board Game: Cake Toppers"`),
 		Title:       "Cake Toppers",
 		Description: "Bakers assemble the most outrageous cakes to top each other.",
 		HtmlUrl:     "https://boardgamegeek.com/boardgame/330653/cake-toppers",
+		Topics:      []string{"Hand Management", "Increase Value of Unchosen Resources", "Pattern Building", "Set Collection"},
 	},
 }
 
 var Cults3DExpected = []Project{
 	{
-		Host:    "Cults3D",
-		LogoSVG: GetSVGLogo("cults3d"),
-		ImageAttr: []template.HTMLAttr{
-			template.HTMLAttr(`src="https://files.cults3d.com/uploaders/20027643/illustration-file/5371a13c-5cfa-4ce7-aebb-aedfa3865bd1/RRaPv2.png"`),
-			template.HTMLAttr(`alt="RRaPv2.png Reciprocating Rack and Pinion Fidget V2"`),
-		},
-		Title:   "Reciprocating Rack and Pinion Fidget V2",
-		HtmlUrl: "https://cults3d.com/en/3d-model/gadget/reciprocating-rack-and-pinion-fidget-v2",
+		Host:     "Cults3D",
+		LogoSVG:  GetSVGLogo("cults3d"),
+		ImageSrc: template.HTMLAttr(`src="https://files.cults3d.com/uploaders/20027643/illustration-file/5371a13c-5cfa-4ce7-aebb-aedfa3865bd1/RRaPv2.png"`),
+		ImageAlt: template.HTMLAttr(`alt="RRaPv2.png Reciprocating Rack and Pinion Fidget V2"`),
+		Title:    "Reciprocating Rack and Pinion Fidget V2",
+		HtmlUrl:  "https://cults3d.com/en/3d-model/gadget/reciprocating-rack-and-pinion-fidget-v2",
 	},
 	{
-		Host:    "Cults3D",
-		LogoSVG: GetSVGLogo("cults3d"),
-		ImageAttr: []template.HTMLAttr{
-			template.HTMLAttr(`src="https://files.cults3d.com/uploaders/20027643/illustration-file/9a4f2164-33a2-49ca-8b3b-2975c9bdf03b/RRaP2-Copy.png"`),
-			template.HTMLAttr(`alt="RRaP2-Copy.png Thought Processor"`),
-		},
-		Title:   "Thought Processor",
-		HtmlUrl: "https://cults3d.com/en/3d-model/art/thought-processor",
+		Host:     "Cults3D",
+		LogoSVG:  GetSVGLogo("cults3d"),
+		ImageSrc: template.HTMLAttr(`src="https://files.cults3d.com/uploaders/20027643/illustration-file/9a4f2164-33a2-49ca-8b3b-2975c9bdf03b/RRaP2-Copy.png"`),
+		ImageAlt: template.HTMLAttr(`alt="RRaP2-Copy.png Thought Processor"`),
+		Title:    "Thought Processor",
+		HtmlUrl:  "https://cults3d.com/en/3d-model/art/thought-processor",
 	},
-}
-
-var mockFetch = func(url string) (string, error) {
-	switch url {
-	case "https://api.github.com/users/NDoolan360/repos?sort=stars":
-		return githubMock, nil
-	case "https://boardgamegeek.com/geeksearch.php?action=search&advsearch=1&objecttype=boardgame&include%5Bdesignerid%5D=133893":
-		return bggMock, nil
-	case "https://cults3d.com/en/users/ND360/3d-models":
-		return cults3DMock, nil
-	}
-	return "", errors.New("mock url not defined")
 }
 
 var githubMock = `
@@ -150,6 +150,17 @@ var bggMock = `
         </tr>
     </tbody>
 </table>`
+
+var bggXMLMock = `
+<boardgames termsofuse="https://boardgamegeek.com/xmlapi/termsofuse">
+    <boardgame objectid="330653">
+        <image>https://cf.geekdo-images.com/wFwQ-MEGf6BLIyV77hQvHQ__original/img/jGDJHygR3da__4gT0pMzKAD1SQU=/0x0/filters:format(png)/pic5982841.png</image>
+        <boardgamemechanic objectid="2040">Hand Management</boardgamemechanic>
+        <boardgamemechanic objectid="2914">Increase Value of Unchosen Resources</boardgamemechanic>
+        <boardgamemechanic objectid="2048">Pattern Building</boardgamemechanic>
+        <boardgamemechanic objectid="2004">Set Collection</boardgamemechanic>
+    </boardgame>
+</boardgames>`
 
 var cults3DMock = `
 <article class="crea">

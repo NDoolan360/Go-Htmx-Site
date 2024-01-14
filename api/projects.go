@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"encoding/xml"
 	"fmt"
 	"html/template"
 	"io"
@@ -22,7 +23,8 @@ type ProjectsTemplate struct {
 type Project struct {
 	Host           string
 	LogoSVG        template.HTML
-	ImageAttr      []template.HTMLAttr
+	ImageSrc       template.HTMLAttr
+	ImageAlt       template.HTMLAttr
 	Title          string   `json:"name"`
 	Description    string   `json:"description"`
 	HtmlUrl        string   `json:"html_url"`
@@ -113,6 +115,9 @@ func FetchProjects(hosts []string) ([]Project, []error) {
 						project.LanguageColour = template.CSS(lang.Color)
 					}
 				}
+				if host == "bgg" {
+					UpgradeBGG(project)
+				}
 				projects = append(projects, *project)
 			}
 		}
@@ -198,10 +203,8 @@ func BGGNode(node *html.Node) (*Project, bool) {
 			if a := FirstInChildren(thumbnail, WithTag("a")); a != nil {
 				project.HtmlUrl = fmt.Sprintf("https://boardgamegeek.com%s", GetAttribute(a, "href"))
 				if img := FirstInChildren(a, WithTag("img")); img != nil {
-					project.ImageAttr = []template.HTMLAttr{
-						template.HTMLAttr(fmt.Sprintf("src=\"%s\"", GetAttribute(img, "src"))),
-						template.HTMLAttr(fmt.Sprintf("alt=\"%s\"", GetAttribute(img, "alt"))),
-					}
+					project.ImageSrc = template.HTMLAttr(fmt.Sprintf("src=\"%s\"", GetAttribute(img, "src")))
+					project.ImageAlt = template.HTMLAttr(fmt.Sprintf("alt=\"%s\"", GetAttribute(img, "alt")))
 				}
 			}
 		}
@@ -230,10 +233,8 @@ func Cults3DNode(node *html.Node) (*Project, bool) {
 				dataSrc = match
 			}
 
-			project.ImageAttr = []template.HTMLAttr{
-				template.HTMLAttr(fmt.Sprintf("src=\"%s\"", dataSrc)),
-				template.HTMLAttr(fmt.Sprintf("alt=\"%s\"", GetAttribute(img, "alt"))),
-			}
+			project.ImageSrc = template.HTMLAttr(fmt.Sprintf("src=\"%s\"", dataSrc))
+			project.ImageAlt = template.HTMLAttr(fmt.Sprintf("alt=\"%s\"", GetAttribute(img, "alt")))
 		}
 		return &project, true
 	}
@@ -285,4 +286,44 @@ func WithTagEqual(tag string, value string) MatchPredicate {
 	return func(node *html.Node) bool {
 		return strings.Contains(GetAttribute(node, tag), value)
 	}
+}
+
+type BoardGame struct {
+	ObjectID  string   `xml:"objectid,attr"`
+	Mechanics []string `xml:"boardgamemechanic"`
+	ImageURL  string   `xml:"image"`
+}
+
+type BoardGames struct {
+	TermsOfUse string    `xml:"termsofuse,attr"`
+	BoardGame  BoardGame `xml:"boardgame"`
+}
+
+func UpgradeBGG(project *Project) error {
+	re := regexp.MustCompile(`/boardgame/(\d+)`)
+	matches := re.FindStringSubmatch(project.HtmlUrl)
+	if len(matches) < 2 {
+		return fmt.Errorf("Boardgame ID not found in the URL")
+	}
+	boardgameID := matches[1]
+
+	bggXML, fetchErr := Fetch(fmt.Sprintf("https://api.geekdo.com/xmlapi/boardgame/%s", boardgameID))
+	if fetchErr != nil {
+		return fetchErr
+	}
+
+	var boardGames BoardGames
+	parseErr := xml.Unmarshal([]byte(bggXML), &boardGames)
+	if parseErr != nil {
+		return fmt.Errorf("error unmarshaling XML: %s", parseErr)
+	}
+
+	if boardGames.BoardGame.ImageURL != "" {
+		project.ImageSrc = template.HTMLAttr(fmt.Sprintf(`src="%s"`, boardGames.BoardGame.ImageURL))
+	}
+	if len(boardGames.BoardGame.Mechanics) > 0 {
+		project.Topics = boardGames.BoardGame.Mechanics
+	}
+
+	return nil
 }
