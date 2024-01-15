@@ -24,6 +24,7 @@ func GetMarkdown(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles(
 		GetApiAsset("template/markdown.gohtml"),
 		GetApiAsset("template/head.gohtml"),
+		GetApiAsset("template/theme-switch.gohtml"),
 	))
 
 	execErr := tmpl.Execute(w, MarkdownTemplate{

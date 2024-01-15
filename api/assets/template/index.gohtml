@@ -32,10 +32,7 @@
             </li>
             {{- end}}
             <li>
-                <button id="theme-toggle" title="Toggles light & dark theme" aria-label="auto" aria-live="polite"
-                    _="on click toggle .dark on body">
-                    {{.ThemeSwitchSVG}}
-                </button>
+                {{ template "theme-switch" .}}
             </li>
         </ul>
     </header>

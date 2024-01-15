@@ -18,7 +18,6 @@ type IndexTemplate struct {
 	// Navigation links
 	InternalLinks  []Link
 	ExternalLinks  []Link
-	ThemeSwitchSVG template.HTML
 
 	// Profile information
 	Profile Profile
@@ -66,7 +65,8 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles(
 		GetApiAsset("template/index.gohtml"),
 		GetApiAsset("template/head.gohtml"),
-	))
+		GetApiAsset("template/theme-switch.gohtml"),
+		))
 
 	err := tmpl.Execute(w, IndexTemplate{
 		Title:       "Nathan Doolan",
@@ -85,7 +85,6 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 				URL:   "#projects",
 			},
 		},
-		ThemeSwitchSVG: GetSVGLogo("theme_switch"),
 		ExternalLinks: []Link{
 			{
 				Label: "Github",

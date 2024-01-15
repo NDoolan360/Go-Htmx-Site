@@ -6,16 +6,21 @@
   <script type="module" src="/scripts/zero-md.min.js" ></script>
 </head>
 
-<body>
-  <main class="container mx-auto max-w-screen-lg">
+<body class="dark container mx-auto max-w-screen-lg">
+  <nav class="fixed">
+    <section>
+      {{ template "theme-switch" .}}
+    </section>
+  </nav>
+  <main>
     <section id="markdown">
       <zero-md {{.MarkdownSource}}></zero-md>
     </section>
-  <footer>
-    <p>
-      Markdown rendered with <a href="https://github.com/zerodevx/zero-md" class="btn">&lt;zero-md&gt;</a>
-    </p>
-  </footer>
+    <footer>
+      <p>
+        Markdown rendered with <a href="https://github.com/zerodevx/zero-md" class="btn">&lt;zero-md&gt;</a>
+      </p>
+    </footer>
   </main>
 </body>
 
