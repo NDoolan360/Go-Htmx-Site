@@ -178,6 +178,11 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 				Title: "Built with:",
 				Links: []Link{
 					{
+						Label: "Go",
+						URL:   "https://go.dev/",
+						Logo:  GetSVGLogo("go"),
+					},
+					{
 						Label: "htmx",
 						URL:   "https://htmx.org",
 						Logo:  GetSVGLogo("htmx"),
