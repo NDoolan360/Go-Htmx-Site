@@ -15,7 +15,7 @@
   <main>
     <section id="markdown">
       <span class="loader" _="on 'zero-md-rendered' from document remove me"></span>
-      <zero-md {{.MarkdownSource}}>
+      <zero-md {{.MarkdownSrcAttr}}>
         <template>
           <style>
             .markdown-body {
@@ -29,6 +29,9 @@
       </zero-md>
     </section>
     <footer>
+      <p>
+        Original file <a href="{{.MarkdownSource}}" class="text-primary underline">{{.MarkdownSource}}</a>
+      </p>
       <p>
         Markdown rendered with <a href="https://github.com/zerodevx/zero-md" class="btn">&lt;zero-md&gt;</a>
       </p>
