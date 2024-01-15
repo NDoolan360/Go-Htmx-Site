@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+  {{ template "head" .}}
+  <script type="module" src="https://cdn.jsdelivr.net/gh/zerodevx/zero-md@2/dist/zero-md.min.js" ></script>
+</head>
+
+<body>
+  <main class="container mx-auto max-w-screen-lg">
+    <section id="markdown">
+      <zero-md {{.MarkdownSource}}></zero-md>
+    </section>
+  <footer>
+    <p>
+      Markdown rendered with <a href="https://github.com/zerodevx/zero-md" class="btn">&lt;zero-md&gt;</a>
+    </p>
+  </footer>
+  </main>
+</body>
+
+</html>
