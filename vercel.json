@@ -1,5 +1,7 @@
 {
     "version": 2,
+    "installCommand": "./scripts/install.sh",
+    "buildCommand": "./scripts/build.sh",
     "rewrites": [
         {
             "source": "/",
