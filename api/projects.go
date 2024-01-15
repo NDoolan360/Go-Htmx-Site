@@ -116,7 +116,9 @@ func FetchProjects(hosts []string) ([]Project, []error) {
 					}
 				}
 				if host == "bgg" {
-					UpgradeBGG(project)
+					if err := UpgradeBGG(project); err != nil {
+						continue
+					}
 				}
 				projects = append(projects, *project)
 			}
