@@ -22,3 +22,4 @@ lerna-debug.log*
 # Build artifacts
 /public/tailwind.css
 tailwindcss
+main.go
