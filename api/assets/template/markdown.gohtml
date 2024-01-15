@@ -14,7 +14,18 @@
   </nav>
   <main>
     <section id="markdown">
-      <zero-md {{.MarkdownSource}}></zero-md>
+      <zero-md {{.MarkdownSource}}>
+        <template>
+          <style>
+            .markdown-body {
+              color: var(--text);
+            }
+            .markdown-body a {
+              color: var(--primary);
+            }
+          </style>
+        </template>
+      </zero-md>
     </section>
     <footer>
       <p>
