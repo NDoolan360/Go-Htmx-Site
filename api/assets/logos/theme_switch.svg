@@ -1,9 +1,5 @@
 <svg class="sun-and-moon logo" aria-hidden="true" viewBox="0 0 24 24" height="24" width="24">
     <style>
-        /* =================== Theme Switch ==================== */
-
-        /* https://web.dev/patterns/theming/theme-switch/#css    */
-
         #theme-toggle {
             width: 100%;
             aspect-ratio: 1;
@@ -78,8 +74,6 @@
                 transition-duration: 0.5s;
             }
         }
-
-        /* ===================================================== */
     </style>
     <mask class="moon" id="moon-mask">
         <rect x="0" y="0" width="100%" height="100%" fill="white" />
