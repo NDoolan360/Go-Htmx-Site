@@ -20,18 +20,19 @@ The source code for my personal website, built with Go, Htmx and Hyperscript, an
 
 ## External Components
 
+-   [Htmx](/public/scripts/htmx.min.js) - [Big Sky Software](https://github.com/bigskysoftware/htmx)
+-   [Hyperscript](/public/scripts/hypersript.min.js) - [Big Sky Software](https://github.com/bigskysoftware/_hyperscript)
+-   [Markdown rendering](/public/scripts/zero-md.min.js) - [\<zero-md\>](https://github.com/zerodevx/zero-md)
 -   [Theme Switch](/api/assets/logo/theme_switch.svg) - [web.dev](https://web.dev/patterns/theming/theme-switch)
--   [Github Language Colors]() - [github-langs-go](https://github.com/NDoolan360/github-langs-go)
+-   [Github Language Colors](/api/projects.go) - [github-langs-go](https://github.com/NDoolan360/github-langs-go)
 
 ## Fonts
 
--   [JosefinSans.woff2](/public/fonts) - [The Josefin Sans Project Authors](https://github.com/ThomasJockin/JosefinSansFont-master) &copy; 2010
+-   [JosefinSans.woff2](/public/fonts) - [Josefin Sans Project](https://github.com/ThomasJockin/JosefinSansFont-master) &copy; 2010
 -   [OxygenMono.woff2](/public/fonts) - [Vernon Adams](vern@newtypography.co.uk) &copy; 2012
 
 ## Inspiration
 
 - [Brittany Chiang's Website](https://brittanychiang.com) - [Brittany Chiang](https://github.com/bchiang7)
-
 - [Jake Lazaroff's Website](https://jakelazaroff.com) - [Jake Lazaroff](https://github.com/jakelazaroff)
-
 - [Realtime Colors](https://www.realtimecolors.com) - [Juxtopossed](https://github.com/juxtopposed)
