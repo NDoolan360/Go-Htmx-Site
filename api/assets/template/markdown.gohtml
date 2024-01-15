@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+  {{ template "head" .}}
+  <script type="module" src="/scripts/zero-md.min.js" ></script>
+</head>
+
+<body class="dark container mx-auto max-w-screen-lg">
+  <nav class="fixed">
+    <section>
+      {{ template "theme-switch" .}}
+    </section>
+  </nav>
+  <main>
+    <section id="markdown">
+      <span class="loader" _="on 'zero-md-rendered' from document remove me"></span>
+      <zero-md {{.MarkdownSource}}>
+        <template>
+          <style>
+            .markdown-body {
+              color: var(--text);
+            }
+            .markdown-body a {
+              color: var(--primary);
+            }
+          </style>
+        </template>
+      </zero-md>
+    </section>
+    <footer>
+      <p>
+        Markdown rendered with <a href="https://github.com/zerodevx/zero-md" class="btn">&lt;zero-md&gt;</a>
+      </p>
+    </footer>
+  </main>
+</body>
+
+</html>

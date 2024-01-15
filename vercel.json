@@ -1,0 +1,20 @@
+{
+    "version": 2,
+    "installCommand": "./scripts/install.sh",
+    "buildCommand": "./scripts/build.sh",
+    "rewrites": [
+        {
+            "source": "/",
+            "destination": "/api/index.go"
+        },
+        {
+            "source": "/markdown",
+            "destination": "/api/markdown.go"
+        }
+    ],
+    "functions": {
+        "api/*.go": {
+            "includeFiles": "assets/**/*"
+        }
+    }
+}

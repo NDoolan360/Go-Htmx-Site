@@ -38,10 +38,6 @@
 }
 
 @layer components {
-    html {
-        @apply scroll-smooth
-    }
-
     body {
         @apply container transition-all w-screen min-h-screen overflow-x-hidden mx-auto antialiased leading-relaxed bg-background font-body text-text selection:bg-primary selection:text-secondary lg:flex lg:justify-between motion-reduce:transition-none
     }
@@ -60,6 +56,14 @@
 
     #external-links {
         @apply flex gap-2 flex-row my-3
+    }
+
+    #external-links li,
+    #external-links li a,
+    #external-links .logo,
+    #theme-toggle,
+    #theme-toggle svg {
+        @apply h-6 w-6 md:h-8 md:w-8 block
     }
 
     main {
@@ -110,6 +114,10 @@
         @apply sm:col-span-3
     }
 
+    .experience-item .logo {
+        @apply w-6 h-6 block max-w-none
+    }
+
     .experience-title {
         @apply flex flex-row flex-nowrap gap-2 items-center text-xl max-w-fit
     }
@@ -118,7 +126,7 @@
         @apply opacity-60
     }
 
-    .experience-item .chip-wrapper {
+    .experience-item .topic-wrapper {
         @apply pt-2
     }
 
@@ -136,6 +144,10 @@
 
     .card-link {
         @apply absolute inset-0 rounded-xl
+    }
+
+    a:not(.card-link) {
+        @apply hover:scale-110 focus-visible:scale-110 transition-transform motion-reduce:hover:scale-100 motion-reduce:focus-visible:scale-100
     }
 
     .card-feature-image {
@@ -163,12 +175,16 @@
         @apply h-3 block rounded-full aspect-square
     }
 
+    .card-detail .logo {
+        @apply w-6 h-6 block
+    }
+
     .card-description {
         @apply max-w-full w-fit truncate
     }
 
     .btn,
-    .chip {
+    .topic {
         @apply w-fit px-3 py-1 border-none rounded-full font-heading inline-flex flex-row flex-nowrap gap-2 leading-4 align-baseline font-medium
     }
 
@@ -176,11 +192,11 @@
         @apply bg-secondary dark:bg-accent dark:text-background transition-colors
     }
 
-    .chip {
+    .topic {
         @apply bg-primary text-background transition-colors
     }
 
-    .chip-wrapper {
+    .topic-wrapper {
         @apply flex flex-wrap flex-row gap-1 text-xs
     }
 
@@ -193,28 +209,11 @@
         @apply flex flex-row flex-wrap gap-1
     }
 
-    #copyright {
-        @apply pt-4
-    }
-
-    #external-links li,
-    #external-links li a,
-    #external-links .logo,
-    #theme-toggle,
-    #theme-toggle svg {
-        @apply h-6 w-6 md:h-8 md:w-8 block
-    }
-
-    .logo.card-logo,
-    .experience-item .logo {
-        @apply w-6 h-6 block max-w-none
-    }
-
     .btn .logo {
         @apply h-4 w-4 block
     }
 
-    a:not(.card-link) {
-        @apply hover:scale-110 focus-visible:scale-110 transition-transform motion-reduce:hover:scale-100 motion-reduce:focus-visible:scale-100
+    #copyright {
+        @apply pt-4
     }
 }
