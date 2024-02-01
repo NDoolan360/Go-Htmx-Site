@@ -1,6 +1,6 @@
 {
     "version": 2,
-    "installCommand": "./scripts/install.sh",
+    "installCommand": "./scripts/install.sh -o linux -p x64",
     "buildCommand": "./scripts/build.sh",
     "rewrites": [
         {
