@@ -131,7 +131,7 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 					Logo:  GetSVGLogo("kaluza"),
 				},
 				Positions: []Position{{Title: "Software Engineer", Current: true}},
-				Knowledge: []Link{{Label: "Typescript"}, {Label: "Git"}, {Label: "Github Actions"}},
+				Knowledge: []Link{{Label: "Git"}, {Label: "Typescript", URL: "https://www.typescriptlang.org"}, {Label: "Docker", URL: "https://www.docker.com"}, {Label: "Github Actions"}, {Label: "CircleCI", URL: "https://circleci.com"}, {Label: "NestJS", URL: "https://nestjs.com"}, {Label: "GraphQL", URL: "https://graphql.org"}, {Label: "Terraform", URL: "https://www.terraform.io"}, {Label: "Kafka", URL: "https://kafka.apache.org"}, {Label: "Kubernetes", URL: "https://kubernetes.io"}},
 			},
 			{
 				Date: Date{Start: "Jul 2021", End: "Dec 2023"},
@@ -145,7 +145,7 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 					{Title: "Junior Software Engineer"},
 					{Title: "Graduate Software Engineer"},
 				},
-				Knowledge: []Link{{Label: "Git"}, {Label: "SQL"}, {Label: "Docker"}, {Label: "Jenkins"}, {Label: "API Design"}, {Label: "Unit Testing"}},
+				Knowledge: []Link{{Label: "Git"}, {Label: "SQL"}, {Label: "Docker", URL: "https://www.docker.com"}, {Label: "Jenkins", URL: "https://www.jenkins.io"}, {Label: "API Design"}, {Label: "Unit Testing"}},
 			},
 			{
 				Date: Date{Start: "Feb 2018", End: "Jul 2021"},
