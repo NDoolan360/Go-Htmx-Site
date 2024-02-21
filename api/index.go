@@ -50,7 +50,7 @@ type Experience struct {
 	Date
 	Workplace Link
 	Positions []Position
-	Topics    []string
+	Topics    []Link
 	Education bool
 }
 
@@ -131,7 +131,7 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 					Logo:  GetSVGLogo("kaluza"),
 				},
 				Positions: []Position{{Title: "Software Engineer", Current: true}},
-				Topics:    []string{"Typescript", "Git", "Github Actions"},
+				Topics:    []Link{{Label: "Typescript"}, {Label: "Git"}, {Label: "Github Actions"}},
 			},
 			{
 				Date: Date{Start: "Jul 2021", End: "Dec 2023"},
@@ -145,7 +145,7 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 					{Title: "Junior Software Engineer"},
 					{Title: "Graduate Software Engineer"},
 				},
-				Topics: []string{"Git", "SQL", "Github Actions", "Docker", "Jenkins", "API Design", "Unit Testing"},
+				Topics: []Link{{Label: "Git"}, {Label: "SQL"}, {Label: "Docker"}, {Label: "Jenkins"}, {Label: "API Design"}, {Label: "Unit Testing"}},
 			},
 			{
 				Date: Date{Start: "Feb 2018", End: "Jul 2021"},
@@ -159,7 +159,7 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 					{Title: "IT/Marketing Assistant"},
 					{Title: "Administrative Assistant"},
 				},
-				Topics: []string{"IT Support", "Adobe Suite", "Social Media Marketing", "Wordpress", "Google Analytics"},
+				Topics: []Link{{Label: "IT Support"}, {Label: "Adobe Suite"}, {Label: "Social Media Marketing"}, {Label: "Wordpress"}, {Label: "Google Analytics"}},
 			},
 			{
 				Date: Date{Start: "Feb 2018", End: "Feb 2021"},

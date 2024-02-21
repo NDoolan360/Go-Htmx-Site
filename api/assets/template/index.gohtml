@@ -73,9 +73,11 @@
                         {{if .Topics -}}
                         <div class="topic-wrapper">
                             {{range .Topics -}}
-                            <span class="topic">
-                                {{.}}
-                            </span>
+                            {{if .URL}}
+                            <a class="topic" href="{{.URL}}" target="_blank" rel="noreferrer">{{.Label}}</a>
+                            {{- else -}}
+                            <span class="topic">{{.Label}}</span>
+                            {{- end}}
                             {{- end}}
                         </div>
                         {{- end}}
