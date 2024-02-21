@@ -63,16 +63,16 @@
                 <li class="experience-item{{if .Education}} education{{end}}">
                     <span class="date-range">{{.Date.Start}} - {{.Date.End}}</span>
                     <div>
-                        <a class="experience-title" href="{{.Workplace.URL}}" target="_blank" rel="noreferrer">
-                            {{.Workplace.Logo}}
-                            <h3>{{.Workplace.Label}}</h3>
+                        <a class="experience-title" href="{{.Link.URL}}" target="_blank" rel="noreferrer">
+                            {{.Link.Logo}}
+                            <h3>{{.Link.Label}}</h3>
                         </a>
                         {{range .Positions -}}
                         <h4 {{if .Current}}class="current"{{end}}>{{.Title}}</h4>
                         {{- end}}
-                        {{if .Topics -}}
+                        {{if .Knowledge -}}
                         <div class="topic-wrapper">
-                            {{range .Topics -}}
+                            {{range .Knowledge -}}
                             {{if .URL}}
                             <a class="topic" href="{{.URL}}" target="_blank" rel="noreferrer">{{.Label}}</a>
                             {{- else -}}

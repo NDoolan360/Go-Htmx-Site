@@ -48,9 +48,9 @@ type Profile struct {
 // Experience represents a work experience or education entry.
 type Experience struct {
 	Date
-	Workplace Link
+	Link
 	Positions []Position
-	Topics    []Link
+	Knowledge []Link
 	Education bool
 }
 
@@ -125,17 +125,17 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 		Experiences: []Experience{
 			{
 				Date: Date{Start: "Jan 2024", End: "Present"},
-				Workplace: Link{
+				Link: Link{
 					Label: "Kaluza",
 					URL:   "https://kaluza.com/",
 					Logo:  GetSVGLogo("kaluza"),
 				},
 				Positions: []Position{{Title: "Software Engineer", Current: true}},
-				Topics:    []Link{{Label: "Typescript"}, {Label: "Git"}, {Label: "Github Actions"}},
+				Knowledge: []Link{{Label: "Typescript"}, {Label: "Git"}, {Label: "Github Actions"}},
 			},
 			{
 				Date: Date{Start: "Jul 2021", End: "Dec 2023"},
-				Workplace: Link{
+				Link: Link{
 					Label: "Gentrack",
 					URL:   "https://gentrack.com/",
 					Logo:  GetSVGLogo("gentrack"),
@@ -145,11 +145,11 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 					{Title: "Junior Software Engineer"},
 					{Title: "Graduate Software Engineer"},
 				},
-				Topics: []Link{{Label: "Git"}, {Label: "SQL"}, {Label: "Docker"}, {Label: "Jenkins"}, {Label: "API Design"}, {Label: "Unit Testing"}},
+				Knowledge: []Link{{Label: "Git"}, {Label: "SQL"}, {Label: "Docker"}, {Label: "Jenkins"}, {Label: "API Design"}, {Label: "Unit Testing"}},
 			},
 			{
 				Date: Date{Start: "Feb 2018", End: "Jul 2021"},
-				Workplace: Link{
+				Link: Link{
 					Label: "Proquip Rental & Sales",
 					URL:   "https://pqrs.com.au/",
 					Logo:  GetSVGLogo("proquip"),
@@ -159,11 +159,11 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 					{Title: "IT/Marketing Assistant"},
 					{Title: "Administrative Assistant"},
 				},
-				Topics: []Link{{Label: "IT Support"}, {Label: "Adobe Suite"}, {Label: "Social Media Marketing"}, {Label: "Wordpress"}, {Label: "Google Analytics"}},
+				Knowledge: []Link{{Label: "IT Support"}, {Label: "Adobe Suite"}, {Label: "Social Media Marketing"}, {Label: "Wordpress"}, {Label: "Google Analytics"}},
 			},
 			{
 				Date: Date{Start: "Feb 2018", End: "Feb 2021"},
-				Workplace: Link{
+				Link: Link{
 					Label: "University of Melbourne",
 					URL:   "https://www.unimelb.edu.au/",
 					Logo:  GetSVGLogo("melbourneuniversity"),
