@@ -10,7 +10,7 @@ import (
 	"regexp"
 	"strings"
 
-	githublangsgo "github.com/NDoolan360/github-langs-go"
+	githubLanguage "github.com/NDoolan360/github-langs-go"
 	"golang.org/x/net/html"
 )
 
@@ -56,10 +56,10 @@ func GetProjects(w http.ResponseWriter, r *http.Request) {
 		}
 		http.Error(w, errorMessages, http.StatusInternalServerError)
 	} else {
-		tmpl := template.Must(template.ParseFiles(
+		projectTemplate := template.Must(template.ParseFiles(
 			GetApiAsset("template/projects.gohtml"),
 		))
-		err := tmpl.Execute(w, ProjectsTemplate{Projects: projects})
+		err := projectTemplate.Execute(w, ProjectsTemplate{Projects: projects})
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
@@ -111,7 +111,7 @@ func FetchProjects(hosts []string) ([]Project, []error) {
 				project.Host = site.Name
 				project.LogoSVG = GetSVGLogo(host)
 				if project.Language != "" {
-					if lang, err := githublangsgo.GetLanguage(project.Language); err == nil {
+					if lang, err := githubLanguage.GetLanguage(project.Language); err == nil {
 						project.LanguageColour = template.CSS(lang.Color)
 					}
 				}
@@ -305,7 +305,7 @@ func UpgradeBGG(project *Project) error {
 	re := regexp.MustCompile(`/boardgame/(\d+)`)
 	matches := re.FindStringSubmatch(project.HtmlUrl)
 	if len(matches) < 2 {
-		return fmt.Errorf("Boardgame ID not found in the URL")
+		return fmt.Errorf("boardgame ID not found in the URL")
 	}
 	boardgameID := matches[1]
 
@@ -317,7 +317,7 @@ func UpgradeBGG(project *Project) error {
 	var boardGames BoardGames
 	parseErr := xml.Unmarshal([]byte(bggXML), &boardGames)
 	if parseErr != nil {
-		return fmt.Errorf("error unmarshaling XML: %s", parseErr)
+		return fmt.Errorf("error un-marshaling XML: %s", parseErr)
 	}
 
 	if boardGames.BoardGame.ImageURL != "" {

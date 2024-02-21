@@ -11,13 +11,13 @@ import (
 
 // IndexTemplate represents the data structure for the index.gohtml template.
 type IndexTemplate struct {
-	// Basic page information for <hrad>
+	// Basic page information for <head>
 	Title       string
 	Description string
 
 	// Navigation links
-	InternalLinks  []Link
-	ExternalLinks  []Link
+	InternalLinks []Link
+	ExternalLinks []Link
 
 	// Profile information
 	Profile Profile
@@ -62,13 +62,13 @@ type ToolSection struct {
 
 // GetIndex handles the request for rendering the index page.
 func GetIndex(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles(
+	indexTemplate := template.Must(template.ParseFiles(
 		GetApiAsset("template/index.gohtml"),
 		GetApiAsset("template/head.gohtml"),
 		GetApiAsset("template/theme-switch.gohtml"),
-		))
+	))
 
-	err := tmpl.Execute(w, IndexTemplate{
+	err := indexTemplate.Execute(w, IndexTemplate{
 		Title:       "Nathan Doolan",
 		Description: "A personal website showcasing Nathan Doolan's journey as a full-time software engineer in Melbourne. Explore his professional experience, projects, and interests in technology, board games, and 3D printing.",
 		InternalLinks: []Link{
@@ -226,7 +226,7 @@ func Copyright(name string) string {
 	return fmt.Sprintf("© %s %d", name, year)
 }
 
-// GetApiAsset returns the correct resource path for resources in the api dirextory,
+// GetApiAsset returns the correct resource path for resources in the api directory,
 // based on the current environment.
 func GetApiAsset(path string) string {
 	if _, inVercel := os.LookupEnv("VERCEL"); inVercel {
