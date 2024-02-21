@@ -46,6 +46,14 @@ type Position struct {
 	Current bool
 }
 
+// Host represents a source to recieve projects from.
+type Host struct {
+	Name   string
+	Path   string
+	Type   string
+	Parser func(node *html.Node) (*Project, bool)
+}
+
 // GetProjects handles the request for fetching and rendering project data.
 func GetProjects(w http.ResponseWriter, r *http.Request) {
 	projects, errs := FetchProjects(r.URL.Query()["host"])
@@ -66,56 +74,54 @@ func GetProjects(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// HostMap contains information about different project hosts for fetching content.
-var HostMap = map[string]struct {
-	Name string
-	Path string
-	Type string
-}{
+// HostMap contains information about different project hosts for fetching and parsing content.
+var HostMap = map[string]Host{
 	"github": {
 		Name: "Github",
 		Path: "https://api.github.com/users/NDoolan360/repos?sort=stars",
 		Type: "json",
 	},
 	"bgg": {
-		Name: "Board Game Geek",
-		Path: "https://boardgamegeek.com/geeksearch.php?action=search&advsearch=1&objecttype=boardgame&include%5Bdesignerid%5D=133893",
-		Type: "html",
+		Name:   "Board Game Geek",
+		Path:   "https://boardgamegeek.com/geeksearch.php?action=search&advsearch=1&objecttype=boardgame&include%5Bdesignerid%5D=133893",
+		Type:   "html",
+		Parser: BGGNode,
 	},
 	"cults3d": {
-		Name: "Cults3D",
-		Path: "https://cults3d.com/en/users/ND360/3d-models",
-		Type: "html",
+		Name:   "Cults3D",
+		Path:   "https://cults3d.com/en/users/ND360/3d-models",
+		Type:   "html",
+		Parser: Cults3DNode,
 	},
 }
 
-func FetchProjects(hosts []string) ([]Project, []error) {
+func FetchProjects(hostNames []string) ([]Project, []error) {
 	projects := []Project{}
 	errs := []error{}
-	for _, host := range hosts {
-		if site, ok := HostMap[host]; !ok {
-			errs = append(errs, fmt.Errorf("URL not found for host: %s", host))
+	for _, hostName := range hostNames {
+		if host, ok := HostMap[hostName]; !ok {
+			errs = append(errs, fmt.Errorf("URL not found for host: %s", hostName))
 
-		} else if content, fetchErr := Fetch(site.Path); fetchErr != nil {
-			errs = append(errs, fmt.Errorf("error fetching content from host %s: %s", host, fetchErr.Error()))
+		} else if content, fetchErr := Fetch(host.Path); fetchErr != nil {
+			errs = append(errs, fmt.Errorf("error fetching content from host %s: %s", hostName, fetchErr.Error()))
 
-		} else if hostProjects, ParseErr := Parse(content, host, site.Type); ParseErr != nil {
-			errs = append(errs, fmt.Errorf("error parsing content from host %s: %s", host, ParseErr.Error()))
+		} else if hostProjects, ParseErr := Parse(host, content); ParseErr != nil {
+			errs = append(errs, fmt.Errorf("error parsing content from host %s: %s", hostName, ParseErr.Error()))
 
 		} else {
 			for _, project := range hostProjects {
 				// Skip unimportant Github Repos
-				if host == "github" && (project.Fork || len(project.Topics) == 0) {
+				if hostName == "github" && (project.Fork || len(project.Topics) == 0) {
 					continue
 				}
-				project.Host = site.Name
-				project.LogoSVG = GetSVGLogo(host)
+				project.Host = host.Name
+				project.LogoSVG = GetSVGLogo(hostName)
 				if project.Language != "" {
 					if lang, err := githubLanguage.GetLanguage(project.Language); err == nil {
 						project.LanguageColour = template.CSS(lang.Color)
 					}
 				}
-				if host == "bgg" {
+				if hostName == "bgg" {
 					if err := UpgradeBGG(project); err != nil {
 						continue
 					}
@@ -146,10 +152,10 @@ var Fetch = func(url string) (string, error) {
 }
 
 // Parse parses content based on host and content type, returning a list of projects.
-func Parse(content string, host string, contentType string) ([]*Project, error) {
+func Parse(host Host, content string) ([]*Project, error) {
 	var projects []*Project
 	var err error
-	switch contentType {
+	switch host.Type {
 	case "json":
 		err = json.Unmarshal([]byte(content), &projects)
 	case "html":
@@ -157,16 +163,13 @@ func Parse(content string, host string, contentType string) ([]*Project, error) 
 		if parseErr != nil {
 			err = fmt.Errorf("error parsing HTML: %s", parseErr)
 		}
-		switch host {
-		case "bgg":
-			projects = ParseHTMLDoc(doc, BGGNode)
-		case "cults3d":
-			projects = ParseHTMLDoc(doc, Cults3DNode)
-		default:
-			err = fmt.Errorf("unsupported host")
+		if host.Parser != nil {
+			projects = ParseHTMLDoc(doc, host.Parser)
+		} else {
+			err = fmt.Errorf("no parser provided for host: %s", host.Name)
 		}
 	default:
-		err = fmt.Errorf("unsupported content type: %s", contentType)
+		err = fmt.Errorf("unsupported content type: %s", host.Type)
 	}
 
 	if err != nil {
