@@ -57,13 +57,7 @@ type Host struct {
 // GetProjects handles the request for fetching and rendering project data.
 func GetProjects(w http.ResponseWriter, r *http.Request) {
 	projects, errs := FetchProjects(r.URL.Query()["host"])
-	if len(errs) > 0 {
-		var errorMessages string
-		for _, err := range errs {
-			errorMessages += err.Error() + "\n"
-		}
-		http.Error(w, errorMessages, http.StatusInternalServerError)
-	} else {
+	if len(projects) > 0 {
 		projectTemplate := template.Must(template.ParseFiles(
 			GetApiAsset("template/projects.gohtml"),
 		))
@@ -71,6 +65,12 @@ func GetProjects(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
+	} else {
+		errorMessages := ""
+		for _, err := range errs {
+			errorMessages += err.Error() + "\n"
+		}
+		http.Error(w, errorMessages, http.StatusInternalServerError)
 	}
 }
 
