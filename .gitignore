@@ -9,6 +9,7 @@ lerna-debug.log*
 *.timestamp-*
 
 # Editor directories and files
+.env
 .vercel
 .idea
 .DS_Store
@@ -20,4 +21,4 @@ lerna-debug.log*
 
 # Build artifacts
 /public/tailwind.css
-tailwindcss
+/resources
