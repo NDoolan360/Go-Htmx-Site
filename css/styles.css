@@ -6,10 +6,9 @@
 /* Fonts */
 @font-face {
   font-display: swap;
-  font-family: "Oxygen Mono";
+  font-family: "Fragment Mono";
   font-style: normal;
-  src: url("/fonts/OxygenMono.woff2") format("woff2");
-  unicode-range: U+0000-00FF;
+  src: url("/fonts/FragmentMono.woff2") format("woff2");
 }
 
 @font-face {

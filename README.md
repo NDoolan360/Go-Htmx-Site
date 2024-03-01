@@ -28,7 +28,7 @@ The source code for my personal website, built with Go, Htmx and Hyperscript, an
 ## Fonts
 
 - [JosefinSans.woff2](/public/fonts) - [Josefin Sans Project](https://github.com/ThomasJockin/JosefinSansFont-master) &copy; 2010
-- [OxygenMono.woff2](/public/fonts) - [Vernon Adams](vern@newtypography.co.uk) &copy; 2012
+- [FragmentMono.woff2](/public/fonts) - [Wei Huang](https://weiweihuanghuang.github.io/), [URW Design Studio](https://www.urwtype.com) &copy; 2022
 
 ## Inspiration
 
