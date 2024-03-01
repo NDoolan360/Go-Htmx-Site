@@ -136,11 +136,6 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 						Logo:  GetSVGLogo("htmx"),
 					},
 					{
-						Label: "hyperscript",
-						URL:   "https://hyperscript.org",
-						Logo:  GetSVGLogo("hyperscript"),
-					},
-					{
 						Label: "Tailwind CSS",
 						URL:   "https://tailwindcss.com",
 						Logo:  GetSVGLogo("tailwind"),
