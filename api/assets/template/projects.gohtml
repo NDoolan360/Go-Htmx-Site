@@ -1,19 +1,19 @@
 {{range .Projects -}}
 <li class="card">
-    <a class="card-link" href="{{.HtmlUrl}}" aria-label="{{.Title}} on {{.Host}}" target="_blank" rel="noreferrer"></a>
-    {{if and .ImageSrc .ImageAlt -}}
-    <img class="card-feature-image" {{.ImageSrc}} {{.ImageAlt}} height="192">
+    <a class="card-link" href="{{.Url}}" aria-label="{{.Title}} on {{.Host}}" target="_blank" rel="noreferrer"></a>
+    {{if and .Image.Src .Image.Alt -}}
+    <img class="card-feature-image" {{.Image.Src}} {{.Image.Alt}} height="192">
     {{- end}}
     <div class="card-detail-section">
         <h3 class="card-title">{{.Title}}</h3>
-        {{if or .Language .LogoSVG -}}
+        {{if or .Language .Logo -}}
         <div class="card-detail">
-            {{if and .Language .LanguageColour -}}
-            <span class="card-language-colour" style="background-color: {{.LanguageColour}};"></span>
-            <p class="card-language-name">{{.Language}}</p>
+            {{if .Language -}}
+            <span class="card-language-colour" style="background-color: {{.Language.Colour}};"></span>
+            <p class="card-language-name">{{.Language.Name}}</p>
             {{- end}}
-            {{if .LogoSVG -}}
-            {{.LogoSVG}}
+            {{if .Logo -}}
+            {{.Logo}}
             {{- end}}
         </div>
         {{- end}}
