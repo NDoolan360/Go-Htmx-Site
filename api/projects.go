@@ -10,7 +10,6 @@ import (
 	"net/http"
 	"os"
 	"strings"
-	"time"
 
 	githublangsgo "github.com/NDoolan360/github-langs-go"
 )
@@ -22,10 +21,10 @@ func GetProjects(w http.ResponseWriter, r *http.Request) {
 		projectTemplate := template.Must(template.ParseFiles(
 			GetApiAsset("template/projects.gohtml"),
 		))
-		err := projectTemplate.Execute(w, ProjectsTemplate{Projects: projects})
-		errs = errors.Join(errs, err)
-	}
-	if errs != nil {
+		if err := projectTemplate.Execute(w, ProjectsTemplate{Projects: projects}); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+	} else if errs != nil {
 		http.Error(w, errs.Error(), http.StatusInternalServerError)
 	}
 }
@@ -64,7 +63,7 @@ var Fetch = func(request *Request) ([]byte, error) {
 		outgoingRequest.SetBasicAuth(request.Username, request.Password)
 	}
 
-	client := &http.Client{Timeout: time.Second * 10}
+	client := &http.Client{}
 	response, err := client.Do(outgoingRequest)
 	if err != nil {
 		return nil, err
