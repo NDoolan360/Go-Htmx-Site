@@ -101,8 +101,12 @@
     @apply flex flex-col gap-12;
   }
 
+  #experience ol:has(:hover) .experience-item:not(:hover) {
+    @apply opacity-50;
+  }
+
   .experience-item {
-    @apply relative grid sm:grid-cols-4 sm:gap-8 md:gap-4 w-full;
+    @apply relative grid sm:grid-cols-4 sm:gap-8 md:gap-4 w-full transition-opacity duration-500;
   }
 
   .experience-item .date-range {
@@ -133,12 +137,20 @@
     @apply flex flex-row flex-wrap gap-6;
   }
 
+  #project-gallery:has(:hover) .card:not(:hover) {
+    @apply opacity-50;
+  }
+
   .loader {
     @apply rounded-full animate-spin w-8 h-8 border-4 border-accent border-t-primary m-auto;
   }
 
   .card {
-    @apply flex flex-col gap-6 relative bg-secondary rounded-xl p-6 flex-grow max-w-full hover:shadow-[0_0_10px_0px_var(--primary)] hover:scale-105 focus-visible:scale-105 transition-all motion-reduce:hover:scale-100 motion-reduce:focus-visible:scale-100;
+    @apply flex flex-col gap-6 relative bg-secondary rounded-xl p-6 flex-grow max-w-full focus-visible:scale-105 transition-all motion-reduce:focus-visible:scale-100 duration-500;
+  }
+
+  .card:hover {
+    @apply shadow-[0_0_12px_0px_var(--primary)] scale-105 motion-reduce:scale-100;
   }
 
   .card-link {
@@ -146,7 +158,11 @@
   }
 
   a:not(.card-link) {
-    @apply hover:scale-110 focus-visible:scale-110 transition-transform motion-reduce:hover:scale-100 motion-reduce:focus-visible:scale-100;
+    @apply focus-visible:scale-110 transition-transform motion-reduce:focus-visible:scale-100;
+  }
+
+  a:not(.card-link):hover {
+    @apply scale-110 motion-reduce:scale-100;
   }
 
   .card-feature-image {
@@ -183,7 +199,7 @@
   }
 
   .btn,
-  .topic {
+  .chip {
     @apply w-fit px-3 py-1 border-none rounded-full font-heading inline-flex flex-row flex-nowrap gap-2 leading-4 align-baseline font-medium;
   }
 
@@ -191,8 +207,17 @@
     @apply bg-secondary dark:bg-accent dark:text-background transition-colors;
   }
 
-  .topic {
-    @apply bg-primary text-background transition-colors;
+  .chip {
+    @apply bg-primary text-background transition-all;
+  }
+
+  a.chip:hover {
+    @apply shadow-secondary shadow-md;
+  }
+
+  a.chip::after {
+    content: "↗";
+    @apply left-1;
   }
 
   .topic-wrapper {
