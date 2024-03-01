@@ -9,57 +9,6 @@ import (
 	"time"
 )
 
-// IndexTemplate represents the data structure for the index.gohtml template.
-type IndexTemplate struct {
-	// Basic page information for <head>
-	Title       string
-	Description string
-
-	// Navigation links
-	InternalLinks []Link
-	ExternalLinks []Link
-
-	// Profile information
-	Profile Profile
-
-	// Professional and educational experiences
-	Experiences []Experience
-
-	// Tools and technologies used section
-	ToolSections []ToolSection
-
-	// Copyright string
-	Copyright string
-}
-
-// Link represents a hyperlink with label, URL, and optional logo.
-type Link struct {
-	Label string
-	URL   template.URL
-	Logo  template.HTML
-}
-
-// Profile represents user profile information with image and paragraphs.
-type Profile struct {
-	ImageAttr  []template.HTMLAttr
-	Paragraphs []string
-}
-
-// Experience represents a work experience or education entry.
-type Experience struct {
-	Date
-	Link
-	Positions []Position
-	Knowledge []Link
-	Education bool
-}
-
-// ToolSection represents a section with a title and links to tools used.
-type ToolSection struct {
-	Title string
-	Links []Link
-}
-
 // GetIndex handles the request for rendering the index page.
 func GetIndex(w http.ResponseWriter, r *http.Request) {
 	indexTemplate := template.Must(template.ParseFiles(

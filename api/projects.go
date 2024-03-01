@@ -14,46 +14,6 @@ import (
 	"golang.org/x/net/html"
 )
 
-// ProjectsTemplate represents the data structure for the projects.gohtml template.
-type ProjectsTemplate struct {
-	Projects []Project
-}
-
-// Project represents information about a personal project.
-type Project struct {
-	Host           string
-	LogoSVG        template.HTML
-	ImageSrc       template.HTMLAttr
-	ImageAlt       template.HTMLAttr
-	Title          string   `json:"name"`
-	Description    string   `json:"description"`
-	HtmlUrl        string   `json:"html_url"`
-	Topics         []string `json:"topics"`
-	Fork           bool     `json:"fork"`
-	Language       string   `json:"language"`
-	LanguageColour template.CSS
-}
-
-// Date represents a start and end date for an experience.
-type Date struct {
-	Start string
-	End   string
-}
-
-// Position represents a job title and current job status for work experience.
-type Position struct {
-	Title   string
-	Current bool
-}
-
-// Host represents a source to recieve projects from.
-type Host struct {
-	Name   string
-	Path   string
-	Type   string
-	Parser func(node *html.Node) (*Project, bool)
-}
-
 // GetProjects handles the request for fetching and rendering project data.
 func GetProjects(w http.ResponseWriter, r *http.Request) {
 	projects, errs := FetchProjects(r.URL.Query()["host"])
@@ -291,17 +251,6 @@ func WithTagEqual(tag string, value string) MatchPredicate {
 	return func(node *html.Node) bool {
 		return strings.Contains(GetAttribute(node, tag), value)
 	}
-}
-
-type BoardGame struct {
-	ObjectID  string   `xml:"objectid,attr"`
-	Mechanics []string `xml:"boardgamemechanic"`
-	ImageURL  string   `xml:"image"`
-}
-
-type BoardGames struct {
-	TermsOfUse string    `xml:"termsofuse,attr"`
-	BoardGame  BoardGame `xml:"boardgame"`
 }
 
 func UpgradeBGG(project *Project) error {

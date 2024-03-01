@@ -6,14 +6,6 @@ import (
 	"net/http"
 )
 
-// MarkdownTemplate represents the data structure for the markdown.gohtml template.
-type MarkdownTemplate struct {
-	Title           string
-	Description     string
-	MarkdownSource  string
-	MarkdownSrcAttr template.HTMLAttr
-}
-
 // GetIndex handles the request for rendering the index page.
 func GetMarkdown(w http.ResponseWriter, r *http.Request) {
 	fileSource := r.URL.Query()["file"]
