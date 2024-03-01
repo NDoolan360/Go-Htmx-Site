@@ -12,9 +12,9 @@ import (
 // GetIndex handles the request for rendering the index page.
 func GetIndex(w http.ResponseWriter, r *http.Request) {
 	indexTemplate := template.Must(template.ParseFiles(
-		GetApiAsset("template/index.gohtml"),
-		GetApiAsset("template/head.gohtml"),
-		GetApiAsset("template/theme-switch.gohtml"),
+		GetApiAsset("template/index.html.tmpl"),
+		GetApiAsset("template/head.html.tmpl"),
+		GetApiAsset("template/theme-switch.html.tmpl"),
 	))
 
 	err := indexTemplate.Execute(w, IndexTemplate{

@@ -10,7 +10,7 @@ func TypesHandler(w http.ResponseWriter, r *http.Request) {
 	http.NotFound(w, nil)
 }
 
-// IndexTemplate represents the data structure for the index.gohtml template.
+// IndexTemplate represents the data structure for the index.html.tmpl template.
 type IndexTemplate struct {
 	// Basic page information for <head>
 	Title       string
@@ -33,12 +33,12 @@ type IndexTemplate struct {
 	Copyright string
 }
 
-// ProjectsTemplate represents the data structure for the projects.gohtml template.
+// ProjectsTemplate represents the data structure for the projects.html.tmpl template.
 type ProjectsTemplate struct {
 	Projects []Project
 }
 
-// MarkdownTemplate represents the data structure for the markdown.gohtml template.
+// MarkdownTemplate represents the data structure for the markdown.html.tmpl template.
 type MarkdownTemplate struct {
 	Title           string
 	Description     string
@@ -88,14 +88,14 @@ type ToolSection struct {
 
 // Project represents information about a personal project.
 type Project struct {
-	Host  string
-	Title string
+	Host        string
+	Title       string
 	Description template.HTML
-	Url   string
+	Url         string
 	Image
 	Language
-	Logo        template.HTML
-	Topics      []string
+	Logo   template.HTML
+	Topics []string
 }
 
 type Image struct {

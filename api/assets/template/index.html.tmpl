@@ -74,9 +74,9 @@
                         <div class="topic-wrapper">
                             {{range .Knowledge -}}
                             {{if .URL}}
-                            <a class="topic" href="{{.URL}}" target="_blank" rel="noreferrer">{{.Label}}</a>
+                            <a class="chip" href="{{.URL}}" target="_blank" rel="noreferrer">{{.Label}}</a>
                             {{- else -}}
-                            <span class="topic">{{.Label}}</span>
+                            <span class="chip">{{.Label}}</span>
                             {{- end}}
                             {{- end}}
                         </div>

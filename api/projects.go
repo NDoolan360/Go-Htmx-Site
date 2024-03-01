@@ -19,7 +19,7 @@ func GetProjects(w http.ResponseWriter, r *http.Request) {
 	projects, errs := FetchProjects(r.URL.Query()["host"])
 	if len(projects) > 0 {
 		projectTemplate := template.Must(template.ParseFiles(
-			GetApiAsset("template/projects.gohtml"),
+			GetApiAsset("template/projects.html.tmpl"),
 		))
 		if err := projectTemplate.Execute(w, ProjectsTemplate{Projects: projects}); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
