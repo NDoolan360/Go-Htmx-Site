@@ -45,7 +45,8 @@ marketing initiatives, including social media campaigns and content creation.
 
 ## Skills
 
-### Techincal skills
+### Technical skills
+
 - Microsoft Office
 - Adobe Creative Suite
 - Markdown
@@ -65,6 +66,7 @@ marketing initiatives, including social media campaigns and content creation.
 | Java        | <progress value="0.50"> |
 
 ### Personal skills
+
 - Inquisitive
 - Curious
 - Collaborative

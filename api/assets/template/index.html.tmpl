@@ -63,29 +63,33 @@
                 <li class="experience-item{{if .Education}} education{{end}}">
                     <span class="date-range">{{.Date.Start}} - {{.Date.End}}</span>
                     <div>
-                        <a class="experience-title" href="{{.Workplace.URL}}" target="_blank" rel="noreferrer">
-                            {{.Workplace.Logo}}
-                            <h3>{{.Workplace.Label}}</h3>
+                        <a class="experience-title" href="{{.Link.URL}}" target="_blank" rel="noreferrer">
+                            {{.Link.Logo}}
+                            <h3>{{.Link.Label}}</h3>
                         </a>
                         {{range .Positions -}}
                         <h4 {{if .Current}}class="current"{{end}}>{{.Title}}</h4>
                         {{- end}}
-                        {{if .Topics -}}
+                        {{if .Knowledge -}}
                         <div class="topic-wrapper">
-                            {{range .Topics -}}
-                            <span class="topic">
-                                {{.}}
-                            </span>
+                            {{range .Knowledge -}}
+                            {{if .URL}}
+                            <a class="chip" href="{{.URL}}" target="_blank" rel="noreferrer">{{.Label}}</a>
+                            {{- else -}}
+                            <span class="chip">{{.Label}}</span>
+                            {{- end}}
                             {{- end}}
                         </div>
                         {{- end}}
                     </div>
                 </li>
                 {{- end}}
+                <li>
+                    <a class="btn" href="/markdown?file=/Resume.md" target="_blank" rel="noreferrer">
+                        Full Resume
+                    </a>
+                </li>
             </ol>
-            <a class="btn" href="/markdown?file=/documents/Resume.md" target="_blank" rel="noreferrer">
-                Full Resume &RightArrow;
-            </a>
         </section>
 
         <section id="projects">
@@ -99,22 +103,27 @@
         </section>
 
         <footer>
-            {{range .ToolSections -}}
-            <div id="tools">
-                <h3>{{.Title}}</h3>
-                <ul>
-                    {{range .Links -}}
-                    <li>
-                        <a class="btn" href="{{.URL}}" target="_blank" rel="noreferrer">
-                            {{.Logo}}
-                            <p>{{.Label}}</p>
-                        </a>
-                    </li>
-                    {{- end}}
-                </ul>
+            <div class="heading">
+                <hr>
             </div>
-            {{- end}}
-            <p id="copyright"> {{.Copyright}} </p>
+            <div>
+                {{range .ToolSections -}}
+                <div id="tools">
+                    <h3>{{.Title}}</h3>
+                    <ul>
+                        {{range .Links -}}
+                        <li>
+                            <a class="btn" href="{{.URL}}" target="_blank" rel="noreferrer">
+                                {{.Logo}}
+                                <p>{{.Label}}</p>
+                            </a>
+                        </li>
+                        {{- end}}
+                    </ul>
+                </div>
+                {{- end}}
+                <p id="copyright"> {{.Copyright}} </p>
+            </div>
         </footer>
     </main>
 </body>

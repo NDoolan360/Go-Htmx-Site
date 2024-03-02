@@ -9,66 +9,15 @@ import (
 	"time"
 )
 
-// IndexTemplate represents the data structure for the index.gohtml template.
-type IndexTemplate struct {
-	// Basic page information for <hrad>
-	Title       string
-	Description string
-
-	// Navigation links
-	InternalLinks  []Link
-	ExternalLinks  []Link
-
-	// Profile information
-	Profile Profile
-
-	// Professional and educational experiences
-	Experiences []Experience
-
-	// Tools and technologies used section
-	ToolSections []ToolSection
-
-	// Copyright string
-	Copyright string
-}
-
-// Link represents a hyperlink with label, URL, and optional logo.
-type Link struct {
-	Label string
-	URL   template.URL
-	Logo  template.HTML
-}
-
-// Profile represents user profile information with image and paragraphs.
-type Profile struct {
-	ImageAttr  []template.HTMLAttr
-	Paragraphs []string
-}
-
-// Experience represents a work experience or education entry.
-type Experience struct {
-	Date
-	Workplace Link
-	Positions []Position
-	Topics    []string
-	Education bool
-}
-
-// ToolSection represents a section with a title and links to tools used.
-type ToolSection struct {
-	Title string
-	Links []Link
-}
-
 // GetIndex handles the request for rendering the index page.
 func GetIndex(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles(
-		GetApiAsset("template/index.gohtml"),
-		GetApiAsset("template/head.gohtml"),
-		GetApiAsset("template/theme-switch.gohtml"),
-		))
+	indexTemplate := template.Must(template.ParseFiles(
+		GetApiAsset("template/index.html.tmpl"),
+		GetApiAsset("template/head.html.tmpl"),
+		GetApiAsset("template/theme-switch.html.tmpl"),
+	))
 
-	err := tmpl.Execute(w, IndexTemplate{
+	err := indexTemplate.Execute(w, IndexTemplate{
 		Title:       "Nathan Doolan",
 		Description: "A personal website showcasing Nathan Doolan's journey as a full-time software engineer in Melbourne. Explore his professional experience, projects, and interests in technology, board games, and 3D printing.",
 		InternalLinks: []Link{
@@ -125,17 +74,17 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 		Experiences: []Experience{
 			{
 				Date: Date{Start: "Jan 2024", End: "Present"},
-				Workplace: Link{
+				Link: Link{
 					Label: "Kaluza",
 					URL:   "https://kaluza.com/",
 					Logo:  GetSVGLogo("kaluza"),
 				},
 				Positions: []Position{{Title: "Software Engineer", Current: true}},
-				Topics:    []string{"Typescript", "Git", "Github Actions"},
+				Knowledge: []Link{{Label: "Typescript", URL: "https://www.typescriptlang.org"}, {Label: "Github Actions", URL: "https://github.com/features/actions"}, {Label: "CircleCI", URL: "https://circleci.com"}, {Label: "NestJS", URL: "https://nestjs.com"}, {Label: "Terraform", URL: "https://www.terraform.io"}, {Label: "Kafka", URL: "https://kafka.apache.org"}, {Label: "DataDog", URL: "https://www.datadoghq.com"}},
 			},
 			{
 				Date: Date{Start: "Jul 2021", End: "Dec 2023"},
-				Workplace: Link{
+				Link: Link{
 					Label: "Gentrack",
 					URL:   "https://gentrack.com/",
 					Logo:  GetSVGLogo("gentrack"),
@@ -145,11 +94,11 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 					{Title: "Junior Software Engineer"},
 					{Title: "Graduate Software Engineer"},
 				},
-				Topics: []string{"Git", "SQL", "Github Actions", "Docker", "Jenkins", "API Design", "Unit Testing"},
+				Knowledge: []Link{{Label: "SQL"}, {Label: "API Design"}, {Label: "Unit Testing"}, {Label: "Docker", URL: "https://www.docker.com"}, {Label: "Jenkins", URL: "https://www.jenkins.io"}},
 			},
 			{
 				Date: Date{Start: "Feb 2018", End: "Jul 2021"},
-				Workplace: Link{
+				Link: Link{
 					Label: "Proquip Rental & Sales",
 					URL:   "https://pqrs.com.au/",
 					Logo:  GetSVGLogo("proquip"),
@@ -159,16 +108,17 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 					{Title: "IT/Marketing Assistant"},
 					{Title: "Administrative Assistant"},
 				},
-				Topics: []string{"IT Support", "Adobe Suite", "Social Media Marketing", "Wordpress", "Google Analytics"},
+				Knowledge: []Link{{Label: "IT Support"}, {Label: "Social Media Marketing"}, {Label: "Adobe Suite", URL: "https://www.adobe.com/products/catalog.html"}, {Label: "Wordpress", URL: "https://wordpress.com"}, {Label: "Google Analytics", URL: "https://analytics.google.com/analytics"}},
 			},
 			{
 				Date: Date{Start: "Feb 2018", End: "Feb 2021"},
-				Workplace: Link{
+				Link: Link{
 					Label: "University of Melbourne",
 					URL:   "https://www.unimelb.edu.au/",
 					Logo:  GetSVGLogo("melbourneuniversity"),
 				},
 				Positions: []Position{{Title: "Bachelor of Science: Computing and Software Systems"}},
+				Knowledge: []Link{{Label: "Course Overview", URL: "https://study.unimelb.edu.au/find/courses/major/computing-and-software-systems"}},
 				Education: true,
 			},
 		},
@@ -185,11 +135,6 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 						Label: "htmx",
 						URL:   "https://htmx.org",
 						Logo:  GetSVGLogo("htmx"),
-					},
-					{
-						Label: "hyperscript",
-						URL:   "https://hyperscript.org",
-						Logo:  GetSVGLogo("hyperscript"),
 					},
 					{
 						Label: "Tailwind CSS",
@@ -226,7 +171,7 @@ func Copyright(name string) string {
 	return fmt.Sprintf("© %s %d", name, year)
 }
 
-// GetApiAsset returns the correct resource path for resources in the api dirextory,
+// GetApiAsset returns the correct resource path for resources in the api directory,
 // based on the current environment.
 func GetApiAsset(path string) string {
 	if _, inVercel := os.LookupEnv("VERCEL"); inVercel {

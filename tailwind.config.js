@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default ({
-	content: ["./public/index.html", "./api/assets/template/*.gohtml"],
+	content: ["./public/index.html", "./api/assets/template/*.html.tmpl"],
 	darkMode: "class",
 	theme: {
 		extend: {
@@ -21,8 +21,8 @@ export default ({
 				"5xl": "4.210rem",
 			},
 			fontFamily: {
-				heading: "Oxygen Mono, mono",
-				body: "Josefin Sans, sans-serif",
+				heading: "Fragment Mono, mono",
+				body: "Josefin Sans, sans-serif"
 			},
 			fontWeight: {
 				normal: "400",
