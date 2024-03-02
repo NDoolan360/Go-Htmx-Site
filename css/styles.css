@@ -70,11 +70,16 @@
   }
 
   main {
-    @apply flex flex-col flex-grow px-6 mx-auto md:px-12 lg:pl-0 lg:pr-24 lg:pb-24 lg:max-w-[66.666667%] lg:ml-20 lg:w-0;
+    @apply flex flex-col flex-grow px-6 mx-auto md:px-12 lg:pl-0 lg:pr-24 lg:py-24 lg:max-w-[66.666667%] lg:ml-20 lg:w-0;
   }
 
-  section {
-    @apply flex flex-col gap-6 pt-12 md:pt-20 lg:pt-24;
+  section,
+  footer {
+    @apply flex flex-col gap-8 pb-8 lg:gap-16 lg:pb-16;
+  }
+
+  footer {
+    @apply gap-4 pb-0;
   }
 
   .heading {
@@ -102,7 +107,7 @@
   }
 
   #experience ol {
-    @apply flex flex-col gap-12;
+    @apply flex flex-col gap-16;
   }
 
   #experience ol:has(.experience-item:hover) .experience-item:not(:hover) {
@@ -138,7 +143,7 @@
   }
 
   #project-gallery {
-    @apply flex flex-row flex-wrap gap-6;
+    @apply flex flex-row flex-wrap gap-8;
   }
 
   #project-gallery:has(:hover) .card:not(:hover) {
@@ -217,10 +222,6 @@
 
   .topic-wrapper {
     @apply flex flex-wrap flex-row gap-1 text-xs;
-  }
-
-  footer {
-    @apply pt-0 pb-12 lg:pb-0;
   }
 
   #tools ul,

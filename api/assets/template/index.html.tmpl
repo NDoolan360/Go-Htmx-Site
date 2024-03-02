@@ -106,22 +106,24 @@
             <div class="heading">
                 <hr>
             </div>
-            {{range .ToolSections -}}
-            <div id="tools">
-                <h3>{{.Title}}</h3>
-                <ul>
-                    {{range .Links -}}
-                    <li>
-                        <a class="btn" href="{{.URL}}" target="_blank" rel="noreferrer">
-                            {{.Logo}}
-                            <p>{{.Label}}</p>
-                        </a>
-                    </li>
-                    {{- end}}
-                </ul>
+            <div>
+                {{range .ToolSections -}}
+                <div id="tools">
+                    <h3>{{.Title}}</h3>
+                    <ul>
+                        {{range .Links -}}
+                        <li>
+                            <a class="btn" href="{{.URL}}" target="_blank" rel="noreferrer">
+                                {{.Logo}}
+                                <p>{{.Label}}</p>
+                            </a>
+                        </li>
+                        {{- end}}
+                    </ul>
+                </div>
+                {{- end}}
+                <p id="copyright"> {{.Copyright}} </p>
             </div>
-            {{- end}}
-            <p id="copyright"> {{.Copyright}} </p>
         </footer>
     </main>
 </body>
