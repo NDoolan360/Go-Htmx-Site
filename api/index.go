@@ -80,7 +80,7 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 					Logo:  GetSVGLogo("kaluza"),
 				},
 				Positions: []Position{{Title: "Software Engineer", Current: true}},
-				Knowledge: []Link{{Label: "Git"}, {Label: "Typescript", URL: "https://www.typescriptlang.org"}, {Label: "Docker", URL: "https://www.docker.com"}, {Label: "Github Actions"}, {Label: "CircleCI", URL: "https://circleci.com"}, {Label: "NestJS", URL: "https://nestjs.com"}, {Label: "GraphQL", URL: "https://graphql.org"}, {Label: "Terraform", URL: "https://www.terraform.io"}, {Label: "Kafka", URL: "https://kafka.apache.org"}, {Label: "Kubernetes", URL: "https://kubernetes.io"}},
+				Knowledge: []Link{{Label: "Typescript", URL: "https://www.typescriptlang.org"}, {Label: "Github Actions", URL: "https://github.com/features/actions"}, {Label: "CircleCI", URL: "https://circleci.com"}, {Label: "NestJS", URL: "https://nestjs.com"}, {Label: "Terraform", URL: "https://www.terraform.io"}, {Label: "Kafka", URL: "https://kafka.apache.org"}, {Label: "DataDog", URL: "https://www.datadoghq.com"}},
 			},
 			{
 				Date: Date{Start: "Jul 2021", End: "Dec 2023"},
@@ -94,7 +94,7 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 					{Title: "Junior Software Engineer"},
 					{Title: "Graduate Software Engineer"},
 				},
-				Knowledge: []Link{{Label: "Git"}, {Label: "SQL"}, {Label: "Docker", URL: "https://www.docker.com"}, {Label: "Jenkins", URL: "https://www.jenkins.io"}, {Label: "API Design"}, {Label: "Unit Testing"}},
+				Knowledge: []Link{{Label: "SQL"}, {Label: "API Design"}, {Label: "Unit Testing"}, {Label: "Docker", URL: "https://www.docker.com"}, {Label: "Jenkins", URL: "https://www.jenkins.io"}},
 			},
 			{
 				Date: Date{Start: "Feb 2018", End: "Jul 2021"},
@@ -108,7 +108,7 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 					{Title: "IT/Marketing Assistant"},
 					{Title: "Administrative Assistant"},
 				},
-				Knowledge: []Link{{Label: "IT Support"}, {Label: "Adobe Suite"}, {Label: "Social Media Marketing"}, {Label: "Wordpress"}, {Label: "Google Analytics"}},
+				Knowledge: []Link{{Label: "IT Support"}, {Label: "Social Media Marketing"}, {Label: "Adobe Suite", URL: "https://www.adobe.com/products/catalog.html"}, {Label: "Wordpress", URL: "https://wordpress.com"}, {Label: "Google Analytics", URL: "https://analytics.google.com/analytics"}},
 			},
 			{
 				Date: Date{Start: "Feb 2018", End: "Feb 2021"},
@@ -118,6 +118,7 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 					Logo:  GetSVGLogo("melbourneuniversity"),
 				},
 				Positions: []Position{{Title: "Bachelor of Science: Computing and Software Systems"}},
+				Knowledge: []Link{{Label: "Course Overview", URL: "https://study.unimelb.edu.au/find/courses/major/computing-and-software-systems"}},
 				Education: true,
 			},
 		},
