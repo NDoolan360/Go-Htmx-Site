@@ -31,7 +31,7 @@
     --text: #011309;
     --background: #d7f1ec;
     --primary: #0b7956;
-    --secondary: rgb(188, 211, 204);
+    --secondary: #bcd3cc;
     --accent: #0b7956;
   }
 }
@@ -151,7 +151,7 @@
   }
 
   .loader {
-    @apply rounded-full animate-spin w-8 h-8 border-4 border-accent border-t-primary m-auto;
+    @apply rounded-full animate-spin w-8 h-8 border-4 border-primary border-t-background m-auto;
   }
 
   .card {
