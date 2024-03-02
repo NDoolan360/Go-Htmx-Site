@@ -21,7 +21,7 @@ func GetMarkdown(w http.ResponseWriter, r *http.Request) {
 	))
 
 	execErr := markdownTemplate.Execute(w, MarkdownTemplate{
-		Title:           "",
+		Title:           fileSource[0],
 		Description:     "",
 		MarkdownSource:  fileSource[0],
 		MarkdownSrcAttr: template.HTMLAttr(fmt.Sprintf(`src="%s"`, fileSource[0])),
