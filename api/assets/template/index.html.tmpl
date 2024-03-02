@@ -84,10 +84,12 @@
                     </div>
                 </li>
                 {{- end}}
+                <li>
+                    <a class="btn" href="/markdown?file=/documents/Resume.md" target="_blank" rel="noreferrer">
+                        Full Resume
+                    </a>
+                </li>
             </ol>
-            <a class="btn" href="/markdown?file=/documents/Resume.md" target="_blank" rel="noreferrer">
-                Full Resume &RightArrow;
-            </a>
         </section>
 
         <section id="projects">
@@ -101,6 +103,9 @@
         </section>
 
         <footer>
+            <div class="heading">
+                <hr>
+            </div>
             {{range .ToolSections -}}
             <div id="tools">
                 <h3>{{.Title}}</h3>
