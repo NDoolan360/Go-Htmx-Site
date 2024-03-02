@@ -32,6 +32,6 @@ The source code for my personal website, built with Go, Htmx and Hyperscript, an
 
 ## Inspiration
 
-- [Brittany Chiang's Website](https://brittanychiang.com) - [Brittany Chiang](https://github.com/bchiang7)
-- [Jake Lazaroff's Website](https://jakelazaroff.com) - [Jake Lazaroff](https://github.com/jakelazaroff)
+- [brittanychiang.com](https://brittanychiang.com) - [Brittany Chiang](https://github.com/bchiang7)
+- [jakelazaroff.com](https://jakelazaroff.com) - [Jake Lazaroff](https://github.com/jakelazaroff)
 - [Realtime Colors](https://www.realtimecolors.com) - [Juxtopossed](https://github.com/juxtopposed)
