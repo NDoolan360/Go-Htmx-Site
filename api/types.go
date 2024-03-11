@@ -46,6 +46,16 @@ type MarkdownTemplate struct {
 	MarkdownSrcAttr template.HTMLAttr
 }
 
+// ManifestTemplate represents the data structure for the manifest.json.tmpl template.
+type ManifestTemplate struct {
+	StartUrl string
+}
+
+// ManifestTemplate represents the data structure for the sitemap.xml.tmpl template.
+type SitemapTemplate struct {
+	Url string
+}
+
 // Link represents a hyperlink with label, URL, and optional logo.
 type Link struct {
 	Label string
