@@ -1,11 +1,11 @@
 {
-    "name": "Nathan Doolan",
+    "name": "/ND",
     "description": "A personal website showcasing Nathan Doolan's journey as a full-time software engineer in Melbourne. Explore his professional experience, projects, and interests in technology, board games, and 3D printing.",
     "short_name": "/ND",
     "theme_color": "#283c37",
     "background_color": "#192926",
     "display": "minimal-ui",
-    "start-url": "{{ .StartUrl }}",
+    "start_url": "/",
     "prefer-related-applications": true,
     "related-applications": [],
     "icons": [
