@@ -14,6 +14,7 @@ func main() {
 	http.HandleFunc("/api/markdown", http.HandlerFunc(api.GetMarkdown))
 	http.HandleFunc("/manifest.json", http.HandlerFunc(api.GetManifest))
 	http.HandleFunc("/sitemap.xml", http.HandlerFunc(api.GetSitemap))
+	http.HandleFunc("/_vercel/insights/script.js", func(w http.ResponseWriter, r *http.Request) {})
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path == "/" {
 			api.GetIndex(w, r)
