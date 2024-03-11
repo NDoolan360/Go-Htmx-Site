@@ -18,19 +18,28 @@
 <meta property="og:image" content="/images/profile.webp">
 <meta name="color-scheme" content="dark light">
 <meta name="theme-color" content="#283c37">
+<meta name="apple-mobile-web-app-status-bar" content="#283c37">
 <link rel="preload" href="/fonts/JosefinSans.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/FragmentMono.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/tailwind.css">
+<link rel="manifest" href="/manifest.json" crossorigin="use-credentials">
 
 <script type="module" src="/scripts/htmx.min.js"></script>
 <script type="module" src="/scripts/hyperscript.min.js"></script>
-<script>
-    document.addEventListener('readystatechange', () => {
-        const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches;
-        document.body.classList.toggle('dark', !isLightMode);
-    });
-</script>
-<script>
+<script type="text/javascript">
+  document.addEventListener('readystatechange', () => {
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches;
+    document.body.classList.toggle('dark', !isLightMode);
+  });
+  window.addEventListener('load', async() => {
+    if ('serviceWorker' in navigator) {
+      try {
+        await navigator.serviceWorker.register('service_worker.js');
+      } catch(e) {
+        console.log('Service Worker registration failed');
+      }
+    }
+  });
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
