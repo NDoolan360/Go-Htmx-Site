@@ -13,7 +13,7 @@ func GetSitemap(w http.ResponseWriter, r *http.Request) {
 	))
 
 	execErr := markdownTemplate.Execute(w, SitemapTemplate{
-		Url: fmt.Sprintf("%s://%s", r.URL.Scheme, r.Host),
+		Url: fmt.Sprintf("https://%s", r.Host),
 	})
 	if execErr != nil {
 		http.Error(w, execErr.Error(), http.StatusInternalServerError)

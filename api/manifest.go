@@ -13,7 +13,7 @@ func GetManifest(w http.ResponseWriter, r *http.Request) {
 	))
 
 	execErr := markdownTemplate.Execute(w, ManifestTemplate{
-		StartUrl: fmt.Sprintf("%s://%s", r.URL.Scheme, r.Host),
+		StartUrl: fmt.Sprintf("https://%s/", r.Host),
 	})
 	if execErr != nil {
 		http.Error(w, execErr.Error(), http.StatusInternalServerError)
