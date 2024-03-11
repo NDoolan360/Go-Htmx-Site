@@ -10,6 +10,14 @@
         {
             "source": "/markdown",
             "destination": "/api/markdown.go"
+        },
+        {
+            "source": "/manifest.json",
+            "destination": "/api/manifest.go"
+        },
+        {
+            "source": "/sitemap.xml",
+            "destination": "/api/sitemap.go"
         }
     ],
     "functions": {
