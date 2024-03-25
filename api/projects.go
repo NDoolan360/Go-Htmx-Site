@@ -36,6 +36,7 @@ func FetchProjects(hostNames []string) (projects []Project, errs error) {
 			data, err := Fetch(&host.Request)
 			if err != nil {
 				errs = errors.Join(errs, err)
+				continue
 			}
 			newProjects, err := host.Parser(data)
 			if err != nil {
@@ -67,6 +68,8 @@ var Fetch = func(request *Request) ([]byte, error) {
 	response, err := client.Do(outgoingRequest)
 	if err != nil {
 		return nil, err
+	} else if response.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("Request to %s failed with status code: %d", request.Path, response.StatusCode)
 	}
 	defer response.Body.Close()
 
