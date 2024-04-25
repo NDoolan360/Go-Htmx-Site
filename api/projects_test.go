@@ -109,7 +109,7 @@ var githubMock = `
 
 var bggMock = `
 <geeklist>
-    <item objectid="330653" objectname="Cake Toppers"></item> 
+    <item objectid="330653" objectname="Cake Toppers"></item>
 </geeklist>`
 
 var bggXMLMock = `
@@ -127,8 +127,8 @@ var bggXMLMock = `
 var cults3DMock = `
 {
   "data": {
-      "creationsBatch": {
-          "results": [
+      "user": {
+          "creations": [
               {
                   "name": "Reciprocating Rack and Pinion Fidget V2",
                   "url": "https://cults3d.com/en/3d-model/gadget/reciprocating-rack-and-pinion-fidget-v2",
@@ -176,9 +176,9 @@ var GithubExpected = []Project{
 
 var BggExpected = []Project{
 	{
-		Host:        "Board Game Geek",
-		Title:       "Cake Toppers",
-		Url:         "https://boardgamegeek.com/boardgame/330653",
+		Host:  "Board Game Geek",
+		Title: "Cake Toppers",
+		Url:   "https://boardgamegeek.com/boardgame/330653",
 		Image: Image{
 			Src: template.HTMLAttr(`src="https://cf.geekdo-images.com/wFwQ-MEGf6BLIyV77hQvHQ__original/img/jGDJHygR3da__4gT0pMzKAD1SQU=/0x0/filters:format(png)/pic5982841.png"`),
 			Alt: template.HTMLAttr(`alt="Board Game: Cake Toppers"`),
