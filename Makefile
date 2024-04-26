@@ -1,4 +1,11 @@
+# Export all variables
 export
+
+# Set up environment variables
+ENVFILE=$(PWD)/.env
+ENVFILE_EXAMPLE=$(PWD)/.example.env
+$(shell cp -n $(ENVFILE_EXAMPLE) $(ENVFILE))
+include $(ENVFILE)
 
 # Get OS & ARCH info
 SYSTEM := $(shell uname -s)
@@ -15,17 +22,17 @@ else ifeq ($(PLATFORM),arm64)
     ARCH=arm64
 endif
 
-ENVFILE=$(PWD)/.env
-ENVFILE_EXAMPLE=$(PWD)/.example.env
-$(shell cp -n $(ENVFILE_EXAMPLE) $(ENVFILE))
-include $(ENVFILE)
+#################################################################################
+# Commands                                                                      #
+#################################################################################
 
 BUILD_FILE=$(PWD)/public/tailwind.css
 CSS_FILE=$(PWD)/public/styles.css
 BINARY=$(PWD)/tailwindcss-$(OS)-$(ARCH)
+BINARY_URL=https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-$(OS)-$(ARCH)
 
 .PHONY: build
-## builds `tailwind.css` output file
+## generates `tailwind.css` from the `styles.css` using tailwindcss binary
 build: $(BUILD_FILE)
 $(BUILD_FILE): $(CSS_FILE) $(BINARY)
 	$(BINARY) build -i $(CSS_FILE) -o $(BUILD_FILE) --minify
@@ -34,7 +41,7 @@ $(BUILD_FILE): $(CSS_FILE) $(BINARY)
 ## installs the latest version of the `tailwindcss` CLI
 install: $(BINARY)
 $(BINARY):
-	curl -sLo $(BINARY) https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-$(OS)-$(ARCH)
+	curl -sLo $(BINARY) $(BINARY_URL)
 	chmod +x $(BINARY)
 
 .PHONY: dev
@@ -43,7 +50,7 @@ dev: $(BUILD_FILE)
 	go run main.go
 
 .PHONY: clean
-## removes all binaries and artifacts
+## removes binaries and artifacts
 clean:
 	rm -vf $(BINARY) $(BUILD_FILE)
 
