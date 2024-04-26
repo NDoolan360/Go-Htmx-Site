@@ -1,6 +1,6 @@
 # Nathan Doolan
 
-[Website](https://n.doolan.dev) - [Github](https://github.com/NDoolan360) - [LinkedIn](https://www.linkedin.com/in/nathan-doolan-835a13171)
+[Website][website] - [Github][github] - [LinkedIn][linkedin]
 
 ## Summary
 
@@ -8,67 +8,76 @@ Highly skilled and motivated Software Engineer with a proven track record of des
 
 ## Experience
 
-### [Kaluza](https://kaluza.com) [Jan 2024 - Present]
+### [Kaluza][kaluza] [Jan 2024 - Present]
 
 #### Software Engineer
 
-### [Gentrack](https://gentrack.com) [Jul 2021 - Jan 2024]
+### [Gentrack][gentrack] [Jul 2021 - Jan 2024]
 
 #### (Graduate Software Engineer, Junior Software Engineer, Intermediate Software Engineer)
 
-- Mentored junior developers, facilitating their growth and contributing to a
-collaborative and knowledge-sharing team culture.
-- Designed and implemented RESTful APIs, improving API coverage and
-enabling seamless integration with third-party services.
-- Worked with project and product managers to gather requirements and
-translate them into technical specifications for development and delivery.
+-   Mentored junior developers, facilitating their growth and contributing to a
+    collaborative and knowledge-sharing team culture.
+-   Designed and implemented RESTful APIs, improving API coverage and
+    enabling seamless integration with third-party services.
+-   Worked with project and product managers to gather requirements and
+    translate them into technical specifications for development and delivery.
 
-### [Proquip Rental & Sales](https://pqrs.com.au) [Feb 2018 - Jul 2021]
+### [Proquip Rental & Sales][proquip] [Feb 2018 - Jul 2021]
 
 #### (IT Support Specialist)
 
-- Provided timely technical support to office staff, resolving hardware and
-software issues efficiently to ensure seamless daily operations.
+-   Provided timely technical support to office staff, resolving hardware and
+    software issues efficiently to ensure seamless daily operations.
 
 #### (Administrative Assistant, IT/Marketing Assistant)
 
-- Provided basic technical support to office staff, while actively supporting
-marketing initiatives, including social media campaigns and content creation.
+-   Provided basic technical support to office staff, while actively supporting
+    marketing initiatives, including social media campaigns and content creation.
 
 ## Education
 
-### [University of Melbourne](https://www.unimelb.edu.au) [February 2018 - February 2021]
+### [University of Melbourne][unimelb] [February 2018 - February 2021]
 
-#### Bachelor of Science: [Computing and Software Systems](https://study.unimelb.edu.au/find/courses/major/computing-and-software-systems/)
+#### Bachelor of Science: [Computing and Software Systems][bachelor_of_science]
 
-- Relevant coursework: Data Structures, Algorithms, Software Engineering Principles
+-   Relevant coursework: Data Structures, Algorithms, Software Engineering Principles
 
 ## Skills
 
 ### Technical skills
 
-- Microsoft Office
-- Adobe Creative Suite
-- Markdown
+-   Microsoft Office
+-   Adobe Creative Suite
+-   Markdown
 
 #### Languages
 
-|             |                         |
-|-------------|-------------------------|
-| JavaScript  | <progress value="0.98"> |
-| TypeScript  | <progress value="0.98"> |
-| HTML/CSS    | <progress value="0.98"> |
-| Go          | <progress value="0.75"> |
-| Rust        | <progress value="0.75"> |
-| Svelte      | <progress value="0.70"> |
-| Python      | <progress value="0.70"> |
-| C           | <progress value="0.60"> |
-| Java        | <progress value="0.50"> |
+|            |                         |
+| ---------- | ----------------------- |
+| JavaScript | <progress value="0.98"> |
+| TypeScript | <progress value="0.98"> |
+| HTML/CSS   | <progress value="0.98"> |
+| Go         | <progress value="0.75"> |
+| Rust       | <progress value="0.75"> |
+| Svelte     | <progress value="0.70"> |
+| Python     | <progress value="0.70"> |
+| C          | <progress value="0.60"> |
+| Java       | <progress value="0.50"> |
 
 ### Personal skills
 
-- Inquisitive
-- Curious
-- Collaborative
-- Articulate
-- Enthusiastic
+-   Inquisitive
+-   Curious
+-   Collaborative
+-   Articulate
+-   Enthusiastic
+
+[website]: https://n.doolan.dev "My Website"
+[github]: https://github.com/NDoolan360 "My Github"
+[linkedin]: https://www.linkedin.com/in/nathan-doolan-835a13171 "My LinkedIn"
+[kaluza]: https://kaluza.com "Kaluza"
+[gentrack]: https://gentrack.com "Gentrack"
+[proquip]: https://pqrs.com.au "Proquip Rental and Sales"
+[unimelb]: https://www.unimelb.edu.au "Universoty of Melbourne"
+[bachelor_of_science]: https://study.unimelb.edu.au/find/courses/major/computing-and-software-systems "Bachelor of Science"
