@@ -36,6 +36,7 @@ func FetchProjects(hostNames []string) (projects []Project, errs error) {
 			data, err := Fetch(&host.Request)
 			if err != nil {
 				errs = errors.Join(errs, err)
+				continue
 			}
 			newProjects, err := host.Parser(data)
 			if err != nil {
@@ -57,7 +58,7 @@ var Fetch = func(request *Request) ([]byte, error) {
 		return nil, err
 	}
 	if len(request.ContentType) > 0 {
-		outgoingRequest.Header.Add("Content-Type", "application/json")
+		outgoingRequest.Header.Add("Content-Type", request.ContentType)
 	}
 	if len(request.Username) > 0 && len(request.Password) > 0 {
 		outgoingRequest.SetBasicAuth(request.Username, request.Password)
@@ -67,6 +68,8 @@ var Fetch = func(request *Request) ([]byte, error) {
 	response, err := client.Do(outgoingRequest)
 	if err != nil {
 		return nil, err
+	} else if response.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("Request to %s failed with status code: %d", request.Path, response.StatusCode)
 	}
 	defer response.Body.Close()
 
@@ -128,42 +131,32 @@ var hostMap = map[string]Host{
 	},
 	"cults3d": {
 		Request: Request{
-			Method:   "POST",
-			Path:     "https://cults3d.com/graphql",
-			Username: os.Getenv("CULTS3D_USERNAME"),
-			Password: os.Getenv("CULTS3D_API_KEY"),
-			Body: `{
-				"query": "{
-					creationsBatch(limit: 5, creatorNick: "ND360", sort: BY_DOWNLOADS) {
-						results {
-							name(locale: EN)
-							url(locale: EN)
-							illustrationImageUrl
-							tags
-						}
-					}
-				}"
-			}`,
+			Method:      "POST",
+			Path:        "https://cults3d.com/graphql",
+			Username:    os.Getenv("CULTS3D_USERNAME"),
+			Password:    os.Getenv("CULTS3D_API_KEY"),
+			Body:        "{\"query\":\"{user(nick:\\\"ND360\\\"){creations(limit:5,sort:BY_DOWNLOADS){name url illustrationImageUrl tags}}}\"}",
+			ContentType: "application/json",
 		},
 		Parser: func(data []byte) (projects []Project, err error) {
 			var cults3dProjects struct {
 				Data struct {
-					CreationsBatch struct {
-						Results []struct {
+					User struct {
+						Creations []struct {
 							Title       string   `json:"name"`
 							Description string   `json:"description"`
 							Url         string   `json:"url"`
 							ImageSrc    string   `json:"illustrationImageUrl"`
 							Topics      []string `json:"tags"`
-						} `json:"results"`
-					} `json:"creationsBatch"`
+						} `json:"creations"`
+					} `json:"user"`
 				} `json:"data"`
 			}
 			if unmarshalErr := json.Unmarshal(data, &cults3dProjects); unmarshalErr != nil {
 				return nil, errors.Join(errors.New("error parsing Cults3D projects"), unmarshalErr)
 			}
 
-			for _, project := range cults3dProjects.Data.CreationsBatch.Results {
+			for _, project := range cults3dProjects.Data.User.Creations {
 				projects = append(projects, Project{
 					Host:        "Cults3D",
 					Title:       project.Title,
