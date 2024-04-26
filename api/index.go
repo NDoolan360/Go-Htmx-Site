@@ -4,17 +4,17 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
-	"os"
-	"testing"
 	"time"
+
+	"github.com/NDoolan360/go-htmx-site/logos"
 )
 
 // GetIndex handles the request for rendering the index page.
 func GetIndex(w http.ResponseWriter, r *http.Request) {
 	indexTemplate := template.Must(template.ParseFiles(
-		GetApiAsset("template/index.html.tmpl"),
-		GetApiAsset("template/head.html.tmpl"),
-		GetApiAsset("template/theme-switch.html.tmpl"),
+		"templates/index.html.tmpl",
+		"templates/head.html.tmpl",
+		"templates/theme-switch.html.tmpl",
 	))
 
 	err := indexTemplate.Execute(w, IndexTemplate{
@@ -38,27 +38,27 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 			{
 				Label: "Github",
 				URL:   "https://github.com/NDoolan360",
-				Logo:  GetSVGLogo("github"),
+				Logo:  logos.GetSVGLogo("github"),
 			},
 			{
 				Label: "LinkedIn",
 				URL:   "https://www.linkedin.com/in/nathan-doolan-835a13171",
-				Logo:  GetSVGLogo("linkedin"),
+				Logo:  logos.GetSVGLogo("linkedin"),
 			},
 			{
 				Label: "Discord",
 				URL:   "https://discord.com/users/nothindoin",
-				Logo:  GetSVGLogo("discord"),
+				Logo:  logos.GetSVGLogo("discord"),
 			},
 			{
 				Label: "Cults3D",
 				URL:   "https://cults3d.com/en/users/ND360",
-				Logo:  GetSVGLogo("cults3d"),
+				Logo:  logos.GetSVGLogo("cults3d"),
 			},
 			{
 				Label: "Boardgame Geek",
 				URL:   "https://boardgamegeek.com/user/Nothin_Doin",
-				Logo:  GetSVGLogo("bgg"),
+				Logo:  logos.GetSVGLogo("bgg"),
 			},
 		},
 		Profile: Profile{
@@ -77,7 +77,7 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 				Link: Link{
 					Label: "Kaluza",
 					URL:   "https://kaluza.com/",
-					Logo:  GetSVGLogo("kaluza"),
+					Logo:  logos.GetSVGLogo("kaluza"),
 				},
 				Positions: []Position{{Title: "Software Engineer", Current: true}},
 				Knowledge: []Link{{Label: "Typescript", URL: "https://www.typescriptlang.org"}, {Label: "Github Actions", URL: "https://github.com/features/actions"}, {Label: "CircleCI", URL: "https://circleci.com"}, {Label: "NestJS", URL: "https://nestjs.com"}, {Label: "Terraform", URL: "https://www.terraform.io"}, {Label: "Kafka", URL: "https://kafka.apache.org"}, {Label: "DataDog", URL: "https://www.datadoghq.com"}},
@@ -87,7 +87,7 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 				Link: Link{
 					Label: "Gentrack",
 					URL:   "https://gentrack.com/",
-					Logo:  GetSVGLogo("gentrack"),
+					Logo:  logos.GetSVGLogo("gentrack"),
 				},
 				Positions: []Position{
 					{Title: "Intermediate Software Engineer"},
@@ -101,7 +101,7 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 				Link: Link{
 					Label: "Proquip Rental & Sales",
 					URL:   "https://pqrs.com.au/",
-					Logo:  GetSVGLogo("proquip"),
+					Logo:  logos.GetSVGLogo("proquip"),
 				},
 				Positions: []Position{
 					{Title: "IT Support Specialist"},
@@ -115,7 +115,7 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 				Link: Link{
 					Label: "University of Melbourne",
 					URL:   "https://www.unimelb.edu.au/",
-					Logo:  GetSVGLogo("melbourneuniversity"),
+					Logo:  logos.GetSVGLogo("melbourneuniversity"),
 				},
 				Positions: []Position{{Title: "Bachelor of Science: Computing and Software Systems"}},
 				Knowledge: []Link{{Label: "Course Overview", URL: "https://study.unimelb.edu.au/find/courses/major/computing-and-software-systems"}},
@@ -129,17 +129,17 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 					{
 						Label: "Go",
 						URL:   "https://go.dev/",
-						Logo:  GetSVGLogo("go"),
+						Logo:  logos.GetSVGLogo("go"),
 					},
 					{
 						Label: "htmx",
 						URL:   "https://htmx.org",
-						Logo:  GetSVGLogo("htmx"),
+						Logo:  logos.GetSVGLogo("htmx"),
 					},
 					{
 						Label: "Tailwind CSS",
 						URL:   "https://tailwindcss.com",
-						Logo:  GetSVGLogo("tailwind"),
+						Logo:  logos.GetSVGLogo("tailwind"),
 					},
 				},
 			},
@@ -147,9 +147,9 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 				Title: "Deployed with:",
 				Links: []Link{
 					{
-						Label: "Vercel",
-						URL:   "https://vercel.com",
-						Logo:  GetSVGLogo("vercel"),
+						Label: "Netlify",
+						URL:   "https://netlify.com",
+						Logo:  logos.GetSVGLogo("netlify"),
 					},
 				},
 			},
@@ -169,29 +169,4 @@ var Now = func() time.Time {
 func Copyright(name string) string {
 	year := Now().Year()
 	return fmt.Sprintf("© %s %d", name, year)
-}
-
-// GetApiAsset returns the correct resource path for resources in the api directory,
-// based on the current environment.
-func GetApiAsset(path string) string {
-	if _, inVercel := os.LookupEnv("VERCEL"); inVercel {
-		// When running as serverless in Vercel environment, /api is the root.
-		// Note: The root directory is not explicitly named "api".
-		return "assets/" + path
-	} else if testing.Testing() {
-		// During testing, api resources are expected to be in the ../api/ directory.
-		return "../api/assets/" + path
-	} else {
-		// Assume it is being run from the root, and api resources are in the api/ directory.
-		return "api/assets/" + path
-	}
-}
-
-// GetSVGLogo reads an SVG logo file and returns it as an HTML template.
-func GetSVGLogo(logo string) template.HTML {
-	svg, err := os.ReadFile(GetApiAsset("logos/" + logo + ".svg"))
-	if err != nil {
-		panic(err)
-	}
-	return template.HTML(svg)
 }

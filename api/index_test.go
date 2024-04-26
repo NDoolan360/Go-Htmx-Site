@@ -3,6 +3,8 @@ package api
 import (
 	"testing"
 	"time"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 // TestCopyright tests the Copyright function to ensure it generates the correct copyright string.
@@ -31,8 +33,8 @@ func TestCopyright(t *testing.T) {
 	for _, tc := range tests {
 		Now = func() time.Time { return tc.now }
 		out := Copyright(tc.name)
-		if out != tc.want {
-			t.Fatalf("Got %v;\nwant %v", out, tc.want)
+		if diff := cmp.Diff(tc.want, out); diff != "" {
+			t.Errorf("unexpected copyright (-want +got):\n%s", diff)
 		}
 	}
 }

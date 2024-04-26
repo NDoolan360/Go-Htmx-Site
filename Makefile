@@ -49,6 +49,11 @@ $(BINARY):
 dev: $(BUILD_FILE)
 	go run main.go
 
+.PHONY: test
+## test the api endpoints
+test:
+	go test ./...
+
 .PHONY: clean
 ## removes binaries and artifacts
 clean:

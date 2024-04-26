@@ -9,11 +9,9 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/api/index", http.HandlerFunc(api.GetIndex))
-	http.HandleFunc("/api/projects", http.HandlerFunc(api.GetProjects))
-	http.HandleFunc("/api/markdown", http.HandlerFunc(api.GetMarkdown))
+	http.HandleFunc("/projects", http.HandlerFunc(api.GetProjects))
+	http.HandleFunc("/markdown", http.HandlerFunc(api.GetMarkdown))
 	http.HandleFunc("/sitemap.xml", http.HandlerFunc(api.GetSitemap))
-	http.HandleFunc("/_vercel/insights/script.js", func(w http.ResponseWriter, r *http.Request) {})
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path == "/" {
 			api.GetIndex(w, r)
@@ -23,7 +21,7 @@ func main() {
 	})
 
 	port := ":3000"
-	fmt.Printf("Server listening on port %s\n", port)
+	fmt.Printf("Server listening on port:\thttp://localhost%s\n", port)
 	if err := http.ListenAndServe(port, nil); err != nil {
 		log.Fatalf("http.ListenAndServe(%s, nil) failed with: %v", port, err)
 	}

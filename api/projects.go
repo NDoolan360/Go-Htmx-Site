@@ -12,15 +12,14 @@ import (
 	"strings"
 
 	githublangsgo "github.com/NDoolan360/github-langs-go"
+	"github.com/NDoolan360/go-htmx-site/logos"
 )
 
 // GetProjects handles the request for fetching and rendering project data.
 func GetProjects(w http.ResponseWriter, r *http.Request) {
 	projects, errs := FetchProjects(r.URL.Query()["host"])
 	if len(projects) > 0 {
-		projectTemplate := template.Must(template.ParseFiles(
-			GetApiAsset("template/projects.html.tmpl"),
-		))
+		projectTemplate := template.Must(template.ParseFiles("templates/projects.html.tmpl"))
 		if err := projectTemplate.Execute(w, ProjectsTemplate{Projects: projects}); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
@@ -120,7 +119,7 @@ var hostMap = map[string]Host{
 						Name:   project.Language,
 						Colour: colour,
 					},
-					Logo:        GetSVGLogo("github"),
+					Logo:        logos.GetSVGLogo("github"),
 					Description: template.HTML(project.Description),
 					Topics:      project.Topics,
 				})
@@ -166,7 +165,7 @@ var hostMap = map[string]Host{
 						Src: template.HTMLAttr(fmt.Sprintf("src=\"%s\"", project.ImageSrc)),
 						Alt: template.HTMLAttr(fmt.Sprintf("alt=\"3D Model: %s\"", project.Title)),
 					},
-					Logo:   GetSVGLogo("cults3d"),
+					Logo:   logos.GetSVGLogo("cults3d"),
 					Topics: project.Topics,
 				})
 			}
@@ -213,7 +212,7 @@ var hostMap = map[string]Host{
 						Src: template.HTMLAttr(fmt.Sprintf("src=\"%s\"", bggProject.ImageSrc)),
 						Alt: template.HTMLAttr(fmt.Sprintf("alt=\"Board Game: %s\"", bggProject.Title)),
 					},
-					Logo:   GetSVGLogo("bgg"),
+					Logo:   logos.GetSVGLogo("bgg"),
 					Topics: bggProject.Tags,
 				})
 			}
