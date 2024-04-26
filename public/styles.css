@@ -70,16 +70,15 @@
     }
 
     main {
-        @apply flex flex-col flex-grow px-6 mx-auto md:px-12 lg:pl-0 lg:pr-24 lg:py-24 lg:max-w-[66.666667%] lg:ml-20 lg:w-0;
+        @apply flex flex-col flex-grow p-6 mx-auto md:px-12 lg:pl-0 lg:pr-24 lg:py-24 lg:max-w-[66.666667%] lg:ml-20 lg:w-0;
     }
 
-    section,
-    footer {
-        @apply flex flex-col gap-8 pb-8 lg:gap-16 lg:pb-16;
+    section {
+        @apply flex flex-col gap-8 pb-8 scroll-mt-28 lg:gap-16 lg:pb-16 lg:scroll-mt-24;
     }
 
     footer {
-        @apply gap-4 pb-0;
+        @apply flex flex-col gap-4 pb-0;
     }
 
     .heading {
