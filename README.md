@@ -15,7 +15,7 @@ The source code for my personal website, built with Go, Htmx and Hyperscript, an
 
 ### Deployed with
 
-![Netlify](https://img.shields.io/badge/Netlify?logo=netlify&logoColor=00C7B7&link=https%3A%2F%netlify.com%2F)
+![Netlify](https://img.shields.io/badge/Netlify-FFF?logo=netlify&logoColor=004846&link=https%3A%2F%2Fnetlify.com)
 
 ## External
 
