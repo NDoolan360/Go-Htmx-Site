@@ -22,42 +22,57 @@ else ifeq ($(PLATFORM),arm64)
     ARCH=arm64
 endif
 
+
+#################################################################################
+# File Targets                                                                  #
+#################################################################################
+
+BINARY=$(PWD)/go-htmx-site
+BUILD_FILE=$(PWD)/public/tailwind.css
+CSS_FILE=$(PWD)/public/styles.css
+TAILWIND=$(PWD)/tailwindcss-$(OS)-$(ARCH)
+TAILWIND_URL=https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-$(OS)-$(ARCH)
+
+$(TAILWIND):
+	curl -sLo $(TAILWIND) $(TAILWIND_URL)
+	chmod +x $(TAILWIND)
+
+$(BUILD_FILE): $(CSS_FILE) $(TAILWIND)
+	$(TAILWIND) build -i $(CSS_FILE) -o $(BUILD_FILE) --minify
+
+$(BINARY): $(BUILD_FILE)
+	go build
+
+
 #################################################################################
 # Commands                                                                      #
 #################################################################################
 
-BUILD_FILE=$(PWD)/public/tailwind.css
-CSS_FILE=$(PWD)/public/styles.css
-BINARY=$(PWD)/tailwindcss-$(OS)-$(ARCH)
-BINARY_URL=https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-$(OS)-$(ARCH)
-
-.PHONY: build
-## generates `tailwind.css` from the `styles.css` using tailwindcss binary
-build: $(BUILD_FILE)
-$(BUILD_FILE): $(CSS_FILE) $(BINARY)
-	$(BINARY) build -i $(CSS_FILE) -o $(BUILD_FILE) --minify
-
 .PHONY: install
 ## installs the latest version of the `tailwindcss` CLI
-install: $(BINARY)
-$(BINARY):
-	curl -sLo $(BINARY) $(BINARY_URL)
-	chmod +x $(BINARY)
+install: $(TAILWIND)
+	@go install
 
 .PHONY: dev
 ## start the dev server
-dev: $(BUILD_FILE)
-	go run main.go
+dev: install
+	@go run main.go
+
+.PHONY: run
+## run the binary
+run: $(BINARY)
+	@$(BINARY)
 
 .PHONY: test
 ## test the api endpoints
 test:
-	go test ./...
+	@go test ./...
 
 .PHONY: clean
 ## removes binaries and artifacts
 clean:
-	rm -vf $(BINARY) $(BUILD_FILE)
+	go clean
+	rm -vf $(TAILWIND) $(BUILD_FILE) $(BINARY)
 
 
 #################################################################################
