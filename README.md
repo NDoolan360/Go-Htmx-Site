@@ -42,6 +42,7 @@ The source code for my personal website, built with Go, Htmx and Hyperscript, an
 ### Requirements
 
 -   Go `>= 1.21.5`
+-   Templ: `go install github.com/a-h/templ/cmd/templ@latest`
 
 ### Environment Variables
 

@@ -56,11 +56,13 @@ install: $(TAILWIND_BINARY)
 .PHONY: dev
 ## start the dev server
 dev: install $(STYLES)
+	templ generate
 	@go run main.go
 
 .PHONY: run
 ## run the binary
 run: $(GO_BINARY) $(STYLES)
+	templ generate
 	@$(GO_BINARY)
 
 .PHONY: test
