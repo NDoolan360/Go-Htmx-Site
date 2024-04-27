@@ -1,12 +1,14 @@
 package handlers
 
 import (
-	"fmt"
+	"encoding/json"
 	"net/http"
 )
 
 func Health(w http.ResponseWriter, _ *http.Request) {
+	message, _ := json.Marshal(struct{ status string }{status: "OK"})
+
 	w.WriteHeader(http.StatusOK)
 	w.Header().Add("Content-Type", "application/json")
-	fmt.Fprintln(w, "{\n\tstatus:\"OK\"\n}")
+	w.Write(message)
 }

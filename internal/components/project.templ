@@ -1,0 +1,72 @@
+package components
+
+import "fmt"
+
+type Project struct {
+	Host        string
+	Title       string
+	Description string
+	Url         templ.SafeURL
+	Image       Image
+	Language    Language
+	Logo        templ.Component
+	Topics      []string
+}
+
+type Image struct {
+	Src string
+	Alt string
+}
+
+type Language struct {
+	Name   string
+	Colour string
+}
+
+css bgColor(colour string) {
+	background-color: { colour };
+}
+
+templ ProjectTemplate(project Project) {
+	<li class="card">
+		<a
+			class="card-link"
+			href={ project.Url }
+			aria-label={ fmt.Sprintf("%s on %s", project.Title, project.Host) }
+			target="_blank"
+			rel="noreferrer"
+		></a>
+		if len(project.Image.Src) > 0 && len(project.Image.Alt) > 0 {
+			<img
+				class="card-feature-image"
+				src={ project.Image.Src }
+				alt={ project.Image.Alt }
+				height="192"
+			/>
+		}
+		<div class="card-detail-section">
+			<h3 class="card-title">{ project.Title }</h3>
+			if len(project.Language.Name) > 0 || project.Logo != nil {
+				<div class="card-detail">
+					if len(project.Language.Name) > 0 && len(project.Language.Colour) > 0 {
+						<span class={ "card-language-colour", bgColor(project.Language.Colour) }></span>
+						<p class="card-language-name">{ project.Language.Name }</p>
+					}
+					if project.Logo != nil {
+						@project.Logo
+					}
+				</div>
+			}
+		</div>
+		if len(project.Description) > 0 {
+			<p class="card-description">{ project.Description }</p>
+		}
+		if len(project.Topics) > 0 {
+			<div class="card-topics topic-wrapper">
+				for _, topic := range project.Topics {
+					<span class="chip">{ topic }</span>
+				}
+			</div>
+		}
+	</li>
+}

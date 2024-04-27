@@ -1,8 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 export default {
     content: [
-        "./internal/components/templates/*.html",
-        "./internal/layouts/templates/*.html",
+        "./internal/components/*.templ",
+        "./internal/layouts/*.templ",
+        "./internal/pages/*.templ",
     ],
     darkMode: "class",
     theme: {

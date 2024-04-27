@@ -4,12 +4,10 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/NDoolan360/go-htmx-site/internal/layouts"
+	"github.com/NDoolan360/go-htmx-site/internal/pages"
 )
 
 // Sitemap handles the request for rendering the sitemap.
 func Sitemap(w http.ResponseWriter, r *http.Request) {
-	layouts.Sitemap.Execute(w, layouts.SitemapTemplate{
-		Url: fmt.Sprintf("https://%s", r.Host),
-	})
+	pages.Sitemap(fmt.Sprintf("https://%s", r.Host)).Render(r.Context(), w)
 }

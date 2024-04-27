@@ -51,18 +51,17 @@ $(GO_BINARY): $(STYLES)
 .PHONY: install
 ## installs the latest version of the `tailwindcss` CLI
 install: $(TAILWIND_BINARY)
+	templ generate
 	@go install
 
 .PHONY: dev
 ## start the dev server
 dev: install $(STYLES)
-	templ generate
-	@go run main.go
+	templ generate --watch --cmd="go run main.go"
 
 .PHONY: run
 ## run the binary
-run: $(GO_BINARY) $(STYLES)
-	templ generate
+run: install $(GO_BINARY) $(STYLES)
 	@$(GO_BINARY)
 
 .PHONY: test
@@ -75,6 +74,7 @@ test:
 clean:
 	@go clean
 	@rm -vf $(TAILWIND_BINARY) $(STYLES) $(GO_BINARY)
+	@find . -name "*_templ.go" -type f -delete
 
 
 #################################################################################

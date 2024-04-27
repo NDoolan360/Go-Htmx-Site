@@ -19,6 +19,19 @@ lerna-debug.log*
 *.sln
 *.sw?
 
+# Go test binary, built with `go test -c`
+*.test
+
+# Go coverage tool output
+*.out
+
+# Go workspace file
+go.work
+
+# Ignore templ generated files
+*_templ.go
+*_templ.txt
+
 # Build artifacts
 /static/styles/styles.css
 /bin/*

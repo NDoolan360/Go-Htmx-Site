@@ -5,7 +5,6 @@ import (
 	"encoding/xml"
 	"errors"
 	"fmt"
-	"html/template"
 	"io"
 	"net/http"
 	"os"
@@ -13,6 +12,7 @@ import (
 
 	githublangsgo "github.com/NDoolan360/github-langs-go"
 	"github.com/NDoolan360/go-htmx-site/internal/components"
+	"github.com/a-h/templ"
 )
 
 // Projects handles the request for fetching and rendering project data.
@@ -21,7 +21,7 @@ func Projects(w http.ResponseWriter, r *http.Request) {
 	// TODO render projects and send to client with sse
 	if len(projects) > 0 {
 		for _, project := range projects {
-			components.Project.Execute(w, project)
+			components.ProjectTemplate(project).Render(r.Context(), w)
 		}
 	} else if errs != nil {
 		http.Error(w, errs.Error(), http.StatusInternalServerError)
@@ -30,7 +30,7 @@ func Projects(w http.ResponseWriter, r *http.Request) {
 
 type Host struct {
 	Request
-	Parser func([]byte) ([]components.ProjectTemplate, error)
+	Parser func([]byte) ([]components.Project, error)
 }
 
 type Request struct {
@@ -42,7 +42,7 @@ type Request struct {
 	Body        string
 }
 
-func FetchProjects(hostNames []string) (projects []components.ProjectTemplate, errs error) {
+func FetchProjects(hostNames []string) (projects []components.Project, errs error) {
 	for _, hostName := range hostNames {
 		host, ok := hostMap[hostName]
 		if ok {
@@ -99,7 +99,7 @@ var hostMap = map[string]Host{
 			Method: "GET",
 			Path:   "https://api.github.com/users/NDoolan360/repos?sort=stars",
 		},
-		Parser: func(data []byte) (projects []components.ProjectTemplate, err error) {
+		Parser: func(data []byte) (projects []components.Project, err error) {
 			var githubProjects []struct {
 				Title       string   `json:"name"`
 				Description string   `json:"description"`
@@ -118,24 +118,23 @@ var hostMap = map[string]Host{
 					continue
 				}
 
-				var colour template.CSS
-				if lang, languageErr := githublangsgo.GetLanguage(project.Language); languageErr != nil {
+				lang, languageErr := githublangsgo.GetLanguage(project.Language)
+
+				if languageErr != nil {
 					err = errors.Join(err, fmt.Errorf("error parsing language (%s)", project.Language), languageErr)
-				} else {
-					colour = template.CSS(lang.Color)
 				}
 
-				projects = append(projects, components.ProjectTemplate{
-					Host:  "Github",
-					Title: project.Title,
-					Url:   project.Url,
+				projects = append(projects, components.Project{
+					Host:        "Github",
+					Title:       project.Title,
+					Description: project.Description,
+					Url:         templ.SafeURL(project.Url),
 					Language: components.Language{
 						Name:   project.Language,
-						Colour: colour,
+						Colour: lang.Color,
 					},
-					Logo:        components.GetSVGLogo("github"),
-					Description: template.HTML(project.Description),
-					Topics:      project.Topics,
+					Logo:   components.GithubLogo(),
+					Topics: project.Topics,
 				})
 			}
 
@@ -151,7 +150,7 @@ var hostMap = map[string]Host{
 			Body:        "{\"query\":\"{user(nick:\\\"ND360\\\"){creations(limit:5,sort:BY_DOWNLOADS){name url illustrationImageUrl tags}}}\"}",
 			ContentType: "application/json",
 		},
-		Parser: func(data []byte) (projects []components.ProjectTemplate, err error) {
+		Parser: func(data []byte) (projects []components.Project, err error) {
 			var cults3dProjects struct {
 				Data struct {
 					User struct {
@@ -170,16 +169,16 @@ var hostMap = map[string]Host{
 			}
 
 			for _, project := range cults3dProjects.Data.User.Creations {
-				projects = append(projects, components.ProjectTemplate{
+				projects = append(projects, components.Project{
 					Host:        "Cults3D",
 					Title:       project.Title,
-					Description: template.HTML(project.Description),
-					Url:         project.Url,
+					Description: project.Description,
+					Url:         templ.SafeURL(project.Url),
 					Image: components.Image{
-						Src: template.HTMLAttr(fmt.Sprintf("src=\"%s\"", project.ImageSrc)),
-						Alt: template.HTMLAttr(fmt.Sprintf("alt=\"3D Model: %s\"", project.Title)),
+						Src: project.ImageSrc,
+						Alt: fmt.Sprintf("3D Model: %s", project.Title),
 					},
-					Logo:   components.GetSVGLogo("cults3d"),
+					Logo:   components.Cults3DLogo(),
 					Topics: project.Topics,
 				})
 			}
@@ -192,7 +191,7 @@ var hostMap = map[string]Host{
 			Method: "GET",
 			Path:   "https://boardgamegeek.com/xmlapi/geeklist/332832",
 		},
-		Parser: func(data []byte) (projects []components.ProjectTemplate, err error) {
+		Parser: func(data []byte) (projects []components.Project, err error) {
 			var projectItems []struct {
 				Item struct {
 					Id string `xml:"objectid,attr"`
@@ -218,15 +217,15 @@ var hostMap = map[string]Host{
 					continue
 				}
 
-				projects = append(projects, components.ProjectTemplate{
+				projects = append(projects, components.Project{
 					Host:  "Board Game Geek",
 					Title: bggProject.Title,
-					Url:   fmt.Sprintf("https://boardgamegeek.com/boardgame/%s", item.Item.Id),
+					Url:   templ.SafeURL(fmt.Sprintf("https://boardgamegeek.com/boardgame/%s", item.Item.Id)),
 					Image: components.Image{
-						Src: template.HTMLAttr(fmt.Sprintf("src=\"%s\"", bggProject.ImageSrc)),
-						Alt: template.HTMLAttr(fmt.Sprintf("alt=\"Board Game: %s\"", bggProject.Title)),
+						Src: bggProject.ImageSrc,
+						Alt: fmt.Sprintf("Board Game: %s", bggProject.Title),
 					},
-					Logo:   components.GetSVGLogo("bgg"),
+					Logo:   components.BGGLogo(),
 					Topics: bggProject.Tags,
 				})
 			}
