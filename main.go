@@ -8,21 +8,25 @@ import (
 	"github.com/NDoolan360/go-htmx-site/api"
 )
 
-func main() {
-	http.HandleFunc("/projects", http.HandlerFunc(api.GetProjects))
-	http.HandleFunc("/markdown", http.HandlerFunc(api.GetMarkdown))
-	http.HandleFunc("/sitemap.xml", http.HandlerFunc(api.GetSitemap))
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path == "/" {
-			api.GetIndex(w, r)
-		} else {
-			http.StripPrefix("/", http.FileServer(http.Dir("./public"))).ServeHTTP(w, r)
-		}
-	})
+func handler(w http.ResponseWriter, r *http.Request) {
+	switch r.URL.Path {
+	case "/projects":
+		api.GetProjects(w, r)
+	case "/markdown":
+		api.GetMarkdown(w, r)
+	case "/sitemap.xml":
+		api.GetSitemap(w, r)
+	case "/":
+		api.GetIndex(w, r)
+	default:
+		http.StripPrefix("/", http.FileServer(http.Dir("./public"))).ServeHTTP(w, r)
+	}
+}
 
-	port := ":3000"
-	fmt.Printf("Server listening on port:\thttp://localhost%s\n", port)
-	if err := http.ListenAndServe(port, nil); err != nil {
-		log.Fatalf("http.ListenAndServe(%s, nil) failed with: %v", port, err)
+func main() {
+	http.HandleFunc("/", handler)
+	fmt.Println("Server listening on port:\thttp://localhost:3000")
+	if err := http.ListenAndServe(":3000", nil); err != nil {
+		log.Fatalf("http.ListenAndServe(\":3000\", nil) failed with: %v", err)
 	}
 }
