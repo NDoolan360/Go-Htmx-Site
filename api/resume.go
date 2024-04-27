@@ -7,13 +7,7 @@ import (
 )
 
 // GetIndex handles the request for rendering the index page.
-func GetMarkdown(w http.ResponseWriter, r *http.Request) {
-	fileSource := r.URL.Query()["file"]
-	if len(fileSource) < 1 {
-		http.Error(w, "No file provided.", http.StatusBadRequest)
-		return
-	}
-
+func GetResume(w http.ResponseWriter, r *http.Request) {
 	markdownTemplate := template.Must(template.ParseFiles(
 		"templates/markdown.html.tmpl",
 		"templates/head.html.tmpl",
@@ -21,11 +15,12 @@ func GetMarkdown(w http.ResponseWriter, r *http.Request) {
 	))
 
 	execErr := markdownTemplate.Execute(w, MarkdownTemplate{
-		Title:           fileSource[0],
+		Title:           "Resume",
 		Description:     "",
-		MarkdownSource:  fileSource[0],
-		MarkdownSrcAttr: template.HTMLAttr(fmt.Sprintf(`src="%s"`, fileSource[0])),
+		MarkdownSource:  "Resume.md",
+		MarkdownSrcAttr: template.HTMLAttr(fmt.Sprintf(`src="%s"`, "Resume.md")),
 	})
+
 	if execErr != nil {
 		http.Error(w, execErr.Error(), http.StatusInternalServerError)
 	}

@@ -12,8 +12,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	switch r.URL.Path {
 	case "/projects":
 		api.GetProjects(w, r)
-	case "/markdown":
-		api.GetMarkdown(w, r)
+	case "/resume":
+		api.GetResume(w, r)
 	case "/sitemap.xml":
 		api.GetSitemap(w, r)
 	case "/":
