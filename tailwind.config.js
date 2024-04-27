@@ -1,6 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-    content: ["./templates/*.html.tmpl"],
+    content: [
+        "./internal/components/templates/*.html",
+        "./internal/layouts/templates/*.html",
+    ],
     darkMode: "class",
     theme: {
         extend: {
@@ -22,7 +25,8 @@ export default {
             },
             fontFamily: {
                 heading: "Fragment Mono, mono",
-                body: "Josefin Sans, sans-serif",
+                sans: "Josefin Sans, sans-serif",
+                mono: "Fragment Mono, mono",
             },
             fontWeight: {
                 normal: "400",

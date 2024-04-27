@@ -27,21 +27,21 @@ endif
 # File Targets                                                                  #
 #################################################################################
 
-BINARY=$(PWD)/go-htmx-site
-BUILD_FILE=$(PWD)/public/tailwind.css
-CSS_FILE=$(PWD)/public/styles.css
-TAILWIND=$(PWD)/tailwindcss-$(OS)-$(ARCH)
+GO_BINARY=$(PWD)/bin/go-htmx-site
+STYLES=$(PWD)/static/styles/styles.css
+TAILWIND_STYLES=$(PWD)/static/styles/tailwind.css
+TAILWIND_BINARY=$(PWD)/bin/tailwindcss-$(OS)-$(ARCH)
 TAILWIND_URL=https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-$(OS)-$(ARCH)
 
-$(TAILWIND):
-	curl -sLo $(TAILWIND) $(TAILWIND_URL)
-	chmod +x $(TAILWIND)
+$(TAILWIND_BINARY):
+	curl -sLo $(TAILWIND_BINARY) $(TAILWIND_URL)
+	chmod +x $(TAILWIND_BINARY)
 
-$(BUILD_FILE): $(CSS_FILE) $(TAILWIND)
-	$(TAILWIND) build -i $(CSS_FILE) -o $(BUILD_FILE) --minify
+$(STYLES): $(TAILWIND_STYLES) $(TAILWIND_BINARY)
+	$(TAILWIND_BINARY) build -i $(TAILWIND_STYLES) -o $(STYLES) --minify
 
-$(BINARY): $(BUILD_FILE)
-	go build
+$(GO_BINARY): $(STYLES)
+	go build -o $(GO_BINARY) .
 
 
 #################################################################################
@@ -50,29 +50,29 @@ $(BINARY): $(BUILD_FILE)
 
 .PHONY: install
 ## installs the latest version of the `tailwindcss` CLI
-install: $(TAILWIND)
+install: $(TAILWIND_BINARY)
 	@go install
 
 .PHONY: dev
 ## start the dev server
-dev: install
+dev: install $(STYLES)
 	@go run main.go
 
 .PHONY: run
 ## run the binary
-run: $(BINARY)
-	@$(BINARY)
+run: $(GO_BINARY) $(STYLES)
+	@$(GO_BINARY)
 
 .PHONY: test
 ## test the api endpoints
 test:
-	@go test ./...
+	@go test ./... -v
 
 .PHONY: clean
 ## removes binaries and artifacts
 clean:
-	go clean
-	rm -vf $(TAILWIND) $(BUILD_FILE) $(BINARY)
+	@go clean
+	@rm -vf $(TAILWIND_BINARY) $(STYLES) $(GO_BINARY)
 
 
 #################################################################################

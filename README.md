@@ -39,6 +39,10 @@ The source code for my personal website, built with Go, Htmx and Hyperscript, an
 
 ## Usage
 
+### Requirements
+
+-   Go `>= 1.21.5`
+
 ### Environment Variables
 
 -   Cults3D project rendering requires access to the [Cults3D graphql API][cults-graphql].
