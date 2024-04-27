@@ -18,9 +18,11 @@ import (
 // Projects handles the request for fetching and rendering project data.
 func Projects(w http.ResponseWriter, r *http.Request) {
 	projects, errs := FetchProjects(r.URL.Query()["host"])
-	// TODO render all projects and send to cloent with sse
+	// TODO render projects and send to client with sse
 	if len(projects) > 0 {
-		components.Project.Execute(w, projects[0])
+		for _, project := range projects {
+			components.Project.Execute(w, project)
+		}
 	} else if errs != nil {
 		http.Error(w, errs.Error(), http.StatusInternalServerError)
 	}
