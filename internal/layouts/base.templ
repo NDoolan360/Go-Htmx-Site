@@ -7,8 +7,12 @@ templ BaseLayout(title string, description string, header templ.Component, main 
 			@head(title, description)
 		</head>
 		<body class="dark">
-			@header
-			@main
+			if header != nil {
+				@header
+			}
+			if main != nil {
+				@main
+			}
 		</body>
 	</html>
 }
