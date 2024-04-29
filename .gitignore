@@ -34,5 +34,8 @@ go.work
 
 # Build artifacts
 /static/styles/styles.css
-/bin/*
-!/bin/.gitkeep
+/bin
+/functions
+
+# Local Netlify folder
+.netlify

@@ -7,6 +7,8 @@ toolchain go1.21.7
 require (
 	github.com/NDoolan360/github-langs-go v1.0.0
 	github.com/a-h/templ v0.2.663
+	github.com/aws/aws-lambda-go v1.47.0
+	github.com/awslabs/aws-lambda-go-api-proxy v0.16.2
 	github.com/google/go-cmp v0.6.0
 )
 

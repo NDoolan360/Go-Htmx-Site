@@ -1,0 +1,10 @@
+[build]
+base = "/"
+command = "make build-linux"
+functions = "/internal"
+publish = "/static"
+
+[build.environment]
+GO_VERSION = "1.21.5"
+GO_IMPORT_PATH = "github.com/NDoolan360/go-htmx-site"
+GO111MODULE = "on"

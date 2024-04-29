@@ -20,7 +20,7 @@ func main() {
 		if r.URL.Path == "/" {
 			handlers.Index(w, r)
 		} else {
-			http.StripPrefix("/", http.FileServer(http.Dir("./static"))).ServeHTTP(w, r)
+			http.StripPrefix("/", http.FileServer(http.FS(static))).ServeHTTP(w, r)
 		}
 	})
 

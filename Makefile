@@ -27,53 +27,66 @@ endif
 # File Targets                                                                  #
 #################################################################################
 
-GO_BINARY=$(PWD)/bin/go-htmx-site
-STYLES=$(PWD)/static/styles/styles.css
-TAILWIND_STYLES=$(PWD)/static/styles/tailwind.css
-TAILWIND_BINARY=$(PWD)/bin/tailwindcss-$(OS)-$(ARCH)
+BIN_DIR=$(PWD)/bin
+FUNC_DIR=$(PWD)/functions
+GO_BINARY=$(FUNC_DIR)/go-htmx-site
+TAILWIND_BINARY=$(BIN_DIR)/tailwindcss-$(OS)-$(ARCH)
 TAILWIND_URL=https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-$(OS)-$(ARCH)
+TAILWIND_STYLES=$(PWD)/static/styles/tailwind.css
+STYLES=$(PWD)/static/styles/styles.css
 
 $(TAILWIND_BINARY):
+	mkdir -p $(BIN_DIR)
 	curl -sLo $(TAILWIND_BINARY) $(TAILWIND_URL)
 	chmod +x $(TAILWIND_BINARY)
 
 $(STYLES): $(TAILWIND_STYLES) $(TAILWIND_BINARY)
 	$(TAILWIND_BINARY) build -i $(TAILWIND_STYLES) -o $(STYLES) --minify
 
-$(GO_BINARY): $(STYLES)
-	go build -o $(GO_BINARY) .
-
 
 #################################################################################
 # Commands                                                                      #
 #################################################################################
 
-.PHONY: install
-## installs the latest version of the `tailwindcss` CLI
-install: $(TAILWIND_BINARY)
+.PHONY: templates
+## generates the templates using `templ generate`
+templates:
 	templ generate
-	@go install
+
+.PHONY: install
+## installs the latest version of the `tailwindcss` CLI and the go packages named
+## by the import paths
+install: templates $(TAILWIND_BINARY)
+	go get ./...
+	go install ./...
+
+.PHONY: build
+## build the go binaries into the function folder
+build: install $(STYLES)
+	mkdir -p $(FUNC_DIR)
+	go build -o $(FUNC_DIR) ./...
+
+.PHONY: build-linux
+## build the go binaries for linux into the function folder
+build-linux: install $(STYLES)
+	mkdir -p $(FUNC_DIR)
+	GOOS=linux GOARCH=amd64 go build -o $(FUNC_DIR) ./...
 
 .PHONY: dev
 ## start the dev server
-dev: install $(STYLES)
+dev: templates $(STYLES)
 	templ generate --watch --cmd="go run main.go"
-
-.PHONY: run
-## run the binary
-run: install $(GO_BINARY) $(STYLES)
-	@$(GO_BINARY)
 
 .PHONY: test
 ## test the api endpoints
-test:
+test: templates
 	@go test ./... -v
 
 .PHONY: clean
 ## removes binaries and artifacts
 clean:
 	@go clean
-	@rm -vf $(TAILWIND_BINARY) $(STYLES) $(GO_BINARY)
+	@rm -rvf $(BIN_DIR) $(FUNC_DIR) $(STYLES)
 	@find . -name "*_templ.go" -type f -delete
 
 
