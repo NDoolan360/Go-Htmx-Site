@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/NDoolan360/go-htmx-site/internal/layouts"
-	"github.com/NDoolan360/go-htmx-site/internal/pages"
+	"github.com/NDoolan360/go-htmx-site/website/layouts"
+	"github.com/NDoolan360/go-htmx-site/website/pages"
 )
 
 // Index handles the request for rendering the index page.

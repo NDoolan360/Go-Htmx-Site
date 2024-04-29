@@ -1,8 +1,11 @@
 [build]
-base = "/"
+publish = "static"
 command = "make build-linux"
-functions = "/internal"
-publish = "/static"
+functions = "api"
+
+[[redirects]]
+from = "/api/*"
+to = "/.netlify/functions/:splat"
 
 [build.environment]
 GO_VERSION = "1.21.5"

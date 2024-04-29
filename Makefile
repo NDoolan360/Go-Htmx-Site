@@ -75,7 +75,7 @@ build-linux: install $(STYLES)
 .PHONY: dev
 ## start the dev server
 dev: templates $(STYLES)
-	templ generate --watch --cmd="go run main.go"
+	netlify dev
 
 .PHONY: test
 ## test the api endpoints

@@ -1,4 +1,4 @@
-package handlers
+package main
 
 import (
 	"encoding/json"
@@ -11,26 +11,14 @@ import (
 	"strings"
 
 	githublangsgo "github.com/NDoolan360/github-langs-go"
-	"github.com/NDoolan360/go-htmx-site/internal/components"
+	"github.com/NDoolan360/go-htmx-site/api/projects/templates"
+	// "github.com/NDoolan360/go-htmx-site/website/components"
 	"github.com/a-h/templ"
 )
 
-// Projects handles the request for fetching and rendering project data.
-func Projects(w http.ResponseWriter, r *http.Request) {
-	projects, errs := FetchProjects(r.URL.Query()["host"])
-	// TODO render projects and send to client with sse
-	if len(projects) > 0 {
-		for _, project := range projects {
-			components.ProjectTemplate(project).Render(r.Context(), w)
-		}
-	} else if errs != nil {
-		http.Error(w, errs.Error(), http.StatusInternalServerError)
-	}
-}
-
 type Host struct {
 	Request
-	Parser func([]byte) ([]components.Project, error)
+	Parser func([]byte) ([]templates.Project, error)
 }
 
 type Request struct {
@@ -42,7 +30,8 @@ type Request struct {
 	Body        string
 }
 
-func FetchProjects(hostNames []string) (projects []components.Project, errs error) {
+
+func FetchProjects(hostNames []string) (projects []templates.Project, errs error) {
 	for _, hostName := range hostNames {
 		host, ok := hostMap[hostName]
 		if ok {
@@ -99,7 +88,7 @@ var hostMap = map[string]Host{
 			Method: "GET",
 			Path:   "https://api.github.com/users/NDoolan360/repos?sort=stars",
 		},
-		Parser: func(data []byte) (projects []components.Project, err error) {
+		Parser: func(data []byte) (projects []templates.Project, err error) {
 			var githubProjects []struct {
 				Title       string   `json:"name"`
 				Description string   `json:"description"`
@@ -124,16 +113,16 @@ var hostMap = map[string]Host{
 					err = errors.Join(err, fmt.Errorf("error parsing language (%s)", project.Language), languageErr)
 				}
 
-				projects = append(projects, components.Project{
+				projects = append(projects, templates.Project{
 					Host:        "Github",
 					Title:       project.Title,
 					Description: project.Description,
 					Url:         templ.SafeURL(project.Url),
-					Language: components.Language{
+					Language: templates.Language{
 						Name:   project.Language,
 						Colour: lang.Color,
 					},
-					Logo:   components.GithubLogo(),
+					// Logo:   components.GithubLogo(),
 					Topics: project.Topics,
 				})
 			}
@@ -150,7 +139,7 @@ var hostMap = map[string]Host{
 			Body:        "{\"query\":\"{user(nick:\\\"ND360\\\"){creations(limit:5,sort:BY_DOWNLOADS){name url illustrationImageUrl tags}}}\"}",
 			ContentType: "application/json",
 		},
-		Parser: func(data []byte) (projects []components.Project, err error) {
+		Parser: func(data []byte) (projects []templates.Project, err error) {
 			var cults3dProjects struct {
 				Data struct {
 					User struct {
@@ -169,16 +158,16 @@ var hostMap = map[string]Host{
 			}
 
 			for _, project := range cults3dProjects.Data.User.Creations {
-				projects = append(projects, components.Project{
+				projects = append(projects, templates.Project{
 					Host:        "Cults3D",
 					Title:       project.Title,
 					Description: project.Description,
 					Url:         templ.SafeURL(project.Url),
-					Image: components.Image{
+					Image: templates.Image{
 						Src: project.ImageSrc,
 						Alt: fmt.Sprintf("3D Model: %s", project.Title),
 					},
-					Logo:   components.Cults3DLogo(),
+					// Logo:   components.Cults3DLogo(),
 					Topics: project.Topics,
 				})
 			}
@@ -191,7 +180,7 @@ var hostMap = map[string]Host{
 			Method: "GET",
 			Path:   "https://boardgamegeek.com/xmlapi/geeklist/332832",
 		},
-		Parser: func(data []byte) (projects []components.Project, err error) {
+		Parser: func(data []byte) (projects []templates.Project, err error) {
 			var projectItems []struct {
 				Item struct {
 					Id string `xml:"objectid,attr"`
@@ -217,15 +206,15 @@ var hostMap = map[string]Host{
 					continue
 				}
 
-				projects = append(projects, components.Project{
+				projects = append(projects, templates.Project{
 					Host:  "Board Game Geek",
 					Title: bggProject.Title,
 					Url:   templ.SafeURL(fmt.Sprintf("https://boardgamegeek.com/boardgame/%s", item.Item.Id)),
-					Image: components.Image{
+					Image: templates.Image{
 						Src: bggProject.ImageSrc,
 						Alt: fmt.Sprintf("Board Game: %s", bggProject.Title),
 					},
-					Logo:   components.BGGLogo(),
+					// Logo:   components.BGGLogo(),
 					Topics: bggProject.Tags,
 				})
 			}

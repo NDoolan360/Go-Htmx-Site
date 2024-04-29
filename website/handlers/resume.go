@@ -3,8 +3,8 @@ package handlers
 import (
 	"net/http"
 
-	"github.com/NDoolan360/go-htmx-site/internal/layouts"
-	"github.com/NDoolan360/go-htmx-site/internal/pages"
+	"github.com/NDoolan360/go-htmx-site/website/layouts"
+	"github.com/NDoolan360/go-htmx-site/website/pages"
 )
 
 // Resume handles the request for rendering the resume page.
