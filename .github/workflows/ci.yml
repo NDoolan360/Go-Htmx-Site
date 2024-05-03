@@ -8,11 +8,11 @@ on:
             - master
 
 jobs:
-    ci:
+    lint:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                directory: [./website, ./api/health, ./api/projects]
+                directory: [/website, /api/health, /api/projects]
         steps:
             - uses: actions/checkout@v4
             - run: cd ${{ matrix.directory }}
@@ -23,6 +23,7 @@ jobs:
               uses: golangci/golangci-lint-action@v5
               with:
                   version: v1.55.2
+                  working-directory: ${{ matrix.directory }}
 
     test:
         runs-on: ubuntu-latest
