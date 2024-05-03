@@ -28,16 +28,25 @@ endif
 #################################################################################
 
 BIN_DIR=$(PWD)/bin
-FUNC_DIR=$(PWD)/functions
-GO_BINARY=$(FUNC_DIR)/go-htmx-site
+TEMPL_TAR=$(BIN_DIR)/templ_$(SYSTEM)_$(PLATFORM).tar.gz
+TEMPL_BINARY=$(BIN_DIR)/templ
+TEMPL_URL=https://github.com/a-h/templ/releases/latest/download/templ_$(SYSTEM)_$(PLATFORM).tar.gz
 TAILWIND_BINARY=$(BIN_DIR)/tailwindcss-$(OS)-$(ARCH)
 TAILWIND_URL=https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-$(OS)-$(ARCH)
 TAILWIND_STYLES=$(PWD)/static/styles/tailwind.css
 STYLES=$(PWD)/static/styles/styles.css
 ALL_PROJECTS=./website/... ./api/health/... ./api/projects/...
 
-$(TAILWIND_BINARY):
+$(BIN_DIR):
 	mkdir -p $(BIN_DIR)
+
+$(TEMPL_BINARY): $(BIN_DIR)
+	curl -sLo $(TEMPL_TAR) $(TEMPL_URL)
+	tar -xvzf $(TEMPL_TAR) -C $(BIN_DIR) templ
+	chmod +x $(TEMPL_BINARY)
+	rm -f $(TEMPL_TAR)
+
+$(TAILWIND_BINARY): $(BIN_DIR)
 	curl -sLo $(TAILWIND_BINARY) $(TAILWIND_URL)
 	chmod +x $(TAILWIND_BINARY)
 
@@ -47,8 +56,8 @@ $(TAILWIND_BINARY):
 
 .PHONY: templates
 ## generates the templates using `templ generate`
-templates:
-	templ generate
+templates: $(TEMPL_BINARY)
+	$(TEMPL_BINARY) generate
 
 .PHONY: install
 ## installs the latest version of the `tailwindcss` CLI and the go packages named
