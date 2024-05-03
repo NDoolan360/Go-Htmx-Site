@@ -171,10 +171,6 @@
         @apply w-min justify-start;
     }
 
-    .card-language-colour {
-        @apply h-3 block rounded-full aspect-square;
-    }
-
     .card-detail .logo {
         @apply w-6 h-6 block;
     }

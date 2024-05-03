@@ -1,10 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-    content: [
-        "./internal/components/*.templ",
-        "./internal/layouts/*.templ",
-        "./internal/pages/*.templ",
-    ],
+    content: ["./website/**/*.templ", "./api/**/*.templ"],
     darkMode: "class",
     theme: {
         extend: {

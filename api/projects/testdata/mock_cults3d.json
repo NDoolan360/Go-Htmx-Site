@@ -1,0 +1,27 @@
+{
+    "data": {
+        "user": {
+            "creations": [
+                {
+                    "name": "Reciprocating Rack and Pinion Fidget V2",
+                    "url": "https://cults3d.com/en/3d-model/gadget/reciprocating-rack-and-pinion-fidget-v2",
+                    "illustrationImageUrl": "https://files.cults3d.com/uploaders/20027643/illustration-file/5371a13c-5cfa-4ce7-aebb-aedfa3865bd1/RRaPv2.png",
+                    "tags": ["rack", "pinion", "fidget", "toy", "reciprocating"]
+                },
+                {
+                    "name": "Thought Processor",
+                    "url": "https://cults3d.com/en/3d-model/art/thought-processor",
+                    "illustrationImageUrl": "https://files.cults3d.com/uploaders/20027643/illustration-file/9a4f2164-33a2-49ca-8b3b-2975c9bdf03b/RRaP2-Copy.png",
+                    "tags": [
+                        "bust",
+                        "crt",
+                        "computer",
+                        "monitor",
+                        "display",
+                        "screen"
+                    ]
+                }
+            ]
+        }
+    }
+}

@@ -1,13 +1,28 @@
+[dev]
+publish = "static"
+functions = "api"
+
 [build]
 publish = "static"
-command = "make build-linux"
+command = "make build"
 functions = "api"
 
 [[redirects]]
-from = "/api/*"
-to = "/.netlify/functions/:splat"
+from = "/health"
+to = "/.netlify/functions/health"
+status = 200
+
+[[redirects]]
+from = "/projects"
+to = "/.netlify/functions/projects"
+status = 200
 
 [build.environment]
 GO_VERSION = "1.21.5"
 GO_IMPORT_PATH = "github.com/NDoolan360/go-htmx-site"
 GO111MODULE = "on"
+
+[[plugins]]
+package = "@netlify/plugin-sitemap"
+[plugins.inputs]
+buildDir = "static"

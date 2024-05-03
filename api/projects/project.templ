@@ -1,4 +1,4 @@
-package templates
+package main
 
 import "fmt"
 
@@ -23,8 +23,12 @@ type Language struct {
 	Colour string
 }
 
-css bgColor(colour string) {
+css languageMarker(colour string) {
 	background-color: { colour };
+	aspect-ratio: 1/1;
+	border-radius: 9999px;
+	display: inline-block;
+	height: .75rem;
 }
 
 templ ProjectTemplate(project Project) {
@@ -49,8 +53,8 @@ templ ProjectTemplate(project Project) {
 			if len(project.Language.Name) > 0 || project.Logo != nil {
 				<div class="card-detail">
 					if len(project.Language.Name) > 0 && len(project.Language.Colour) > 0 {
-						<span class={ "card-language-colour", bgColor(project.Language.Colour) }></span>
-						<p class="card-language-name">{ project.Language.Name }</p>
+						<span class={ languageMarker(project.Language.Colour) }></span>
+						<span>{ project.Language.Name }</span>
 					}
 					if project.Logo != nil {
 						@project.Logo

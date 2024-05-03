@@ -34,15 +34,12 @@ TAILWIND_BINARY=$(BIN_DIR)/tailwindcss-$(OS)-$(ARCH)
 TAILWIND_URL=https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-$(OS)-$(ARCH)
 TAILWIND_STYLES=$(PWD)/static/styles/tailwind.css
 STYLES=$(PWD)/static/styles/styles.css
+ALL_PROJECTS=./website/... ./api/health/... ./api/projects/...
 
 $(TAILWIND_BINARY):
 	mkdir -p $(BIN_DIR)
 	curl -sLo $(TAILWIND_BINARY) $(TAILWIND_URL)
 	chmod +x $(TAILWIND_BINARY)
-
-$(STYLES): $(TAILWIND_STYLES) $(TAILWIND_BINARY)
-	$(TAILWIND_BINARY) build -i $(TAILWIND_STYLES) -o $(STYLES) --minify
-
 
 #################################################################################
 # Commands                                                                      #
@@ -56,38 +53,50 @@ templates:
 .PHONY: install
 ## installs the latest version of the `tailwindcss` CLI and the go packages named
 ## by the import paths
-install: templates $(TAILWIND_BINARY)
-	go get ./...
-	go install ./...
+install:
+	go install $(ALL_PROJECTS)
+
+.PHONY: styles
+## generates the css styles using the tailwind binary
+styles: $(TAILWIND_STYLES) $(TAILWIND_BINARY)
+	$(TAILWIND_BINARY) build -i $(TAILWIND_STYLES) -o $(STYLES) --minify
 
 .PHONY: build
-## build the go binaries into the function folder
-build: install $(STYLES)
-	mkdir -p $(FUNC_DIR)
-	go build -o $(FUNC_DIR) ./...
-
-.PHONY: build-linux
-## build the go binaries for linux into the function folder
-build-linux: install $(STYLES)
-	mkdir -p $(FUNC_DIR)
-	GOOS=linux GOARCH=amd64 go build -o $(FUNC_DIR) ./...
+## builds the static pages
+build: templates install styles
+	@go run website/main.go
 
 .PHONY: dev
 ## start the dev server
-dev: templates $(STYLES)
+dev: build
+	netlify build
 	netlify dev
 
 .PHONY: test
-## test the api endpoints
+## test the api endpoints and website page generator
 test: templates
-	@go test ./... -v
+	@go test $(ALL_PROJECTS)
+
+.PHONY: coverage
+## test coverage across the code base
+coverage: templates
+	@go test $(ALL_PROJECTS) -coverprofile=c.out
+	@go tool cover -html="c.out"
 
 .PHONY: clean
 ## removes binaries and artifacts
 clean:
 	@go clean
-	@rm -rvf $(BIN_DIR) $(FUNC_DIR) $(STYLES)
+	@rm -rf $(BIN_DIR) $(FUNC_DIR) $(STYLES)
+	@find . -path "*/static/*.*ml" -type f -delete
 	@find . -name "*_templ.go" -type f -delete
+
+.PHONY: cleaner
+## removes the same as clean and other ignored files
+cleaner: clean
+	@rm -rf .netlify
+	@rm -f .env
+	@rm -f c.out
 
 
 #################################################################################
