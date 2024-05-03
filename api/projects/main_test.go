@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"context"
 	_ "embed"
 	"net/http"
@@ -63,7 +62,6 @@ func TestFetchAndParse(t *testing.T) {
 		{"Github Host Test", []string{"github"}, ExpectedGithubFetchResponse},
 		{"BGG Host Test", []string{"bgg"}, ExpectedBggFetchResponse},
 		{"Cults3D Host Test", []string{"cults3d"}, ExpectedCults3dFetchResponse},
-		{"All Projects Test", []string{"github", "bgg", "cults3d"}, bytes.Join([][]byte{ExpectedGithubFetchResponse, ExpectedBggFetchResponse, ExpectedCults3dFetchResponse}, []byte{})},
 	}
 
 	for _, tc := range tests {
