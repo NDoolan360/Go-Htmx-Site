@@ -6,7 +6,7 @@ require (
 	github.com/NDoolan360/github-langs-go v1.0.0
 	github.com/NDoolan360/go-htmx-site/website v0.0.0-00010101000000-000000000000
 	github.com/a-h/templ v0.2.663
-	github.com/aws/aws-lambda-go v1.38.0
+	github.com/aws/aws-lambda-go v1.47.0
 	github.com/google/go-cmp v0.6.0
 )
 
