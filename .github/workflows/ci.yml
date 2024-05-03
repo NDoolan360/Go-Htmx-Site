@@ -8,22 +8,28 @@ on:
             - master
 
 jobs:
-    go:
+    ci:
         runs-on: ubuntu-latest
-
+        strategy:
+            matrix:
+                directory: [./website, ./api/health, ./api/projects]
         steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
-
-            - name: Setup Go
-              uses: actions/setup-go@v4
+            - uses: actions/checkout@v4
+            - run: cd ${{ matrix.directory }}
+            - uses: actions/setup-go@v5
               with:
-                go-version: 1.21.6
-
-            - name: Go Lint
-              uses: golangci/golangci-lint-action@v3
+                  go-version: 1.22.2
+            - name: Lint
+              uses: golangci/golangci-lint-action@v5
               with:
-                version: v1.55.2
+                  version: v1.55.2
 
-            - name: Run Go Tests
-              run: go test ./api -v
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-go@v5
+              with:
+                  go-version: 1.22.2
+            - name: Test
+              run: make test
