@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"io"
+	"sync"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -25,27 +27,36 @@ var hostMap = map[string]Host{
 }
 
 func handler(ctx context.Context, request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
+	var wg sync.WaitGroup
 	buf := bytes.NewBufferString("")
+
 	for _, host := range request.MultiValueQueryStringParameters["host"] {
 		host, ok := hostMap[host]
 		if !ok {
 			return nil, fmt.Errorf("Interface for host '%s' not found.", host)
 		}
 
-		data, err := host.Fetch()
-		if err != nil {
-			continue
-		}
+		wg.Add(1)
+		go func(host Host, ctx context.Context, buf io.Writer, wg *sync.WaitGroup) {
+			defer wg.Done()
 
-		projects, err := host.Parse(data)
-		if err != nil {
-			continue
-		}
+			data, err := host.Fetch()
+			if err != nil {
+				return
+			}
 
-		for _, project := range projects {
-			ProjectTemplate(project).Render(ctx, buf)
-		}
+			projects, err := host.Parse(data)
+			if err != nil {
+				return
+			}
+
+			for _, project := range projects {
+				ProjectTemplate(project).Render(ctx, buf)
+			}
+		}(host, ctx, buf, &wg)
 	}
+
+	wg.Wait()
 
 	return &events.APIGatewayProxyResponse{
 		StatusCode: 200,
