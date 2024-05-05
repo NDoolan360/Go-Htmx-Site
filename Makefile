@@ -67,7 +67,7 @@ templates: $(TEMPL_BINARY)
 .PHONY: install
 ## installs the latest version of the `tailwindcss` CLI and the go packages named
 ## by the import paths
-install:
+install: templates
 	@go install $(ALL_PROJECTS)
 
 .PHONY: styles
@@ -75,8 +75,8 @@ install:
 style: $(STYLES)
 
 .PHONY: build
-## builds the static pages
-build: templates install styles
+## builds required deps for the site to run on netlify
+build: install styles
 	@go run website/main.go
 
 .PHONY: deploy-preview
