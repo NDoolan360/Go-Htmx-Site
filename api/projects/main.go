@@ -8,6 +8,7 @@ import (
 	"log"
 	"sync"
 
+	"github.com/a-h/templ"
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 )
@@ -17,6 +18,27 @@ import (
 type Host interface {
 	Fetch() ([]byte, error)
 	Parse([]byte) ([]Project, error)
+}
+
+type Project struct {
+	Host        string
+	Title       string
+	Description string
+	Url         templ.SafeURL
+	Image       Image
+	Language    Language
+	Logo        templ.Component
+	Topics      []string
+}
+
+type Image struct {
+	Src string
+	Alt string
+}
+
+type Language struct {
+	Name   string
+	Colour string
 }
 
 func main() {
