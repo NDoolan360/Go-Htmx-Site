@@ -26,10 +26,6 @@ lerna-debug.log*
 # Go coverage tool output
 *.out
 
-# Go workspace file
-go.work
-go.work.sum
-
 # Ignore templ generated files
 *_templ.go
 *_templ.txt

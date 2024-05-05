@@ -5,6 +5,7 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"log"
 	"sync"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -51,7 +52,10 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (*event
 			}
 
 			for _, project := range projects {
-				ProjectTemplate(project).Render(ctx, buf)
+				err := ProjectTemplate(project).Render(ctx, buf)
+				if err != nil {
+					log.Print(err)
+				}
 			}
 		}(host, ctx, buf, &wg)
 	}

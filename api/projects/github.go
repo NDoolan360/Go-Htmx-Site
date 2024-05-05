@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 
 	githublangsgo "github.com/NDoolan360/github-langs-go"
@@ -24,7 +24,7 @@ func (gh GithubHost) Fetch() ([]byte, error) {
 		return nil, err
 	}
 
-	return ioutil.ReadAll(resp.Body)
+	return io.ReadAll(resp.Body)
 }
 
 func (_ GithubHost) Parse(data []byte) (projects []Project, err error) {

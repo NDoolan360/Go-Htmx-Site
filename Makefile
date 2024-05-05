@@ -38,17 +38,22 @@ STYLES=$(PWD)/static/styles/styles.css
 ALL_PROJECTS=./website/... ./api/health/... ./api/projects/...
 
 $(BIN_DIR):
-	mkdir -p $(BIN_DIR)
+	@mkdir -p $(BIN_DIR)
 
-$(TEMPL_BINARY): $(BIN_DIR)
+$(TEMPL_TAR): $(BIN_DIR)
 	curl -sLo $(TEMPL_TAR) $(TEMPL_URL)
+
+$(TEMPL_BINARY): $(BIN_DIR) $(TEMPL_TAR)
 	tar -xvzf $(TEMPL_TAR) -C $(BIN_DIR) templ
-	chmod +x $(TEMPL_BINARY)
-	rm -f $(TEMPL_TAR)
+	@chmod +x $(TEMPL_BINARY)
+	@touch $(TEMPL_BINARY)
 
 $(TAILWIND_BINARY): $(BIN_DIR)
 	curl -sLo $(TAILWIND_BINARY) $(TAILWIND_URL)
-	chmod +x $(TAILWIND_BINARY)
+	@chmod +x $(TAILWIND_BINARY)
+
+$(STYLES): $(TAILWIND_STYLES) $(TAILWIND_BINARY)
+	$(TAILWIND_BINARY) build -i $(TAILWIND_STYLES) -o $(STYLES) --minify
 
 #################################################################################
 # Commands                                                                      #
@@ -67,8 +72,7 @@ install:
 
 .PHONY: styles
 ## generates the css styles using the tailwind binary
-styles: $(TAILWIND_STYLES) $(TAILWIND_BINARY)
-	$(TAILWIND_BINARY) build -i $(TAILWIND_STYLES) -o $(STYLES) --minify
+style: $(STYLES)
 
 .PHONY: build
 ## builds the static pages
@@ -91,6 +95,11 @@ dev: build
 ## test the api endpoints and website page generator
 test: templates
 	@go test $(ALL_PROJECTS)
+
+.PHONY: lint
+## lint all the modules
+lint:
+	@golangci-lint run $(ALL_PROJECTS)
 
 .PHONY: coverage
 ## test coverage across the code base

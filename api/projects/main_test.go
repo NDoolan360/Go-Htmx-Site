@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	_ "embed"
+	"errors"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -34,18 +35,20 @@ var MockCults3dHttpResponse []byte
 
 func TestFetchAndParse(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		var err error
 		switch r.URL.Path {
 		case "/users/NDoolan360/repos":
-			w.Write(MockGithubHttpResponse)
+			_, err = w.Write(MockGithubHttpResponse)
 		case "/geeklist/332832":
-			w.Write(MockBggHttpResponse)
+			_, err = w.Write(MockBggHttpResponse)
 		case "/boardgame/330653":
-			w.Write(MockBggXmlHttpResponse)
+			_, err = w.Write(MockBggXmlHttpResponse)
 		case "/graphql":
-			w.Write(MockCults3dHttpResponse)
+			_, err = w.Write(MockCults3dHttpResponse)
 		default:
-			t.Errorf("mock url not defined")
+			err = errors.New("mock url not defined")
 		}
+		t.Error(err)
 	}))
 
 	hostMap = map[string]Host{

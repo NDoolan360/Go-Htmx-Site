@@ -5,7 +5,8 @@ import (
 	"encoding/xml"
 	"errors"
 	"fmt"
-	"io/ioutil"
+	"io"
+	"log"
 	"net/http"
 
 	"github.com/NDoolan360/go-htmx-site/website/components"
@@ -23,7 +24,7 @@ func (bgg BggHost) Fetch() ([]byte, error) {
 		return nil, err
 	}
 
-	return ioutil.ReadAll(resp.Body)
+	return io.ReadAll(resp.Body)
 }
 
 func (bgg BggHost) Parse(data []byte) (projects []Project, err error) {
@@ -42,7 +43,7 @@ func (bgg BggHost) Parse(data []byte) (projects []Project, err error) {
 			return nil, err
 		}
 
-		projectData, err := ioutil.ReadAll(resp.Body)
+		projectData, err := io.ReadAll(resp.Body)
 		if err != nil {
 			return nil, err
 		}
@@ -54,7 +55,7 @@ func (bgg BggHost) Parse(data []byte) (projects []Project, err error) {
 		}
 
 		if unmarshalErr := xml.Unmarshal(projectData, &bggProject); unmarshalErr != nil {
-			err = errors.Join(err, fmt.Errorf("error parsing BGG project (%s)", item.Item.Id), unmarshalErr)
+			log.Print("error parsing BGG project", item.Item.Id, unmarshalErr)
 			continue
 		}
 

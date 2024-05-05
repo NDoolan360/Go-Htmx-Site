@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"sync"
@@ -51,7 +51,7 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (*event
 			defer wg.Done()
 			status, err := fetchStatus(req)
 			if err != nil {
-				fmt.Println("Error:", err)
+				log.Print(err)
 				dependencies[host] = err.Error()
 			} else {
 				dependencies[host] = status
