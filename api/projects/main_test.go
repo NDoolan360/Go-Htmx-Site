@@ -48,7 +48,9 @@ func TestFetchAndParse(t *testing.T) {
 		default:
 			err = errors.New("mock url not defined")
 		}
-		t.Error(err)
+		if err != nil {
+			t.Error(err)
+		}
 	}))
 
 	hostMap = map[string]Host{
