@@ -12,6 +12,8 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
+//go:generate templ generate
+
 type Host interface {
 	Fetch() ([]byte, error)
 	Parse([]byte) ([]Project, error)
