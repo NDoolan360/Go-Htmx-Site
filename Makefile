@@ -67,16 +67,13 @@ templates: $(TEMPL_BINARY)
 .PHONY: install
 ## installs the latest version of the `tailwindcss` CLI and the go packages named
 ## by the import paths
-install: templates
+install: $(TEMPL_BINARY)
+	@go generate $(ALL_PROJECTS)
 	@go install $(ALL_PROJECTS)
-
-.PHONY: styles
-## generates the css styles using the tailwind binary
-style: $(STYLES)
 
 .PHONY: build
 ## builds required deps for the site to run on netlify
-build: install styles
+build: install $(STYLES)
 	@go run website/main.go
 
 .PHONY: deploy-preview
@@ -93,17 +90,17 @@ dev: build
 
 .PHONY: test
 ## test the api endpoints and website page generator
-test: templates
+test: install
 	@go test $(ALL_PROJECTS)
 
 .PHONY: lint
 ## lint all the modules
-lint:
+lint: install
 	@golangci-lint run $(ALL_PROJECTS)
 
 .PHONY: coverage
 ## test coverage across the code base
-coverage: templates
+coverage: install
 	@go test $(ALL_PROJECTS) -coverprofile=c.out
 	@go tool cover -html="c.out"
 

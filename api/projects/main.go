@@ -13,7 +13,7 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
-//go:generate templ generate
+//go:generate make templates
 
 type Host interface {
 	Fetch() ([]byte, error)

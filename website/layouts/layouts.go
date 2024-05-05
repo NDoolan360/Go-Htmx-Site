@@ -1,3 +1,3 @@
 package layouts
 
-//go:generate templ generate
+//go:generate make templates
