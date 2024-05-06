@@ -13,6 +13,11 @@ to = "/.netlify/functions/health"
 status = 200
 
 [[redirects]]
+from = "/experience"
+to = "/.netlify/functions/experience"
+status = 200
+
+[[redirects]]
 from = "/projects"
 to = "/.netlify/functions/projects"
 status = 200

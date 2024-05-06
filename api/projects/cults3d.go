@@ -68,12 +68,12 @@ func (_ Cults3dHost) Parse(data []byte) (projects []Project, err error) {
 			Host:        "Cults3D",
 			Title:       project.Title,
 			Description: project.Description,
-			Url:         templ.SafeURL(project.Url),
+			Url:         templ.URL(project.Url),
 			Image: Image{
 				Src: project.ImageSrc,
 				Alt: fmt.Sprintf("3D Model: %s", project.Title),
 			},
-			Logo:   components.Cults3DLogo(),
+			Logo:   components.Logo("Cults3d"),
 			Topics: project.Topics,
 		})
 	}

@@ -23,27 +23,27 @@ templ IndexHeader() {
 		<ul id="external-links" aria-label="external links">
 			<li>
 				<a href="https://github.com/NDoolan360" target="_blank" rel="noreferrer">
-					@components.GithubLogo()
+					@components.Logo("Github")
 				</a>
 			</li>
 			<li>
 				<a href="https://www.linkedin.com/in/nathan-doolan-835a13171" target="_blank" rel="noreferrer">
-					@components.LinkedInLogo()
+					@components.Logo("LinkedIn")
 				</a>
 			</li>
 			<li>
 				<a href="https://discord.com/users/nothindoin" target="_blank" rel="noreferrer">
-					@components.DiscordLogo()
+					@components.Logo("Discord")
 				</a>
 			</li>
 			<li>
 				<a href="https://cults3d.com/en/users/ND360" target="_blank" rel="noreferrer">
-					@components.Cults3DLogo()
+					@components.Logo("Cults3d")
 				</a>
 			</li>
 			<li>
 				<a href="https://boardgamegeek.com/user/Nothin_Doin" target="_blank" rel="noreferrer">
-					@components.BGGLogo()
+					@components.Logo("BGG")
 				</a>
 			</li>
 			<li>
@@ -73,96 +73,13 @@ templ IndexMain(year string) {
 				<h2>Experience</h2>
 				<hr/>
 			</div>
-			<ol>
-				<li class="experience-item">
-					<span class="date-range">Jan 2024 - Present</span>
-					<div>
-						<a class="experience-title" href="https://kaluza.com/" target="_blank" rel="noreferrer">
-							@components.KaluzaLogo()
-							<h3>Kaluza</h3>
-						</a>
-						<h4 class="current">
-							Software Engineer
-						</h4>
-						<div class="topic-wrapper">
-							<a class="chip" href="https://www.typescriptlang.org" target="_blank" rel="noreferrer">Typescript</a>
-							<a class="chip" href="https://github.com/features/actions" target="_blank" rel="noreferrer">Github Actions</a>
-							<a class="chip" href="https://circleci.com" target="_blank" rel="noreferrer">CircleCI</a>
-							<a class="chip" href="https://nestjs.com" target="_blank" rel="noreferrer">NestJS</a>
-							<a class="chip" href="https://www.terraform.io" target="_blank" rel="noreferrer">Terraform</a>
-							<a class="chip" href="https://kafka.apache.org" target="_blank" rel="noreferrer">Kafka</a>
-							<a class="chip" href="https://www.datadoghq.com" target="_blank" rel="noreferrer">DataDog</a>
-						</div>
-					</div>
-				</li>
-				<li class="experience-item">
-					<span class="date-range">Jul 2021 - Dec 2023</span>
-					<div>
-						<a class="experience-title" href="https://gentrack.com/" target="_blank" rel="noreferrer">
-							@components.GentrackLogo()
-							<h3>Gentrack</h3>
-						</a>
-						<h4>
-							Intermediate Software Engineer
-						</h4>
-						<h4>
-							Junior Software Engineer
-						</h4>
-						<h4>
-							Graduate Software Engineer
-						</h4>
-						<div class="topic-wrapper">
-							<span class="chip">SQL</span><span class="chip">API Design</span><span class="chip">Unit Testing</span>
-							<a class="chip" href="https://www.docker.com" target="_blank" rel="noreferrer">Docker</a>
-							<a class="chip" href="https://www.jenkins.io" target="_blank" rel="noreferrer">Jenkins</a>
-						</div>
-					</div>
-				</li>
-				<li class="experience-item">
-					<span class="date-range">Feb 2018 - Jul 2021</span>
-					<div>
-						<a class="experience-title" href="https://pqrs.com.au/" target="_blank" rel="noreferrer">
-							@components.ProquipLogo()
-							<h3>Proquip Rental &amp; Sales</h3>
-						</a>
-						<h4>
-							IT Support Specialist
-						</h4>
-						<h4>
-							IT/Marketing Assistant
-						</h4>
-						<h4>
-							Administrative Assistant
-						</h4>
-						<div class="topic-wrapper">
-							<span class="chip">IT Support</span><span class="chip">Social Media Marketing</span>
-							<a class="chip" href="https://www.adobe.com/products/catalog.html" target="_blank" rel="noreferrer">Adobe Suite</a>
-							<a class="chip" href="https://wordpress.com" target="_blank" rel="noreferrer">Wordpress</a>
-							<a class="chip" href="https://analytics.google.com/analytics" target="_blank" rel="noreferrer">Google Analytics</a>
-						</div>
-					</div>
-				</li>
-				<li class="experience-item education">
-					<span class="date-range">Feb 2018 - Feb 2021</span>
-					<div>
-						<a class="experience-title" href="https://www.unimelb.edu.au/" target="_blank" rel="noreferrer">
-							@components.MelbourneUniversityLogo()
-							<h3>University of Melbourne</h3>
-						</a>
-						<h4>
-							Bachelor of Science: Computing and Software Systems
-						</h4>
-						<div class="topic-wrapper">
-							<a class="chip" href="https://study.unimelb.edu.au/find/courses/major/computing-and-software-systems" target="_blank" rel="noreferrer">Course Overview</a>
-						</div>
-					</div>
-				</li>
+			<ul hx-get="/experience" hx-trigger="load" hx-swap="afterbegin">
 				<li>
 					<a class="btn" href="/resume" target="_blank" rel="noreferrer">
-						Full Resume
+						View Full Resume
 					</a>
 				</li>
-			</ol>
+			</ul>
 		</section>
 		<section id="projects">
 			<div class="heading">
@@ -183,19 +100,19 @@ templ IndexMain(year string) {
 					<ul>
 						<li>
 							<a class="btn" href="https://go.dev/" target="_blank" rel="noreferrer">
-								@components.GoLogo()
+								@components.Logo("Go")
 								<p>Go</p>
 							</a>
 						</li>
 						<li>
 							<a class="btn" href="https://htmx.org" target="_blank" rel="noreferrer">
-								@components.HtmxLogo()
+								@components.Logo("htmx")
 								<p>htmx</p>
 							</a>
 						</li>
 						<li>
 							<a class="btn" href="https://tailwindcss.com" target="_blank" rel="noreferrer">
-								@components.TailwindLogo()
+								@components.Logo("Tailwind CSS")
 								<p>Tailwind CSS</p>
 							</a>
 						</li>
@@ -206,7 +123,7 @@ templ IndexMain(year string) {
 					<ul>
 						<li>
 							<a class="btn" href="https://netlify.com" target="_blank" rel="noreferrer">
-								@components.NetlifyLogo()
+								@components.Logo("Netlify")
 								<p>Netlify</p>
 							</a>
 						</li>

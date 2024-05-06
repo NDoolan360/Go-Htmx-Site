@@ -56,12 +56,12 @@ func (_ GithubHost) Parse(data []byte) (projects []Project, err error) {
 			Host:        "Github",
 			Title:       project.Title,
 			Description: project.Description,
-			Url:         templ.SafeURL(project.Url),
+			Url:         templ.URL(project.Url),
 			Language: Language{
 				Name:   project.Language,
 				Colour: lang.Color,
 			},
-			Logo:   components.GithubLogo(),
+			Logo:   components.Logo("Github"),
 			Topics: project.Topics,
 		})
 	}

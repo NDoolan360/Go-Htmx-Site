@@ -62,12 +62,12 @@ func (bgg BggHost) Parse(data []byte) (projects []Project, err error) {
 		projects = append(projects, Project{
 			Host:  "Board Game Geek",
 			Title: bggProject.Title,
-			Url:   templ.SafeURL(fmt.Sprintf("https://boardgamegeek.com/boardgame/%s", item.Item.Id)),
+			Url:   templ.URL(fmt.Sprintf("https://boardgamegeek.com/boardgame/%s", item.Item.Id)),
 			Image: Image{
 				Src: bggProject.ImageSrc,
 				Alt: fmt.Sprintf("Board Game: %s", bggProject.Title),
 			},
-			Logo:   components.BGGLogo(),
+			Logo:   components.Logo("BGG"),
 			Topics: bggProject.Tags,
 		})
 	}

@@ -12,6 +12,7 @@ import (
 
 	"github.com/NDoolan360/go-htmx-site/website/layouts"
 	"github.com/NDoolan360/go-htmx-site/website/pages"
+	"github.com/a-h/templ"
 )
 
 func main() {
@@ -44,7 +45,7 @@ var handlers = map[string]func(io.Writer) error{
 			"Resume",
 			"",
 			nil,
-			pages.Markdown("/content/resume.md"),
+			pages.Markdown(templ.URL("/content/resume.md")),
 		).Render(context.Background(), w)
 	},
 }

@@ -37,7 +37,7 @@ TAILWIND_BINARY=$(TEMP_DIR)/tailwindcss-$(OS)-$(ARCH)
 TAILWIND_URL=https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-$(OS)-$(ARCH)
 TAILWIND_STYLES=$(CURRENT_DIR)website/static/styles/tailwind.css
 STYLES=$(CURRENT_DIR)website/static/styles/styles.css
-ALL_PROJECTS=./website/... ./api/health/... ./api/projects/...
+ALL_PROJECTS=./api/experience/... ./api/health/... ./api/projects/... ./website/...
 
 $(TEMP_DIR):
 	@mkdir -p $(TEMP_DIR)
@@ -64,11 +64,10 @@ $(STYLES): $(TAILWIND_STYLES) $(TAILWIND_BINARY)
 .PHONY: templates
 ## generates the templates using `templ generate`
 templates: $(TEMPL_BINARY)
-	$(TEMPL_BINARY) generate
+	@$(TEMPL_BINARY) generate
 
 .PHONY: install
-## installs the latest version of the `tailwindcss` CLI and the go packages named
-## by the import paths
+## `go generate` and `go install`
 install: $(TEMPL_BINARY)
 	@go generate $(ALL_PROJECTS)
 	@go install $(ALL_PROJECTS)
@@ -82,13 +81,13 @@ build: install $(STYLES)
 ## deploys the local changes as a preview
 deploy-preview: build
 	@netlify build
-	netlify deploy
+	@netlify deploy
 
 .PHONY: dev
 ## start the dev server
 dev: build
 	@netlify build
-	netlify dev
+	@netlify dev
 
 .PHONY: test
 ## test the api endpoints and website page generator

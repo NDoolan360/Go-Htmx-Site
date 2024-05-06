@@ -1,0 +1,31 @@
+package main
+
+import "github.com/NDoolan360/go-htmx-site/website/components"
+
+templ ExperienceTemplate(experience Experience) {
+	<li class="experience-item">
+		<span class="date-range">{ experience.DateStart } - { experience.DateEnd }</span>
+		<div>
+			<a class="experience-title" href={ experience.Link } target="_blank" rel="noreferrer">
+				@components.Logo(experience.Location)
+				<h3>{ experience.Location }</h3>
+			</a>
+			for _, position := range experience.Positions {
+				<h4
+					if position.Active {
+						class="current"
+					}
+				>
+					{ position.Role }
+				</h4>
+			}
+			if len(experience.Topics) > 0 {
+				<div class="topic-wrapper">
+					for _, topic := range experience.Topics {
+						<a class="chip" href={ topic.Link } target="_blank" rel="noreferrer">{ topic.Label }</a>
+					}
+				</div>
+			}
+		</div>
+	</li>
+}

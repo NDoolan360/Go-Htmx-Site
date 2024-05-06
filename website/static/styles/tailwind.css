@@ -90,11 +90,11 @@
         @apply justify-center flex flex-col gap-3 md:gap-6;
     }
 
-    #experience ol {
+    #experience ul {
         @apply flex flex-col gap-16;
     }
 
-    #experience ol:has(.experience-item:hover) .experience-item:not(:hover) {
+    #experience ul:has(.experience-item:hover) .experience-item:not(:hover) {
         @apply opacity-50 motion-reduce:opacity-100;
     }
 
@@ -118,7 +118,7 @@
         @apply flex flex-row flex-nowrap gap-2 items-center text-xl max-w-fit;
     }
 
-    .experience-item:not(.education) h4:not(.current) {
+    h4:not(.current) {
         @apply opacity-60;
     }
 
