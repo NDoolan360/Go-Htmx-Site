@@ -22,7 +22,7 @@ func main() {
 			log.Fatal(renderErr)
 			return
 		}
-		writeErr := os.WriteFile(path.Join("static", file), buf.Bytes(), 0644)
+		writeErr := os.WriteFile(path.Join("website", "static", file), buf.Bytes(), 0644)
 		if writeErr != nil {
 			log.Fatal(writeErr)
 			return

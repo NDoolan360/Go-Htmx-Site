@@ -31,8 +31,8 @@ lerna-debug.log*
 *_templ.txt
 
 # Build artifacts
-/static/styles/styles.css
-/static/*.*ml
+website/static/styles/styles.css
+website/static/*.*ml
 /tmp
 
 # Local Netlify folder

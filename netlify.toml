@@ -1,9 +1,9 @@
 [dev]
-publish = "static"
+publish = "website/static"
 functions = "api"
 
 [build]
-publish = "static"
+publish = "website/static"
 command = "make build"
 functions = "api"
 
@@ -25,4 +25,4 @@ GO111MODULE = "on"
 [[plugins]]
 package = "@netlify/plugin-sitemap"
 [plugins.inputs]
-buildDir = "static"
+buildDir = "website/static"

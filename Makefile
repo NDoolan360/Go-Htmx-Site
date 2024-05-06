@@ -35,8 +35,8 @@ TEMPL_BINARY=$(TEMP_DIR)/templ
 TEMPL_URL=https://github.com/a-h/templ/releases/latest/download/templ_$(SYSTEM)_$(PLATFORM).tar.gz
 TAILWIND_BINARY=$(TEMP_DIR)/tailwindcss-$(OS)-$(ARCH)
 TAILWIND_URL=https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-$(OS)-$(ARCH)
-TAILWIND_STYLES=$(CURRENT_DIR)static/styles/tailwind.css
-STYLES=$(CURRENT_DIR)static/styles/styles.css
+TAILWIND_STYLES=$(CURRENT_DIR)website/static/styles/tailwind.css
+STYLES=$(CURRENT_DIR)website/static/styles/styles.css
 ALL_PROJECTS=./website/... ./api/health/... ./api/projects/...
 
 $(TEMP_DIR):
