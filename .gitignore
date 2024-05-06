@@ -32,10 +32,8 @@ lerna-debug.log*
 
 # Build artifacts
 /static/styles/styles.css
-/static/sitemap.xml
-/static/*.html
-/bin
-/functions
+/static/*.*ml
+/tmp
 
 # Local Netlify folder
 .netlify

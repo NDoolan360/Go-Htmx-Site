@@ -1,11 +1,16 @@
+CURRENT_DIR=$(dir $(abspath $(firstword $(MAKEFILE_LIST))))
+
 # Export all variables
 export
 
 # Set up environment variables
-ENVFILE=$(PWD)/.env
-ENVFILE_EXAMPLE=$(PWD)/.example.env
-$(shell cp -n $(ENVFILE_EXAMPLE) $(ENVFILE))
-include $(ENVFILE)
+ENVFILE=$(CURRENT_DIR).env
+ENVFILE_EXAMPLE=$(CURRENT_DIR).example.env
+ifneq ("$(wildcard $(ENVFILE))","")
+	include $(ENVFILE)
+else ifneq ("$(wildcard $(ENVFILE_EXAMPLE))","")
+	$(shell cp -n $(ENVFILE_EXAMPLE) $(ENVFILE))
+endif
 
 # Get OS & ARCH info
 SYSTEM := $(shell uname -s)
@@ -27,28 +32,28 @@ endif
 # File Targets                                                                  #
 #################################################################################
 
-BIN_DIR=$(PWD)/bin
-TEMPL_TAR=$(BIN_DIR)/templ_$(SYSTEM)_$(PLATFORM).tar.gz
-TEMPL_BINARY=$(BIN_DIR)/templ
+TEMP_DIR=$(CURRENT_DIR)tmp
+TEMPL_TAR=$(TEMP_DIR)/templ_$(SYSTEM)_$(PLATFORM).tar.gz
+TEMPL_BINARY=$(TEMP_DIR)/templ
 TEMPL_URL=https://github.com/a-h/templ/releases/latest/download/templ_$(SYSTEM)_$(PLATFORM).tar.gz
-TAILWIND_BINARY=$(BIN_DIR)/tailwindcss-$(OS)-$(ARCH)
+TAILWIND_BINARY=$(TEMP_DIR)/tailwindcss-$(OS)-$(ARCH)
 TAILWIND_URL=https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-$(OS)-$(ARCH)
-TAILWIND_STYLES=$(PWD)/static/styles/tailwind.css
-STYLES=$(PWD)/static/styles/styles.css
+TAILWIND_STYLES=$(CURRENT_DIR)static/styles/tailwind.css
+STYLES=$(CURRENT_DIR)static/styles/styles.css
 ALL_PROJECTS=./website/... ./api/health/... ./api/projects/...
 
-$(BIN_DIR):
-	@mkdir -p $(BIN_DIR)
+$(TEMP_DIR):
+	@mkdir -p $(TEMP_DIR)
 
-$(TEMPL_TAR): $(BIN_DIR)
+$(TEMPL_TAR): $(TEMP_DIR)
 	curl -sLo $(TEMPL_TAR) $(TEMPL_URL)
 
-$(TEMPL_BINARY): $(BIN_DIR) $(TEMPL_TAR)
-	tar -xvzf $(TEMPL_TAR) -C $(BIN_DIR) templ
+$(TEMPL_BINARY): $(TEMP_DIR) $(TEMPL_TAR)
+	tar -xvzf $(TEMPL_TAR) -C $(TEMP_DIR) templ
 	@chmod +x $(TEMPL_BINARY)
 	@touch $(TEMPL_BINARY)
 
-$(TAILWIND_BINARY): $(BIN_DIR)
+$(TAILWIND_BINARY): $(TEMP_DIR)
 	curl -sLo $(TAILWIND_BINARY) $(TAILWIND_URL)
 	@chmod +x $(TAILWIND_BINARY)
 
@@ -108,7 +113,8 @@ coverage: install
 ## removes binaries and artifacts
 clean:
 	@go clean
-	@rm -rf $(BIN_DIR) $(FUNC_DIR) $(STYLES)
+	@rm -rf $(TEMP_DIR)
+	@rm -f $(STYLES)
 	@find . -path "*/static/*.*ml" -type f -delete
 	@find . -name "*_templ.go" -type f -delete
 

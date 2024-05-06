@@ -1,3 +1,3 @@
 package pages
 
-//go:generate make templates
+//go:generate make templates -C ../..
