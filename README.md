@@ -21,7 +21,7 @@ The source code for my personal website, built with Go, Htmx and Hyperscript, an
 
 ### Components
 
--   [Htmx][htmx] - [Big Sky Software][big_sky_software]
+-   [Htmx][htmx] - [Big Sky Software][big-sky-software]
 -   [Hyperscript][hyperscript] - [Big Sky Software][big-sky-software]
 -   [\<zero-md\>][zero-md] - [zerodevx][zerodevx]
 -   [Theme Switch][theme-switch] - [web.dev][web-dev]
