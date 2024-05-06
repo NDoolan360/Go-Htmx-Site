@@ -1,0 +1,55 @@
+package layouts
+
+templ BaseLayout(title string, description string, header templ.Component, main templ.Component) {
+	<!DOCTYPE html>
+	<html lang="en" class="scroll-smooth">
+		<head>
+			@head(title, description)
+		</head>
+		<body class="dark">
+			if header != nil {
+				@header
+			}
+			if main != nil {
+				@main
+			}
+		</body>
+	</html>
+}
+
+templ head(title string, description string) {
+	<title>{ title }</title>
+	<meta name="description" content={ description }/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+	<link rel="icon" href="/favicon.ico"/>
+	<!-- Styles -->
+	<link rel="stylesheet" href="/styles/styles.css"/>
+	<!-- Scripts -->
+	<script src="https://unpkg.com/htmx.org@1.9.12"></script>
+	<script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
+	<script type="module" src="https://cdn.jsdelivr.net/gh/zerodevx/zero-md@2/dist/zero-md.min.js"></script>
+	<!-- Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com"/>
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+	<link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital@0;1&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet"/>
+	<!-- OpenGraph -->
+	<meta property="og:description" content={ description }/>
+	<meta property="og:locale" content="en_AU"/>
+	<meta property="og:url" content="https://n.doolan.dev"/>
+	<meta property="og:type" content="profile"/>
+	<meta property="og:profile:first_name" content="Nathan"/>
+	<meta property="og:profile:first_name" content="Doolan"/>
+	<meta property="og:profile:gender" content="male"/>
+	<meta property="og:title" content="Nathan Doolan"/>
+	<meta property="og:image" content="/images/profile.webp"/>
+	<!-- PWA -->
+	<meta name="color-scheme" content="dark light"/>
+	<meta name="theme-color" content="#283c37"/>
+	<meta name="apple-mobile-web-app-status-bar" content="#283c37"/>
+	<link rel="apple-touch-icon" sizes="180x180" href="/images/icons/apple-touch-icon.png"/>
+	<link rel="icon" type="image/png" sizes="16x16" href="/images/icons/favicon-16x16.png"/>
+	<link rel="icon" type="image/png" sizes="32x32" href="/images/icons/favicon-32x32.png"/>
+	<link rel="manifest" href="/manifest.json" crossorigin="use-credentials"/>
+	<script src="/scripts/pwa.js"></script>
+}

@@ -1,11 +1,13 @@
+CURRENT_DIR=$(dir $(abspath $(firstword $(MAKEFILE_LIST))))
+
 # Export all variables
 export
 
 # Set up environment variables
-ENVFILE=$(PWD)/.env
-ENVFILE_EXAMPLE=$(PWD)/.example.env
-$(shell cp -n $(ENVFILE_EXAMPLE) $(ENVFILE))
-include $(ENVFILE)
+ENVFILE=$(CURRENT_DIR).env
+ifneq ("$(wildcard $(ENVFILE))","")
+	include $(ENVFILE)
+endif
 
 # Get OS & ARCH info
 SYSTEM := $(shell uname -s)
@@ -22,37 +24,103 @@ else ifeq ($(PLATFORM),arm64)
     ARCH=arm64
 endif
 
+
+#################################################################################
+# File Targets                                                                  #
+#################################################################################
+
+TEMP_DIR=$(CURRENT_DIR)tmp
+TEMPL_TAR=$(TEMP_DIR)/templ_$(SYSTEM)_$(PLATFORM).tar.gz
+TEMPL_BINARY=$(TEMP_DIR)/templ
+TEMPL_URL=https://github.com/a-h/templ/releases/latest/download/templ_$(SYSTEM)_$(PLATFORM).tar.gz
+TAILWIND_BINARY=$(TEMP_DIR)/tailwindcss-$(OS)-$(ARCH)
+TAILWIND_URL=https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-$(OS)-$(ARCH)
+TAILWIND_STYLES=$(CURRENT_DIR)static/styles/tailwind.css
+STYLES=$(CURRENT_DIR)static/styles/styles.css
+ALL_PROJECTS=./website/... ./api/health/... ./api/projects/...
+
+$(TEMP_DIR):
+	@mkdir -p $(TEMP_DIR)
+
+$(TEMPL_TAR): $(TEMP_DIR)
+	curl -sLo $(TEMPL_TAR) $(TEMPL_URL)
+
+$(TEMPL_BINARY): $(TEMP_DIR) $(TEMPL_TAR)
+	tar -xvzf $(TEMPL_TAR) -C $(TEMP_DIR) templ
+	@chmod +x $(TEMPL_BINARY)
+	@touch $(TEMPL_BINARY)
+
+$(TAILWIND_BINARY): $(TEMP_DIR)
+	curl -sLo $(TAILWIND_BINARY) $(TAILWIND_URL)
+	@chmod +x $(TAILWIND_BINARY)
+
+$(STYLES): $(TAILWIND_STYLES) $(TAILWIND_BINARY)
+	$(TAILWIND_BINARY) build -i $(TAILWIND_STYLES) -o $(STYLES) --minify
+
 #################################################################################
 # Commands                                                                      #
 #################################################################################
 
-BUILD_FILE=$(PWD)/public/tailwind.css
-CSS_FILE=$(PWD)/public/styles.css
-BINARY=$(PWD)/tailwindcss-$(OS)-$(ARCH)
-BINARY_URL=https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-$(OS)-$(ARCH)
-
-.PHONY: build
-## generates `tailwind.css` from the `styles.css` using tailwindcss binary
-build: $(BUILD_FILE)
-$(BUILD_FILE): $(CSS_FILE) $(BINARY)
-	$(BINARY) build -i $(CSS_FILE) -o $(BUILD_FILE) --minify
+.PHONY: templates
+## generates the templates using `templ generate`
+templates: $(TEMPL_BINARY)
+	$(TEMPL_BINARY) generate
 
 .PHONY: install
-## installs the latest version of the `tailwindcss` CLI
-install: $(BINARY)
-$(BINARY):
-	curl -sLo $(BINARY) $(BINARY_URL)
-	chmod +x $(BINARY)
+## installs the latest version of the `tailwindcss` CLI and the go packages named
+## by the import paths
+install: $(TEMPL_BINARY)
+	@go generate $(ALL_PROJECTS)
+	@go install $(ALL_PROJECTS)
+
+.PHONY: build
+## builds required deps for the site to run on netlify
+build: install $(STYLES)
+	@go run website/main.go
+
+.PHONY: deploy-preview
+## deploys the local changes as a preview
+deploy-preview: build
+	@netlify build
+	netlify deploy
 
 .PHONY: dev
 ## start the dev server
-dev: $(BUILD_FILE)
-	go run main.go
+dev: build
+	@netlify build
+	netlify dev
+
+.PHONY: test
+## test the api endpoints and website page generator
+test: install
+	@go test $(ALL_PROJECTS)
+
+.PHONY: lint
+## lint all the modules
+lint: install
+	@golangci-lint run $(ALL_PROJECTS)
+
+.PHONY: coverage
+## test coverage across the code base
+coverage: install
+	@go test $(ALL_PROJECTS) -coverprofile=c.out
+	@go tool cover -html="c.out"
 
 .PHONY: clean
 ## removes binaries and artifacts
 clean:
-	rm -vf $(BINARY) $(BUILD_FILE)
+	@go clean
+	@rm -rf $(TEMP_DIR)
+	@rm -f $(STYLES)
+	@find . -path "*/static/*.*ml" -type f -delete
+	@find . -name "*_templ.go" -type f -delete
+
+.PHONY: cleaner
+## removes the same as clean and other ignored files
+cleaner: clean
+	@rm -rf .netlify
+	@rm -f .env
+	@rm -f c.out
 
 
 #################################################################################

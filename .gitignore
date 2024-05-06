@@ -9,7 +9,8 @@ lerna-debug.log*
 *.timestamp-*
 
 # Editor directories and files
-.env
+*.env
+!.example.env
 .vercel
 .idea
 .DS_Store
@@ -19,6 +20,20 @@ lerna-debug.log*
 *.sln
 *.sw?
 
+# Go test binary, built with `go test -c`
+*.test
+
+# Go coverage tool output
+*.out
+
+# Ignore templ generated files
+*_templ.go
+*_templ.txt
+
 # Build artifacts
-/public/tailwind.css
-tailwindcss-*
+/static/styles/styles.css
+/static/*.*ml
+/tmp
+
+# Local Netlify folder
+.netlify

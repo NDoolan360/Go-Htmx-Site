@@ -1,0 +1,10 @@
+<boardgames termsofuse="https://boardgamegeek.com/xmlapi/termsofuse">
+    <boardgame objectid="330653">
+        <name primary="true" sortindex="1">Cake Toppers</name>
+        <image>https://cf.geekdo-images.com/wFwQ-MEGf6BLIyV77hQvHQ__original/img/jGDJHygR3da__4gT0pMzKAD1SQU=/0x0/filters:format(png)/pic5982841.png</image>
+        <boardgamemechanic objectid="2040">Hand Management</boardgamemechanic>
+        <boardgamemechanic objectid="2914">Increase Value of Unchosen Resources</boardgamemechanic>
+        <boardgamemechanic objectid="2048">Pattern Building</boardgamemechanic>
+        <boardgamemechanic objectid="2004">Set Collection</boardgamemechanic>
+    </boardgame>
+</boardgames>

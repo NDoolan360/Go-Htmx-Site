@@ -8,22 +8,32 @@ on:
             - master
 
 jobs:
-    go:
+    lint:
         runs-on: ubuntu-latest
-
+        strategy:
+            matrix:
+                directory: [api/health, api/projects, website]
         steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
-
-            - name: Setup Go
-              uses: actions/setup-go@v4
+            - uses: actions/checkout@v4
+            - uses: actions/setup-go@v5
               with:
-                go-version: 1.21.6
-
-            - name: Go Lint
-              uses: golangci/golangci-lint-action@v3
+                  go-version: 1.22.2
+                  cache-dependency-path: "**/*.sum"
+            - name: Generate Templates
+              run: make templates
+            - name: Lint
+              uses: golangci/golangci-lint-action@v5
               with:
-                version: v1.55.2
+                  version: v1.55.2
+                  working-directory: ${{ matrix.directory }}
 
-            - name: Run Go Tests
-              run: go test ./api -v
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-go@v5
+              with:
+                  go-version: 1.22.2
+                  cache-dependency-path: "**/*.sum"
+            - name: Test
+              run: make test

@@ -1,0 +1,55 @@
+package main
+
+import "fmt"
+
+css languageMarker(colour string) {
+	background-color: { colour };
+	aspect-ratio: 1/1;
+	border-radius: 9999px;
+	display: inline-block;
+	height: .75rem;
+}
+
+templ ProjectTemplate(project Project) {
+	<li class="card">
+		<a
+			class="card-link"
+			href={ project.Url }
+			aria-label={ fmt.Sprintf("%s on %s", project.Title, project.Host) }
+			target="_blank"
+			rel="noreferrer"
+		></a>
+		if len(project.Image.Src) > 0 && len(project.Image.Alt) > 0 {
+			<img
+				class="card-feature-image"
+				src={ project.Image.Src }
+				alt={ project.Image.Alt }
+				height="192"
+			/>
+		}
+		<div class="card-detail-section">
+			<h3 class="card-title">{ project.Title }</h3>
+			if len(project.Language.Name) > 0 || project.Logo != nil {
+				<div class="card-detail">
+					if len(project.Language.Name) > 0 && len(project.Language.Colour) > 0 {
+						<span class={ languageMarker(project.Language.Colour) }></span>
+						<span>{ project.Language.Name }</span>
+					}
+					if project.Logo != nil {
+						@project.Logo
+					}
+				</div>
+			}
+		</div>
+		if len(project.Description) > 0 {
+			<p class="card-description">{ project.Description }</p>
+		}
+		if len(project.Topics) > 0 {
+			<div class="card-topics topic-wrapper">
+				for _, topic := range project.Topics {
+					<span class="chip">{ topic }</span>
+				}
+			</div>
+		}
+	</li>
+}
