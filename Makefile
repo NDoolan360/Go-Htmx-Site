@@ -5,11 +5,8 @@ export
 
 # Set up environment variables
 ENVFILE=$(CURRENT_DIR).env
-ENVFILE_EXAMPLE=$(CURRENT_DIR).example.env
 ifneq ("$(wildcard $(ENVFILE))","")
 	include $(ENVFILE)
-else ifneq ("$(wildcard $(ENVFILE_EXAMPLE))","")
-	$(shell cp -n $(ENVFILE_EXAMPLE) $(ENVFILE))
 endif
 
 # Get OS & ARCH info
