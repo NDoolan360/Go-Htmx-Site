@@ -10,7 +10,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/NDoolan360/go-htmx-site/website/components"
+	"github.com/NDoolan360/go-htmx-site/web/templates"
 	"github.com/a-h/templ"
 )
 
@@ -33,10 +33,11 @@ func (cults Cults3dHost) Fetch() ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer response.Body.Close()
+
 	if response.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("Request to cults3d failed with status code: %d", response.StatusCode)
 	}
-	defer response.Body.Close()
 
 	if data, err := io.ReadAll(response.Body); err != nil {
 		return nil, err
@@ -45,7 +46,7 @@ func (cults Cults3dHost) Fetch() ([]byte, error) {
 	}
 }
 
-func (_ Cults3dHost) Parse(data []byte) (projects []Project, err error) {
+func (Cults3dHost) Parse(data []byte) (projects []Project, err error) {
 	var cults3dProjects struct {
 		Data struct {
 			User struct {
@@ -58,9 +59,15 @@ func (_ Cults3dHost) Parse(data []byte) (projects []Project, err error) {
 				} `json:"creations"`
 			} `json:"user"`
 		} `json:"data"`
+		Errors []struct {
+			Message string `json:"message"`
+		} `json:"errors"`
 	}
 	if unmarshalErr := json.Unmarshal(data, &cults3dProjects); unmarshalErr != nil {
 		return nil, errors.Join(errors.New("error parsing Cults3D projects"), unmarshalErr)
+	}
+	if len(cults3dProjects.Errors) > 0 {
+		return nil, errors.New(cults3dProjects.Errors[0].Message)
 	}
 
 	for _, project := range cults3dProjects.Data.User.Creations {
@@ -73,7 +80,7 @@ func (_ Cults3dHost) Parse(data []byte) (projects []Project, err error) {
 				Src: project.ImageSrc,
 				Alt: fmt.Sprintf("3D Model: %s", project.Title),
 			},
-			Logo:   components.Logo("Cults3d"),
+			Logo:   templates.Cults3DLogo(),
 			Topics: project.Topics,
 		})
 	}

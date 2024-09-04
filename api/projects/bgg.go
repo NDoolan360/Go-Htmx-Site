@@ -9,7 +9,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/NDoolan360/go-htmx-site/website/components"
+	"github.com/NDoolan360/go-htmx-site/web/templates"
 	"github.com/a-h/templ"
 )
 
@@ -67,7 +67,7 @@ func (bgg BggHost) Parse(data []byte) (projects []Project, err error) {
 				Src: bggProject.ImageSrc,
 				Alt: fmt.Sprintf("Board Game: %s", bggProject.Title),
 			},
-			Logo:   components.Logo("BGG"),
+			Logo:   templates.BggLogo(),
 			Topics: bggProject.Tags,
 		})
 	}

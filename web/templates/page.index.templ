@@ -1,6 +1,4 @@
-package pages
-
-import "github.com/NDoolan360/go-htmx-site/website/components"
+package templates
 
 templ IndexHeader() {
 	<header>
@@ -23,31 +21,31 @@ templ IndexHeader() {
 		<ul id="external-links" aria-label="external links">
 			<li>
 				<a href="https://github.com/NDoolan360" target="_blank" rel="noreferrer">
-					@components.Logo("Github")
+					@GithubLogo()
 				</a>
 			</li>
 			<li>
-				<a href="https://www.linkedin.com/in/nathan-doolan-835a13171" target="_blank" rel="noreferrer">
-					@components.Logo("LinkedIn")
+				<a href="https://linkedin.com/in/nathan-doolan-835a13171" target="_blank" rel="noreferrer">
+					@LinkedInLogo()
 				</a>
 			</li>
 			<li>
 				<a href="https://discord.com/users/nothindoin" target="_blank" rel="noreferrer">
-					@components.Logo("Discord")
+					@DiscordLogo()
 				</a>
 			</li>
 			<li>
 				<a href="https://cults3d.com/en/users/ND360" target="_blank" rel="noreferrer">
-					@components.Logo("Cults3d")
+					@Cults3DLogo()
 				</a>
 			</li>
 			<li>
 				<a href="https://boardgamegeek.com/user/Nothin_Doin" target="_blank" rel="noreferrer">
-					@components.Logo("BGG")
+					@BggLogo()
 				</a>
 			</li>
 			<li>
-				@components.ThemeSwitch()
+				@ThemeSwitch()
 			</li>
 		</ul>
 	</header>
@@ -100,20 +98,14 @@ templ IndexMain(year string) {
 					<ul>
 						<li>
 							<a class="btn" href="https://go.dev/" target="_blank" rel="noreferrer">
-								@components.Logo("Go")
+								@GoLogo()
 								<p>Go</p>
 							</a>
 						</li>
 						<li>
 							<a class="btn" href="https://htmx.org" target="_blank" rel="noreferrer">
-								@components.Logo("htmx")
+								@HtmxLogo()
 								<p>htmx</p>
-							</a>
-						</li>
-						<li>
-							<a class="btn" href="https://tailwindcss.com" target="_blank" rel="noreferrer">
-								@components.Logo("Tailwind CSS")
-								<p>Tailwind CSS</p>
 							</a>
 						</li>
 					</ul>
@@ -123,7 +115,7 @@ templ IndexMain(year string) {
 					<ul>
 						<li>
 							<a class="btn" href="https://netlify.com" target="_blank" rel="noreferrer">
-								@components.Logo("Netlify")
+								@NetlifyLogo()
 								<p>Netlify</p>
 							</a>
 						</li>

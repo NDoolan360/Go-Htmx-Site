@@ -1,10 +1,11 @@
 [dev]
-publish = "website/static"
+publish = "dist"
+framework = "#static"
 functions = "api"
 
 [build]
-publish = "website/static"
-command = "make build"
+publish = "dist"
+command = "make dist"
 functions = "api"
 
 [[redirects]]
@@ -23,11 +24,22 @@ to = "/.netlify/functions/projects"
 status = 200
 
 [build.environment]
-GO_VERSION = "1.22.2"
+GO_VERSION = "1.22.5"
 GO_IMPORT_PATH = "github.com/NDoolan360/go-htmx-site"
 GO111MODULE = "on"
 
 [[plugins]]
 package = "@netlify/plugin-sitemap"
 [plugins.inputs]
-buildDir = "website/static"
+buildDir = "dist"
+filePath = "sitemap.xml"
+
+[[plugins]]
+package = "@netlify/plugin-lighthouse"
+[plugins.inputs]
+fail_deploy_on_score_thresholds = "true"
+[plugins.inputs.thresholds]
+performance = 0.9
+accessibility = 0.9
+best-practices = 0.9
+seo = 0.5

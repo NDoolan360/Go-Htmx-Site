@@ -9,7 +9,7 @@ import (
 	"net/http"
 
 	githublangsgo "github.com/NDoolan360/github-langs-go"
-	"github.com/NDoolan360/go-htmx-site/website/components"
+	"github.com/NDoolan360/go-htmx-site/web/templates"
 	"github.com/a-h/templ"
 )
 
@@ -27,7 +27,7 @@ func (gh GithubHost) Fetch() ([]byte, error) {
 	return io.ReadAll(resp.Body)
 }
 
-func (_ GithubHost) Parse(data []byte) (projects []Project, err error) {
+func (GithubHost) Parse(data []byte) (projects []Project, err error) {
 	var githubProjects []struct {
 		Title       string   `json:"name"`
 		Description string   `json:"description"`
@@ -61,7 +61,7 @@ func (_ GithubHost) Parse(data []byte) (projects []Project, err error) {
 				Name:   project.Language,
 				Colour: lang.Color,
 			},
-			Logo:   components.Logo("Github"),
+			Logo:   templates.GithubLogo(),
 			Topics: project.Topics,
 		})
 	}

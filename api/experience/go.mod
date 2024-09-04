@@ -1,12 +1,12 @@
 module github.com/NDoolan360/go-htmx-site/api/experience
 
-go 1.22.2
+go 1.22.5
 
 require (
-	github.com/a-h/templ v0.2.663
+	github.com/a-h/templ v0.2.771
 	github.com/aws/aws-lambda-go v1.47.0
 )
 
-require github.com/NDoolan360/go-htmx-site/website v0.0.0-20240506034505-d3c61fad215a // indirect
+require github.com/NDoolan360/go-htmx-site/web/templates v0.0.0-00010101000000-000000000000 // indirect
 
-replace github.com/NDoolan360/go-htmx-site/website => ../../website
+replace github.com/NDoolan360/go-htmx-site/web/templates => ../../web/templates

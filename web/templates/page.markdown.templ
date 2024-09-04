@@ -1,6 +1,4 @@
-package pages
-
-import "github.com/NDoolan360/go-htmx-site/website/components"
+package templates
 
 templ Markdown(source templ.SafeURL) {
 	<main id="markdown" class="px-0 mx-8 md:mx-16 lg:mx-32 max-w-full">
@@ -9,7 +7,7 @@ templ Markdown(source templ.SafeURL) {
 				<a href="/">/ND </a>
 			</h1>
 			<span class="w-fit">
-				@components.ThemeSwitch()
+				@ThemeSwitch()
 			</span>
 		</section>
 		<section>

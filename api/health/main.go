@@ -62,7 +62,10 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (*event
 	wg.Wait()
 
 	status := map[string]interface{}{"status": "200 OK", "dependencies": dependencies}
-	body, _ := json.Marshal(status)
+	body, err := json.Marshal(status)
+	if err != nil {
+		return nil, err
+	}
 
 	return &events.APIGatewayProxyResponse{
 		StatusCode:      200,
