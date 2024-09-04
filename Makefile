@@ -52,4 +52,6 @@ dev: dist
 
 clean:
 	$(foreach port, $(DEV_PORTS), lsof -i:$(port) -t | xargs kill;)
-	git clean -ndX
+	mv .env .env.bak
+	git clean -fdX
+	mv .env.bak .env
