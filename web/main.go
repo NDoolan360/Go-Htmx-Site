@@ -17,12 +17,14 @@ var handlers = map[string]templ.Component{
 	"index.html": templates.BaseLayout(
 		"Nathan Doolan",
 		"A personal website showcasing Nathan Doolan's journey as a full-time software engineer in Melbourne. Explore his professional experience, projects, and interests in technology, board games, and 3D printing.",
+		templates.IndexHead(),
 		templates.IndexHeader(),
 		templates.IndexMain(fmt.Sprint(time.Now().Year())),
 	),
 	"resume.html": templates.BaseLayout(
 		"Resume",
 		"",
+		templates.MarkdownHead(),
 		nil,
 		templates.Markdown(templ.URL("/content/resume.md")),
 	),

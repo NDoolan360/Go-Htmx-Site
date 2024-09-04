@@ -31,13 +31,12 @@ install: go.work generate
 	go install $(MODULES) $(TEMPLATES)
 
 dist: install
-	rm -rf $@; cp -R $(STATIC_DIR)/. $@
+	rm -rf $@
+	cp -R $(STATIC_DIR)/. $@
 ifneq (, $(shell which minify))
 	minify -o $@/styles.css -b web/styles/*.css
-	minify -o $@/scripts -a ./web/scripts/*.js
 else
 	go run github.com/tdewolff/minify/v2/cmd/minify@latest -o $@/styles.css -b web/styles/*.css
-	go run github.com/tdewolff/minify/v2/cmd/minify@latest -o $@/scripts -a ./web/scripts/*.js
 endif
 	go build -o $(MAKE_HTML_BIN) $(MAKE_HTML_MODULE)
 	cd $@; ../$(MAKE_HTML_BIN);

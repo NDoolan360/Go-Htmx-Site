@@ -1,5 +1,10 @@
 package templates
 
+templ IndexHead() {
+	<script src="scripts/htmx.min.js" defer></script>
+	<script src="scripts/hyperscript.min.js" defer></script>
+}
+
 templ IndexHeader() {
 	<header>
 		<h1>
@@ -59,7 +64,7 @@ templ IndexMain(year string) {
 				<hr/>
 			</div>
 			<div id="profile">
-				<img alt="Profile Image" title="Picture of me at the Strawberry Field in Liverpool" srcset="/images/profile-192.webp, /images/profile-512.webp 2.66x, /images/profile-792.webp 4.125x" height="192"/>
+				<img alt="Profile Image" title="Picture of me at the Strawberry Field in Liverpool" src="/images/profile.avif" height="192"/>
 				<div>
 					<p>Hey there, I'm Nathan Doolan, a full-time software engineer based in Melbourne, Australia. I spend my days coding and my spare time collecting board games, enjoying nature, and experimenting with my 3D printer.</p>
 					<p>With a background in computer science, I'm always eager to learn new things, tackle new challenges, and find satisfaction in the simple joy of crafting an elegant solution to a problem.</p>
@@ -71,7 +76,8 @@ templ IndexMain(year string) {
 				<h2>Experience</h2>
 				<hr/>
 			</div>
-			<ul hx-get="/experience" hx-trigger="load" hx-swap="afterbegin">
+			<ul hx-get="/experience" hx-trigger="revealed" hx-swap="afterbegin" hx-indicator="#experience-loader">
+				<span id="experience-loader" class="loader"></span>
 				<li>
 					<a class="btn" href="/resume" target="_blank" rel="noreferrer">
 						View Full Resume
@@ -84,8 +90,8 @@ templ IndexMain(year string) {
 				<h2>Projects</h2>
 				<hr/>
 			</div>
-			<ul id="project-gallery" hx-get="/projects?host=github&host=bgg&host=cults3d" hx-trigger="load">
-				<span class="loader"></span>
+			<ul id="project-gallery" hx-get="/projects?host=github&host=bgg&host=cults3d" hx-trigger="revealed" hx-swap="afterbegin" hx-indicator="#project-loader">
+				<span id="project-loader" class="loader"></span>
 			</ul>
 		</section>
 		<footer>

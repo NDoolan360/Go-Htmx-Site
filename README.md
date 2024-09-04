@@ -11,7 +11,6 @@ The source code for my personal website, built with Go, Htmx and Hyperscript, an
 
 ![Go][go-badge]
 ![Htmx][htmx-badge]
-![TailwindCSS][tailwind-badge]
 
 ### Deployed with
 

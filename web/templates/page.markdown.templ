@@ -1,5 +1,10 @@
 package templates
 
+templ MarkdownHead() {
+	<script src="scripts/hyperscript.min.js" defer></script>
+	<script type="module" src="https://cdn.jsdelivr.net/gh/zerodevx/zero-md@2/dist/zero-md.min.js" defer></script>
+}
+
 templ Markdown(source templ.SafeURL) {
 	<main id="markdown" class="px-0 mx-8 md:mx-16 lg:mx-32 max-w-full">
 		<section class="flex flex-row items-center justify-between">
