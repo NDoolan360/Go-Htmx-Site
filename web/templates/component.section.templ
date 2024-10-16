@@ -1,0 +1,15 @@
+package templates
+
+import "strings"
+
+templ Section(title string) {
+	<section id={ strings.ToLower(title) }>
+		<div class="heading">
+			if title != "" {
+				<h2>{ title }</h2>
+			}
+			<hr/>
+		</div>
+		{ children... }
+	</section>
+}

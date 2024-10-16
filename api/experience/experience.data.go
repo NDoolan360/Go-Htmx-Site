@@ -4,7 +4,7 @@ import (
 	"github.com/NDoolan360/go-htmx-site/web/templates"
 )
 
-var experiences = []Experience{
+var workExperiences = []Experience{
 	{
 		DateStart: "Jan 2024",
 		DateEnd:   "Present",
@@ -69,6 +69,9 @@ var experiences = []Experience{
 			{Label: "Google Analytics", Link: "https://analytics.google.com/analytics"},
 		},
 	},
+}
+
+var educationExperiences = []Experience{
 	{
 		DateStart: "Feb 2018",
 		DateEnd:   "Feb 2021",

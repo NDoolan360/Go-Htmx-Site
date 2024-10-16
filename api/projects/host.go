@@ -5,8 +5,55 @@ type Host interface {
 	Parse([]byte) ([]Project, error)
 }
 
-var hostMap = map[string]Host{
-	"github":  GithubHost{BaseURL: "https://api.github.com", User: "NDoolan360"},
-	"bgg":     BggHost{BaseURL: "https://boardgamegeek.com/xmlapi", Geeklist: "332832"},
-	"cults3d": Cults3dHost{BaseURL: "https://cults3d.com", User: "ND360"},
+type GithubHost struct {
+	BaseURL string
+	User    string
+}
+
+type GithubProject struct {
+	Title       string   `json:"name"`
+	Description string   `json:"description"`
+	Url         string   `json:"html_url"`
+	Language    string   `json:"language"`
+	Topics      []string `json:"topics"`
+	Fork        bool     `json:"fork"`
+}
+
+type BggHost struct {
+	BaseURL  string
+	Geeklist string
+}
+
+type BggProject struct {
+	Item struct {
+		Id string `xml:"objectid,attr"`
+	} `xml:"item"`
+}
+
+type BggItem struct {
+	Title    string   `xml:"boardgame>name"`
+	ImageSrc string   `xml:"boardgame>image"`
+	Tags     []string `xml:"boardgame>boardgamemechanic"`
+}
+
+type Cults3dHost struct {
+	BaseURL string
+	User    string
+}
+
+type Cults3dData struct {
+	Data struct {
+		User struct {
+			Creations []struct {
+				Title       string   `json:"name"`
+				Description string   `json:"description"`
+				Url         string   `json:"url"`
+				ImageSrc    string   `json:"illustrationImageUrl"`
+				Topics      []string `json:"tags"`
+			} `json:"creations"`
+		} `json:"user"`
+	} `json:"data"`
+	Errors []struct {
+		Message string `json:"message"`
+	} `json:"errors"`
 }

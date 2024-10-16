@@ -16,6 +16,12 @@ func main() {
 	lambda.Start(handler)
 }
 
+var hostMap = map[string]Host{
+	"github":  GithubHost{BaseURL: "https://api.github.com", User: "NDoolan360"},
+	"bgg":     BggHost{BaseURL: "https://boardgamegeek.com/xmlapi", Geeklist: "332832"},
+	"cults3d": Cults3dHost{BaseURL: "https://cults3d.com", User: "ND360"},
+}
+
 func handler(ctx context.Context, request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
 	var wg sync.WaitGroup
 	buf := bytes.NewBufferString("")

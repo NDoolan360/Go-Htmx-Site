@@ -1,37 +1,38 @@
 package templates
 
 templ MarkdownHead() {
+	<script type="module" src="scripts/md-block.min.js"></script>
 	<script src="scripts/hyperscript.min.js" defer></script>
-	<script type="module" src="https://cdn.jsdelivr.net/gh/zerodevx/zero-md@2/dist/zero-md.min.js" defer></script>
 }
 
 templ Markdown(source templ.SafeURL) {
-	<main id="markdown" class="px-0 mx-8 md:mx-16 lg:mx-32 max-w-full">
-		<section class="flex flex-row items-center justify-between">
+	<main id="markdown">
+		<section>
 			<h1>
 				<a href="/">/ND </a>
 			</h1>
-			<span class="w-fit">
+			<span>
 				@ThemeSwitch()
 			</span>
 		</section>
 		<section>
-			<span class="loader" _="on 'zero-md-rendered' from document remove me"></span>
-			<zero-md src={ string(source) }>
-				<template>
-					<style>.markdown-body {color: var(--text);}.markdown-body a {color: var(--primary);}</style>
-				</template>
-			</zero-md>
+			<md-block src={ string(source) }>
+				<span class="loader"></span>
+			</md-block>
 		</section>
 		<footer>
 			<p>
 				Original file
-				<a href={ source } class="text-primary underline">{ string(source) }</a>
+				<a href={ source }>{ string(source) }</a>
 			</p>
 			<p>
-				Markdown rendered with
-				<a href="https://github.com/zerodevx/zero-md" class="btn">&lt;zero-md&gt;</a>
+				Markdown rendered with:
 			</p>
+			<a class="btn" href="https://md-block.verou.me" target="_blank" rel="noreferrer">
+				@MdBlockLogo()
+				<p>md-block</p>
+			</a>
+			<a href="/">&lt;- Back to home</a>
 		</footer>
 	</main>
 }

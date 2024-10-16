@@ -58,25 +58,31 @@ templ IndexHeader() {
 
 templ IndexMain(year string) {
 	<main>
-		<section id="about">
-			<div class="heading">
-				<h2>About</h2>
-				<hr/>
-			</div>
+		@Section("About") {
 			<div id="profile">
 				<img alt="Profile Image" title="Picture of me at the Strawberry Field in Liverpool" src="/images/profile.avif" height="192"/>
 				<div>
-					<p>Hey there, I'm Nathan Doolan, a full-time software engineer based in Melbourne, Australia. I spend my days coding and my spare time collecting board games, enjoying nature, and experimenting with my 3D printer.</p>
-					<p>With a background in computer science, I'm always eager to learn new things, tackle new challenges, and find satisfaction in the simple joy of crafting an elegant solution to a problem.</p>
+					<p>
+						Hi there, I'm Nathan, a software engineer based in Melbourne, Australia.
+						Welcome to my website. I spend my days immersed in code and my spare time collecting board games
+						and experimenting with my 3D printer.
+					</p>
+					<p>
+						I'm always tinkering on projects trying to learn new things and find the
+						satisfaction in crafting solutions. I invite you to explore my work, and if
+						you're interested in collaboration or just want to chat, feel free to
+						<a href="mailto:mail@doolan.dev">get in touch!</a>
+					</p>
 				</div>
 			</div>
-		</section>
-		<section id="experience">
-			<div class="heading">
-				<h2>Experience</h2>
-				<hr/>
-			</div>
-			<ul hx-get="/experience" hx-trigger="revealed" hx-swap="afterbegin" hx-indicator="#experience-loader">
+		}
+		@Section("Projects") {
+			<ul id="project-gallery" hx-get="/projects?host=github&host=bgg&host=cults3d" hx-trigger="revealed" hx-swap="afterbegin" hx-indicator="#project-loader">
+				<span id="project-loader" class="loader"></span>
+			</ul>
+		}
+		@Section("Experience") {
+			<ul hx-get="/experience?work=99&education=1" hx-trigger="revealed" hx-swap="afterbegin" hx-indicator="#experience-loader">
 				<span id="experience-loader" class="loader"></span>
 				<li>
 					<a class="btn" href="/resume" target="_blank" rel="noreferrer">
@@ -84,20 +90,8 @@ templ IndexMain(year string) {
 					</a>
 				</li>
 			</ul>
-		</section>
-		<section id="projects">
-			<div class="heading">
-				<h2>Projects</h2>
-				<hr/>
-			</div>
-			<ul id="project-gallery" hx-get="/projects?host=github&host=bgg&host=cults3d" hx-trigger="revealed" hx-swap="afterbegin" hx-indicator="#project-loader">
-				<span id="project-loader" class="loader"></span>
-			</ul>
-		</section>
-		<footer>
-			<div class="heading">
-				<hr/>
-			</div>
+		}
+		@Section("") {
 			<div>
 				<div id="tools">
 					<h3>Built with:</h3>
@@ -105,13 +99,13 @@ templ IndexMain(year string) {
 						<li>
 							<a class="btn" href="https://go.dev/" target="_blank" rel="noreferrer">
 								@GoLogo()
-								<p>Go</p>
+								<span>Go</span>
 							</a>
 						</li>
 						<li>
 							<a class="btn" href="https://htmx.org" target="_blank" rel="noreferrer">
 								@HtmxLogo()
-								<p>htmx</p>
+								<span>htmx</span>
 							</a>
 						</li>
 					</ul>
@@ -122,13 +116,13 @@ templ IndexMain(year string) {
 						<li>
 							<a class="btn" href="https://netlify.com" target="_blank" rel="noreferrer">
 								@NetlifyLogo()
-								<p>Netlify</p>
+								<span>Netlify</span>
 							</a>
 						</li>
 					</ul>
 				</div>
-				<p id="copyright">© Nathan Doolan { year }</p>
+				<p id="copyright">© Nathan Doolan { year } - 🚧 Always under development 🚧</p>
 			</div>
-		</footer>
+		}
 	</main>
 }

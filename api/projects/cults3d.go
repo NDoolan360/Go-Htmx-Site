@@ -14,11 +14,6 @@ import (
 	"github.com/a-h/templ"
 )
 
-type Cults3dHost struct {
-	BaseURL string
-	User    string
-}
-
 func (cults Cults3dHost) Fetch() ([]byte, error) {
 	client := &http.Client{}
 	body := fmt.Sprintf("{\"query\":\"{user(nick:\\\"%s\\\"){creations(limit:5,sort:BY_DOWNLOADS){name url illustrationImageUrl tags}}}\"}", cults.User)
@@ -47,30 +42,15 @@ func (cults Cults3dHost) Fetch() ([]byte, error) {
 }
 
 func (Cults3dHost) Parse(data []byte) (projects []Project, err error) {
-	var cults3dProjects struct {
-		Data struct {
-			User struct {
-				Creations []struct {
-					Title       string   `json:"name"`
-					Description string   `json:"description"`
-					Url         string   `json:"url"`
-					ImageSrc    string   `json:"illustrationImageUrl"`
-					Topics      []string `json:"tags"`
-				} `json:"creations"`
-			} `json:"user"`
-		} `json:"data"`
-		Errors []struct {
-			Message string `json:"message"`
-		} `json:"errors"`
-	}
-	if unmarshalErr := json.Unmarshal(data, &cults3dProjects); unmarshalErr != nil {
+	var cults3dData Cults3dData
+	if unmarshalErr := json.Unmarshal(data, &cults3dData); unmarshalErr != nil {
 		return nil, errors.Join(errors.New("error parsing Cults3D projects"), unmarshalErr)
 	}
-	if len(cults3dProjects.Errors) > 0 {
-		return nil, errors.New(cults3dProjects.Errors[0].Message)
+	if len(cults3dData.Errors) > 0 {
+		return nil, errors.New(cults3dData.Errors[0].Message)
 	}
 
-	for _, project := range cults3dProjects.Data.User.Creations {
+	for _, project := range cults3dData.Data.User.Creations {
 		projects = append(projects, Project{
 			Host:        "Cults3D",
 			Title:       project.Title,

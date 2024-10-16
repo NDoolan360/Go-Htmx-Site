@@ -48,7 +48,7 @@ test: install
 	go test $(MODULES)
 
 dev: dist
-	parallel -tmux ::: 'watchexec -e go,templ,css,js,avif,ico "make dist"' 'netlify dev'
+	parallel -tmux ::: 'watchexec -e go,templ,md,css,js,avif,ico "make dist"' 'netlify dev --target-port 8888'
 
 clean:
 	$(foreach port, $(DEV_PORTS), lsof -i:$(port) -t | xargs kill;)

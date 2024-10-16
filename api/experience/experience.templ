@@ -5,8 +5,8 @@ templ ExperienceTemplate(experience Experience) {
 		<span class="date-range">{ experience.DateStart } - { experience.DateEnd }</span>
 		<div>
 			<a class="experience-title" href={ experience.Link } target="_blank" rel="noreferrer">
-				@experience.Location.Logo
 				<h3>{ experience.Location.Name }</h3>
+				@experience.Location.Logo
 			</a>
 			for _, position := range experience.Positions {
 				<h4

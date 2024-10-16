@@ -13,11 +13,6 @@ import (
 	"github.com/a-h/templ"
 )
 
-type GithubHost struct {
-	BaseURL string
-	User    string
-}
-
 func (gh GithubHost) Fetch() ([]byte, error) {
 	resp, err := http.Get(fmt.Sprintf("%s/users/%s/repos?sort=stars", gh.BaseURL, gh.User))
 	if err != nil {
@@ -28,14 +23,7 @@ func (gh GithubHost) Fetch() ([]byte, error) {
 }
 
 func (GithubHost) Parse(data []byte) (projects []Project, err error) {
-	var githubProjects []struct {
-		Title       string   `json:"name"`
-		Description string   `json:"description"`
-		Url         string   `json:"html_url"`
-		Language    string   `json:"language"`
-		Topics      []string `json:"topics"`
-		Fork        bool     `json:"fork"`
-	}
+	var githubProjects []GithubProject
 
 	if unmarshalErr := json.Unmarshal(data, &githubProjects); unmarshalErr != nil {
 		return nil, errors.Join(errors.New("error parsing GitHub projects"), unmarshalErr)

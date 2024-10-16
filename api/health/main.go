@@ -19,6 +19,11 @@ type Request struct {
 	Password string
 }
 
+type Outcome struct {
+	Host   string `json:"host"`
+	Status string `json:"status"`
+}
+
 var dependencyHealthEndpoints = map[string]Request{
 	"github": {
 		Method: "GET",
@@ -42,7 +47,7 @@ func main() {
 
 func handler(ctx context.Context, request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
 	var wg sync.WaitGroup
-	dependencies := map[string]string{}
+	dependencies := []Outcome{}
 
 	for host, req := range dependencyHealthEndpoints {
 		wg.Add(1)
@@ -50,28 +55,30 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (*event
 		go func(host string, req Request, wg *sync.WaitGroup) {
 			defer wg.Done()
 			status, err := fetchStatus(req)
+
+			var outcome Outcome
 			if err != nil {
-				log.Print(err)
-				dependencies[host] = err.Error()
+				log.Print(host, ": ", err)
+				outcome = Outcome{Host: host, Status: err.Error()}
 			} else {
-				dependencies[host] = status
+				outcome = Outcome{Host: host, Status: status}
 			}
+			dependencies = append(dependencies, outcome)
 		}(host, req, &wg)
 	}
 
 	wg.Wait()
 
-	status := map[string]interface{}{"status": "200 OK", "dependencies": dependencies}
-	body, err := json.Marshal(status)
+	status := map[string]interface{}{"host": "n.doolan.dev", "status": "200 OK", "dependencies": dependencies}
+	body, err := json.MarshalIndent(status, "", "  ")
 	if err != nil {
 		return nil, err
 	}
 
 	return &events.APIGatewayProxyResponse{
-		StatusCode:      200,
-		Headers:         map[string]string{"Content-Type": "application/json"},
-		Body:            string(body),
-		IsBase64Encoded: false,
+		StatusCode: 200,
+		Headers:    map[string]string{"Content-Type": "application/json"},
+		Body:       string(body),
 	}, nil
 }
 
