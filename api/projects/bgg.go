@@ -9,14 +9,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/NDoolan360/go-htmx-site/website/components"
+	"github.com/NDoolan360/go-htmx-site/web/templates"
 	"github.com/a-h/templ"
 )
-
-type BggHost struct {
-	BaseURL  string
-	Geeklist string
-}
 
 func (bgg BggHost) Fetch() ([]byte, error) {
 	resp, err := http.Get(fmt.Sprintf("%s/geeklist/%s", bgg.BaseURL, bgg.Geeklist))
@@ -28,11 +23,7 @@ func (bgg BggHost) Fetch() ([]byte, error) {
 }
 
 func (bgg BggHost) Parse(data []byte) (projects []Project, err error) {
-	var projectItems []struct {
-		Item struct {
-			Id string `xml:"objectid,attr"`
-		} `xml:"item"`
-	}
+	var projectItems []BggProject
 	if unmarshalErr := xml.Unmarshal(data, &projectItems); unmarshalErr != nil {
 		return nil, errors.Join(errors.New("error parsing BGG projects"), unmarshalErr)
 	}
@@ -48,26 +39,21 @@ func (bgg BggHost) Parse(data []byte) (projects []Project, err error) {
 			return nil, err
 		}
 
-		var bggProject struct {
-			Title    string   `xml:"boardgame>name"`
-			ImageSrc string   `xml:"boardgame>image"`
-			Tags     []string `xml:"boardgame>boardgamemechanic"`
-		}
-
+		var bggProject BggItem
 		if unmarshalErr := xml.Unmarshal(projectData, &bggProject); unmarshalErr != nil {
-			log.Print("error parsing BGG project", item.Item.Id, unmarshalErr)
+			log.Print("error parsing BGG project: ", item.Item.Id, ": ", unmarshalErr)
 			continue
 		}
 
 		projects = append(projects, Project{
 			Host:  "Board Game Geek",
 			Title: bggProject.Title,
-			Url:   templ.SafeURL(fmt.Sprintf("https://boardgamegeek.com/boardgame/%s", item.Item.Id)),
+			Url:   templ.URL(fmt.Sprintf("https://boardgamegeek.com/boardgame/%s", item.Item.Id)),
 			Image: Image{
 				Src: bggProject.ImageSrc,
 				Alt: fmt.Sprintf("Board Game: %s", bggProject.Title),
 			},
-			Logo:   components.BGGLogo(),
+			Logo:   templates.BggLogo(),
 			Topics: bggProject.Tags,
 		})
 	}

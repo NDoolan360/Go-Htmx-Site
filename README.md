@@ -11,7 +11,6 @@ The source code for my personal website, built with Go, Htmx and Hyperscript, an
 
 ![Go][go-badge]
 ![Htmx][htmx-badge]
-![TailwindCSS][tailwind-badge]
 
 ### Deployed with
 
@@ -41,7 +40,12 @@ The source code for my personal website, built with Go, Htmx and Hyperscript, an
 
 ### Requirements
 
--   Go `>= 1.22.2`
+-   Go `>= 1.22.5`
+
+### Dev dependencies
+
+- Parallel: `brew install parallel`
+- Watchexec: `brew install watchexec`
 
 ### Environment Variables
 

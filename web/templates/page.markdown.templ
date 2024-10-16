@@ -1,0 +1,38 @@
+package templates
+
+templ MarkdownHead() {
+	<script type="module" src="scripts/md-block.min.js"></script>
+	<script src="scripts/hyperscript.min.js" defer></script>
+}
+
+templ Markdown(source templ.SafeURL) {
+	<main id="markdown">
+		<section>
+			<h1>
+				<a href="/">/ND </a>
+			</h1>
+			<span>
+				@ThemeSwitch()
+			</span>
+		</section>
+		<section>
+			<md-block src={ string(source) }>
+				<span class="loader"></span>
+			</md-block>
+		</section>
+		<footer>
+			<p>
+				Original file
+				<a href={ source }>{ string(source) }</a>
+			</p>
+			<p>
+				Markdown rendered with:
+			</p>
+			<a class="btn" href="https://md-block.verou.me" target="_blank" rel="noreferrer">
+				@MdBlockLogo()
+				<p>md-block</p>
+			</a>
+			<a href="/">&lt;- Back to home</a>
+		</footer>
+	</main>
+}

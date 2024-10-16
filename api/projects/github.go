@@ -9,14 +9,9 @@ import (
 	"net/http"
 
 	githublangsgo "github.com/NDoolan360/github-langs-go"
-	"github.com/NDoolan360/go-htmx-site/website/components"
+	"github.com/NDoolan360/go-htmx-site/web/templates"
 	"github.com/a-h/templ"
 )
-
-type GithubHost struct {
-	BaseURL string
-	User    string
-}
 
 func (gh GithubHost) Fetch() ([]byte, error) {
 	resp, err := http.Get(fmt.Sprintf("%s/users/%s/repos?sort=stars", gh.BaseURL, gh.User))
@@ -27,15 +22,8 @@ func (gh GithubHost) Fetch() ([]byte, error) {
 	return io.ReadAll(resp.Body)
 }
 
-func (_ GithubHost) Parse(data []byte) (projects []Project, err error) {
-	var githubProjects []struct {
-		Title       string   `json:"name"`
-		Description string   `json:"description"`
-		Url         string   `json:"html_url"`
-		Language    string   `json:"language"`
-		Topics      []string `json:"topics"`
-		Fork        bool     `json:"fork"`
-	}
+func (GithubHost) Parse(data []byte) (projects []Project, err error) {
+	var githubProjects []GithubProject
 
 	if unmarshalErr := json.Unmarshal(data, &githubProjects); unmarshalErr != nil {
 		return nil, errors.Join(errors.New("error parsing GitHub projects"), unmarshalErr)
@@ -56,12 +44,12 @@ func (_ GithubHost) Parse(data []byte) (projects []Project, err error) {
 			Host:        "Github",
 			Title:       project.Title,
 			Description: project.Description,
-			Url:         templ.SafeURL(project.Url),
+			Url:         templ.URL(project.Url),
 			Language: Language{
 				Name:   project.Language,
 				Colour: lang.Color,
 			},
-			Logo:   components.GithubLogo(),
+			Logo:   templates.GithubLogo(),
 			Topics: project.Topics,
 		})
 	}

@@ -1,9 +1,0 @@
-go 1.22.2
-
-toolchain go1.22.2
-
-use (
-	./api/health
-	./api/projects
-	./website
-)

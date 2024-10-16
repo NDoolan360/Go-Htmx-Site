@@ -1,0 +1,33 @@
+package main
+
+templ ExperienceTemplate(experience Experience) {
+	<li class="experience-item">
+		<span class="date-range">{ experience.DateStart } - { experience.DateEnd }</span>
+		<div>
+			<a class="experience-title" href={ experience.Link } target="_blank" rel="noreferrer">
+				<h3>{ experience.Location.Name }</h3>
+				@experience.Location.Logo
+			</a>
+			for _, position := range experience.Positions {
+				<h4
+					if position.Active {
+						class="current"
+					}
+				>
+					{ position.Role }
+				</h4>
+			}
+			if len(experience.Topics) > 0 {
+				<div class="topic-wrapper">
+					for _, topic := range experience.Topics {
+						if topic.Link == "" {
+							<span class="chip">{ topic.Label }</span>
+						} else {
+							<a class="chip" href={ topic.Link } target="_blank" rel="noreferrer">{ topic.Label }</a>
+						}
+					}
+				</div>
+			}
+		</div>
+	</li>
+}

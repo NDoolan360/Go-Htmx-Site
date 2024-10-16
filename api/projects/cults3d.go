@@ -10,14 +10,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/NDoolan360/go-htmx-site/website/components"
+	"github.com/NDoolan360/go-htmx-site/web/templates"
 	"github.com/a-h/templ"
 )
-
-type Cults3dHost struct {
-	BaseURL string
-	User    string
-}
 
 func (cults Cults3dHost) Fetch() ([]byte, error) {
 	client := &http.Client{}
@@ -33,10 +28,11 @@ func (cults Cults3dHost) Fetch() ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer response.Body.Close()
+
 	if response.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("Request to cults3d failed with status code: %d", response.StatusCode)
 	}
-	defer response.Body.Close()
 
 	if data, err := io.ReadAll(response.Body); err != nil {
 		return nil, err
@@ -45,35 +41,26 @@ func (cults Cults3dHost) Fetch() ([]byte, error) {
 	}
 }
 
-func (_ Cults3dHost) Parse(data []byte) (projects []Project, err error) {
-	var cults3dProjects struct {
-		Data struct {
-			User struct {
-				Creations []struct {
-					Title       string   `json:"name"`
-					Description string   `json:"description"`
-					Url         string   `json:"url"`
-					ImageSrc    string   `json:"illustrationImageUrl"`
-					Topics      []string `json:"tags"`
-				} `json:"creations"`
-			} `json:"user"`
-		} `json:"data"`
-	}
-	if unmarshalErr := json.Unmarshal(data, &cults3dProjects); unmarshalErr != nil {
+func (Cults3dHost) Parse(data []byte) (projects []Project, err error) {
+	var cults3dData Cults3dData
+	if unmarshalErr := json.Unmarshal(data, &cults3dData); unmarshalErr != nil {
 		return nil, errors.Join(errors.New("error parsing Cults3D projects"), unmarshalErr)
 	}
+	if len(cults3dData.Errors) > 0 {
+		return nil, errors.New(cults3dData.Errors[0].Message)
+	}
 
-	for _, project := range cults3dProjects.Data.User.Creations {
+	for _, project := range cults3dData.Data.User.Creations {
 		projects = append(projects, Project{
 			Host:        "Cults3D",
 			Title:       project.Title,
 			Description: project.Description,
-			Url:         templ.SafeURL(project.Url),
+			Url:         templ.URL(project.Url),
 			Image: Image{
 				Src: project.ImageSrc,
 				Alt: fmt.Sprintf("3D Model: %s", project.Title),
 			},
-			Logo:   components.Cults3DLogo(),
+			Logo:   templates.Cults3DLogo(),
 			Topics: project.Topics,
 		})
 	}
